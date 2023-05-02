@@ -1,1 +1,1 @@
-# imspdr.github.io
+# repo for frontend practicce
