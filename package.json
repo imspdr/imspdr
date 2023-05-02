@@ -17,7 +17,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-refresh": "^0.14.0",
-    "react-router-dom": "^6.6.1",
+    "react-router-dom": "^6.6.1"
   },
   "peerDependencies": {
     "react-spring": "^9.1.2"

@@ -15,7 +15,6 @@ module.exports = {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
     alias: {
       "@src": path.resolve(__dirname, "src/"),
-      "@automl": path.resolve(__dirname, "src/automl/"),
     },
   },
 
@@ -23,7 +22,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "src/index.ejs"),
       filename: "index.html",
-      favicon: path.resolve(__dirname, "src/public/favicon/favicon.ico"),
     }),
     new CleanWebpackPlugin(),
     new ReactRefreshWebpackPlugin(),
