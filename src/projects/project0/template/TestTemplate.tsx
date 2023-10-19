@@ -1,18 +1,22 @@
 import { observer } from "mobx-react";
 import { css } from "@emotion/react";
-import { useTestStore } from "@src/store/TestStoreProvider";
+import { useTestStore } from "../store/TestStoreProvider";
 import { Tabs, Tab } from "@mui/material";
 
 function TestPageTemplate() {
   const testStore = useTestStore();
-  const tabInfo = [
+  const tabInfo: {
+    label: string;
+    value: number;
+    comp: any;
+  }[] = [
     {
-      label: "test1",
+      label: "폰트확인",
       value: 0,
-      comp: <div>0</div>,
+      comp: <div>"폰트확인"</div>,
     },
     {
-      label: "test2",
+      label: "asd",
       value: 1,
       comp: <div>1</div>,
     },
@@ -27,19 +31,14 @@ function TestPageTemplate() {
       comp: <div>4</div>,
     },
     {
-      label: "test5",
+      label: "123",
       value: 5,
       comp: <div>5</div>,
     },
   ];
 
   return (
-    <div
-      css={css`
-        width: calc(99vw);
-        height: calc(99vh);
-      `}
-    >
+    <div>
       <div
         css={css`
           display: flex;

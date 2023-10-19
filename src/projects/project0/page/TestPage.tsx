@@ -1,5 +1,5 @@
-import { TestStoreProvider } from "@src/store/TestStoreProvider";
-import TestPageTemplate from "@src/template/TestTemplate";
+import { TestStoreProvider } from "../store/TestStoreProvider";
+import TestPageTemplate from "../template/TestTemplate";
 
 export default function TestPage() {
   return (
