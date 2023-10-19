@@ -1,20 +1,37 @@
 import { Route, Routes } from "react-router-dom";
-import TestPage from "./page/TestPage";
+import ThemeToggle from "./common/ThemeToggle";
+import { css } from "@emotion/react";
 
 function App() {
   return (
-    <div
-      style={{
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-        height: "100%",
-        backgroundColor: "var(--background)",
-      }}
-    >
-      <Routes>
-        <Route path="/" element={<TestPage />} />
-      </Routes>
+    <div>
+      <div
+        css={css`
+          position: absolute;
+          top: 0px;
+          width: calc(99vw);
+          min-width: 320px;
+          height: 64px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        `}
+      >
+        IMSPDR
+        <ThemeToggle />
+      </div>
+      <div
+        css={css`
+          margin-top: 64px;
+          width: calc(99vw);
+          height: calc(99vh - 64px);
+        `}
+      >
+        <Routes>
+          <Route path="/" element={<></>} />
+        </Routes>
+      </div>
     </div>
   );
 }
