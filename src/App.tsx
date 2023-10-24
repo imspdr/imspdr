@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import ThemeToggle from "./common/ThemeToggle";
 import { css } from "@emotion/react";
+import MainPage from "./projects/project0/page/MainPage";
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
         `}
       >
         <Routes>
-          <Route path="/" element={<></>} />
+          <Route path="/" element={<MainPage />} />
         </Routes>
       </div>
     </div>
