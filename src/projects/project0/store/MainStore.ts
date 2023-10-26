@@ -12,7 +12,8 @@ class MainStore {
           y: 200,
         },
         radius: 100,
-        title: "test1",
+        title: "Project0 - 포트폴리오 페이지",
+        description: "현재 화면 포트폴리오",
       },
       {
         id: 2,
@@ -22,6 +23,7 @@ class MainStore {
         },
         radius: 100,
         title: "test2",
+        description: "test description 2",
       },
     ];
     makeAutoObservable(this);

@@ -1,12 +1,11 @@
 import { observer } from "mobx-react";
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 import { useMainStore } from "../../store/MainStoreProvider";
 import { useState } from "react";
 import { badge } from "../../store/types";
 
 function DraggableBadge(props: { badgeId: number }) {
   const mainStore = useMainStore();
-  const styles = getComputedStyle(document.body);
   const [hover, setHover] = useState(false);
   const [description, setDescription] = useState(false);
   const badge: badge | undefined = mainStore.badges.find(
@@ -57,7 +56,9 @@ function DraggableBadge(props: { badgeId: number }) {
               setHover(false);
               setDescription(false);
             }}
-            onClick={() => {}}
+            onDoubleClick={() => {
+              setDescription(false);
+            }}
           >
             {badge.title}
           </div>
@@ -93,7 +94,7 @@ function DraggableBadge(props: { badgeId: number }) {
                   margin-top: 10px;
                 `}
               >
-                {"디스크립션 예시"}
+                {badge.description}
               </div>
             </div>
           )}

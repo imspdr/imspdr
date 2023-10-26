@@ -6,4 +6,5 @@ export type badge = {
   };
   radius: number;
   title: string;
+  description: string;
 };
