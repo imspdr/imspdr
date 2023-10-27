@@ -2,10 +2,12 @@ import { observer } from "mobx-react";
 import { css, keyframes } from "@emotion/react";
 import { useMainStore } from "../../store/MainStoreProvider";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { badge } from "../../store/types";
 
 function DraggableBadge(props: { badgeId: number }) {
   const mainStore = useMainStore();
+  const navigate = useNavigate();
   const [hover, setHover] = useState(false);
   const [description, setDescription] = useState(false);
   const badge: badge | undefined = mainStore.badges.find(
@@ -58,6 +60,7 @@ function DraggableBadge(props: { badgeId: number }) {
             }}
             onDoubleClick={() => {
               setDescription(false);
+              navigate(`/${badge.route}`);
             }}
           >
             {badge.title}

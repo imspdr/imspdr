@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import ThemeToggle from "./common/ThemeToggle";
 import { css } from "@emotion/react";
 import MainPage from "./projects/project0/page/MainPage";
+import ChessPage from "./projects/project1/page/ChessPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="/chess" element={<ChessPage />} />
         </Routes>
       </div>
     </div>

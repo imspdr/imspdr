@@ -6,7 +6,7 @@ class MainStore {
   constructor() {
     this.badges = [
       {
-        id: 1,
+        id: 0,
         pos: {
           x: 200,
           y: 200,
@@ -14,16 +14,18 @@ class MainStore {
         radius: 100,
         title: "Project0 - 포트폴리오 페이지",
         description: "현재 화면 포트폴리오",
+        route: "",
       },
       {
-        id: 2,
+        id: 1,
         pos: {
           x: 500,
           y: 200,
         },
         radius: 100,
-        title: "test2",
-        description: "test description 2",
+        title: "Project1 - N퀸 문제",
+        description: "P=NP와 N퀸 문제",
+        route: "chess",
       },
     ];
     makeAutoObservable(this);
