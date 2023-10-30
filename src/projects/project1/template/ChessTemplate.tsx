@@ -9,7 +9,7 @@ function ChessPageTemplate() {
         padding: 20px;
       `}
     >
-      <ChessBoard />
+      <ChessBoard boardSize={500} />
     </div>
   );
 }

@@ -3,12 +3,10 @@ import { makeAutoObservable } from "mobx";
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 class ChessStore {
-  public boardSize: number;
   private __nQueen: number;
   private __poses: string;
 
   constructor() {
-    this.boardSize = 500;
     this.__nQueen = 8;
     this.__poses = "";
     makeAutoObservable(this);

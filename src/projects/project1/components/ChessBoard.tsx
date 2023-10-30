@@ -36,9 +36,9 @@ function ChessBlock(props: {
   );
 }
 
-function ChessBoard() {
+function ChessBoard(props: { boardSize: number }) {
   const chessStore = useChessStore();
-  const boardSize = Math.round(chessStore.boardSize / chessStore.nQueen) * chessStore.nQueen;
+  const boardSize = Math.round(props.boardSize / chessStore.nQueen) * chessStore.nQueen;
   return (
     <div>
       <div
@@ -46,7 +46,7 @@ function ChessBoard() {
           display: flex;
           flex-direcion: row;
           justify-content: space-between;
-          width: ${chessStore.boardSize}px;
+          width: ${props.boardSize}px;
           align-items: center;
         `}
       >
@@ -54,7 +54,7 @@ function ChessBoard() {
           css={css`
             display: flex;
             flex-direction: row;
-            width: ${Math.round(chessStore.boardSize / 3)}px;
+            width: ${Math.round(props.boardSize / 3)}px;
           `}
         >
           {`N-퀸 : `}
@@ -114,7 +114,7 @@ function ChessBoard() {
             display: flex;
             flex-direction: row;
             justify-content: flex-end;
-            width: ${Math.round(chessStore.boardSize / 3)}px;
+            width: ${Math.round(props.boardSize / 3)}px;
           `}
         >{`배치한 퀸 : ${chessStore.poses.split(",").length - 1}`}</div>
       </div>
@@ -138,7 +138,7 @@ function ChessBoard() {
                 return (
                   <ChessBlock
                     color={(i + j) % 2 === 0 ? 0 : 1}
-                    size={Math.round(chessStore.boardSize / chessStore.nQueen)}
+                    size={Math.round(props.boardSize / chessStore.nQueen)}
                     hasQueen={chessStore.included(i, j)}
                     isCovered={chessStore.isCovered(i, j)}
                     onClick={() => {
