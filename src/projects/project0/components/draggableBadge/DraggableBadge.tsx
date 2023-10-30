@@ -4,6 +4,7 @@ import { useMainStore } from "../../store/MainStoreProvider";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { badge } from "../../store/types";
+import { unselectable } from "@src/common/Util";
 
 function DraggableBadge(props: { badgeId: number }) {
   const mainStore = useMainStore();
@@ -30,12 +31,7 @@ function DraggableBadge(props: { badgeId: number }) {
               border-radius: ${badge.radius}px;
               border: ${hover ? "5px solid" : ""};
               z-index: ${hover ? 10 : 1};
-              -webkit-touch-callout: none;
-              -webkit-user-select: none;
-              -khtml-user-select: none;
-              -moz-user-select: none;
-              -ms-user-select: none;
-              user-select: none;
+              ${unselectable}
             `}
             onMouseDown={(e) => {
               const mousemove = (ev: MouseEvent) => {
@@ -76,12 +72,7 @@ function DraggableBadge(props: { badgeId: number }) {
                 width: 300px;
                 min-height: ${badge.radius * 2}px;
                 z-index: 10;
-                -webkit-touch-callout: none;
-                -webkit-user-select: none;
-                -khtml-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
+                ${unselectable}
               `}
             >
               <div
