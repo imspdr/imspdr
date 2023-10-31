@@ -2,13 +2,19 @@ import { makeAutoObservable } from "mobx";
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+const sleep = async (ms: number) => {
+  return new Promise((r) => setTimeout(r, ms));
+};
+
 class ChessStore {
   private __nQueen: number;
   private __poses: string;
+  private __solving: boolean;
 
   constructor() {
     this.__nQueen = 8;
     this.__poses = "";
+    this.__solving = false;
     makeAutoObservable(this);
   }
   get nQueen() {
@@ -24,9 +30,15 @@ class ChessStore {
   set poses(poses: string) {
     this.__poses = poses;
   }
+  get solving() {
+    return this.__solving;
+  }
+  set solving(bool: boolean) {
+    this.__solving = bool;
+  }
 
   clear = () => {
-    this.poses = "";
+    if (!this.solving) this.poses = "";
   };
 
   addQueenOnPos = (x: number, y: number) => {
@@ -59,6 +71,43 @@ class ChessStore {
       }
     });
     return ret;
+  };
+
+  onClickSolver = async () => {
+    this.clear();
+    this.solving = true;
+    await this.solver(0);
+    this.solving = false;
+  };
+  onClickStop = () => {
+    this.solving = false;
+  };
+  solver = async (i: number) => {
+    if (i >= this.nQueen) {
+      return true;
+    }
+    for (let j = 0; j <= this.nQueen; j++) {
+      const pos = `${alphabet[i]}${j},`;
+      if (j === this.nQueen) {
+        const nPos = this.poses.split(",").length - 1;
+        this.poses = this.poses.split(",").reduce((a, c, i) => {
+          if (i < nPos - 1) {
+            return a + c + ",";
+          } else {
+            return a;
+          }
+        }, "");
+        return false;
+      } else if (!this.isCovered(i, j)) {
+        await sleep(100);
+        this.poses = this.poses + pos;
+        let ret = await this.solver(i + 1);
+        if (ret) return true;
+      }
+      if (!this.solving) {
+        return true;
+      }
+    }
   };
 }
 

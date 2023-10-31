@@ -104,17 +104,36 @@ function ChessBoard(props: { boardSize: number }) {
         <div
           onClick={() => chessStore.clear()}
           css={css`
+            ${chessStore.solving ? "color : #AAAAAA;" : ""}
             ${unselectable}
           `}
         >
           {chessStore.poses.split(",").length - 1 === chessStore.nQueen ? "CLEAR !!" : "새로고침"}
         </div>
         <div
+          onClick={() => {
+            if (chessStore.solving) {
+              chessStore.onClickStop();
+            } else {
+              chessStore.onClickSolver();
+            }
+          }}
+          css={css`
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            ${unselectable}
+          `}
+        >
+          {chessStore.solving ? "그만해!" : "풀어줘!"}
+        </div>
+        <div
           css={css`
             display: flex;
             flex-direction: row;
             justify-content: flex-end;
-            width: ${Math.round(props.boardSize / 3)}px;
+            width: ${Math.round(props.boardSize / 4)}px;
           `}
         >{`배치한 퀸 : ${chessStore.poses.split(",").length - 1}`}</div>
       </div>
