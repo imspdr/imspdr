@@ -148,6 +148,7 @@ function ChessBoard(props: { boardSize: number }) {
             display: flex;
             flex-direction: row;
             justify-content: flex-end;
+            align-items: center;
             width: 25%;
           `}
         >
