@@ -135,7 +135,17 @@ function ChessBoard(props: { boardSize: number }) {
             justify-content: flex-end;
             width: ${Math.round(props.boardSize / 4)}px;
           `}
-        >{`배치한 퀸 : ${chessStore.poses.split(",").length - 1}`}</div>
+        >
+          <div>{`배치한 퀸 : `}</div>
+          <div
+            css={css`
+              width: 20px;
+              margin-left: 10px;
+            `}
+          >
+            {`${chessStore.poses.split(",").length - 1}`}
+          </div>
+        </div>
       </div>
       <div
         css={css`
