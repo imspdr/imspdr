@@ -38,7 +38,8 @@ function ChessBlock(props: {
 
 function ChessBoard(props: { boardSize: number }) {
   const chessStore = useChessStore();
-  const boardSize = Math.round(props.boardSize / chessStore.nQueen) * chessStore.nQueen;
+  const givenSize = props.boardSize < 320 ? 320 : props.boardSize;
+  const boardSize = Math.round(givenSize / chessStore.nQueen) * chessStore.nQueen;
   return (
     <div>
       <div
@@ -46,18 +47,27 @@ function ChessBoard(props: { boardSize: number }) {
           display: flex;
           flex-direcion: row;
           justify-content: space-between;
-          width: ${props.boardSize}px;
+          width: ${givenSize}px;
           align-items: center;
         `}
       >
+        {givenSize >= 500 && (
+          <div
+            css={css`
+              width: 10%;
+            `}
+          >
+            {`N퀸 : `}
+          </div>
+        )}
         <div
           css={css`
             display: flex;
             flex-direction: row;
-            width: ${Math.round(props.boardSize / 3)}px;
+            justify-content: space-evenly;
+            width: 20%;
           `}
         >
-          {`N-퀸 : `}
           <div
             onClick={() => {
               if (chessStore.nQueen > 4) {
@@ -65,11 +75,12 @@ function ChessBoard(props: { boardSize: number }) {
               }
             }}
             css={css`
+              width: 30px;
               display: flex;
               align-items: center;
               justify-content: center;
-              width: 30px;
               ${unselectable}
+              ${chessStore.solving ? "color : #AAAAAA;" : ""}
             `}
           >
             {"-"}
@@ -79,7 +90,6 @@ function ChessBoard(props: { boardSize: number }) {
               display: flex;
               align-items: center;
               justify-content: center;
-              width: 30px;
             `}
           >
             {`${chessStore.nQueen}`}
@@ -91,10 +101,11 @@ function ChessBoard(props: { boardSize: number }) {
               }
             }}
             css={css`
+              width: 30px;
               display: flex;
               align-items: center;
               justify-content: center;
-              width: 30px;
+              ${chessStore.solving ? "color : #AAAAAA;" : ""}
               ${unselectable}
             `}
           >
@@ -104,6 +115,10 @@ function ChessBoard(props: { boardSize: number }) {
         <div
           onClick={() => chessStore.clear()}
           css={css`
+            width: 25%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             ${chessStore.solving ? "color : #AAAAAA;" : ""}
             ${unselectable}
           `}
@@ -119,10 +134,10 @@ function ChessBoard(props: { boardSize: number }) {
             }
           }}
           css={css`
+            width: 20%;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 100px;
             ${unselectable}
           `}
         >
@@ -133,10 +148,10 @@ function ChessBoard(props: { boardSize: number }) {
             display: flex;
             flex-direction: row;
             justify-content: flex-end;
-            width: ${Math.round(props.boardSize / 4)}px;
+            width: 25%;
           `}
         >
-          <div>{`배치한 퀸 : `}</div>
+          <div>{givenSize >= 500 ? `배치한 퀸 : ` : ""}</div>
           <div
             css={css`
               width: 20px;
@@ -167,7 +182,7 @@ function ChessBoard(props: { boardSize: number }) {
                 return (
                   <ChessBlock
                     color={(i + j) % 2 === 0 ? 0 : 1}
-                    size={Math.round(props.boardSize / chessStore.nQueen)}
+                    size={Math.round(givenSize / chessStore.nQueen)}
                     hasQueen={chessStore.included(i, j)}
                     isCovered={chessStore.isCovered(i, j)}
                     onClick={() => {

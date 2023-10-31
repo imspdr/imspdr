@@ -21,8 +21,10 @@ class ChessStore {
     return this.__nQueen;
   }
   set nQueen(n: number) {
-    this.__nQueen = n;
-    this.clear();
+    if (!this.solving) {
+      this.__nQueen = n;
+      this.clear();
+    }
   }
   get poses() {
     return this.__poses;

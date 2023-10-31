@@ -1,10 +1,12 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import ThemeToggle from "./common/ThemeToggle";
 import { css } from "@emotion/react";
 import MainPage from "./projects/project0/page/MainPage";
 import ChessPage from "./projects/project1/page/ChessPage";
+import { unselectable } from "./common/Util";
 
 function App() {
+  const navigate = useNavigate();
   return (
     <div>
       <div
@@ -12,7 +14,6 @@ function App() {
           position: absolute;
           top: 0px;
           width: calc(99vw);
-          min-width: 320px;
           height: 64px;
           display: flex;
           flex-direction: row;
@@ -20,7 +21,16 @@ function App() {
           align-items: center;
         `}
       >
-        IMSPDR
+        <div
+          onClick={() => {
+            navigate("/");
+          }}
+          css={css`
+            ${unselectable}
+          `}
+        >
+          IMSPDR
+        </div>
         <ThemeToggle />
       </div>
       <div
