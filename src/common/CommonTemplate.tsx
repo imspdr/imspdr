@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
-import { unselectable } from "@src/common/Util";
+import { unselectable } from "@src/common/util";
 import CloseIcon from "@mui/icons-material/Close";
 
 export default function CommonTemplate(props: { title: string; children: JSX.Element }) {
@@ -20,7 +20,7 @@ export default function CommonTemplate(props: { title: string; children: JSX.Ele
           flex-direction: row;
           justify-content: space-between;
           height: 30px;
-          font-size: 20px;
+          font-size: 30px;
           ${unselectable}
         `}
       >

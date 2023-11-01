@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { observer } from "mobx-react";
 import { useChessStore } from "../store/ChessStoreProvider";
-import { unselectable } from "@src/common/Util";
+import { unselectable } from "@src/common/util";
 
 function ChessBlock(props: {
   color: number; // 0 for black 1 for white

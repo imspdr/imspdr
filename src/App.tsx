@@ -3,7 +3,7 @@ import ThemeToggle from "./common/ThemeToggle";
 import { css } from "@emotion/react";
 import MainPage from "./projects/project0/page/MainPage";
 import ChessPage from "./projects/project1/page/ChessPage";
-import { unselectable } from "./common/Util";
+import { unselectable } from "./common/util";
 
 function App() {
   const navigate = useNavigate();

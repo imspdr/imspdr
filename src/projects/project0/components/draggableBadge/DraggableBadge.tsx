@@ -4,7 +4,7 @@ import { useMainStore } from "../../store/MainStoreProvider";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { badge } from "../../store/types";
-import { unselectable } from "@src/common/Util";
+import { unselectable } from "@src/common/util";
 
 function DraggableBadge(props: { badgeId: number }) {
   const mainStore = useMainStore();

@@ -101,7 +101,7 @@ class ChessStore {
         }, "");
         return false;
       } else if (!this.isCovered(i, j)) {
-        await sleep(100);
+        await sleep(10);
         this.poses = this.poses + pos;
         let ret = await this.solver(i + 1);
         if (ret) return true;

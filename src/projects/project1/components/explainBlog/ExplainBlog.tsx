@@ -1,14 +1,16 @@
 import { css } from "@emotion/react";
 import { observer } from "mobx-react";
 import { useState, useEffect } from "react";
-import { unselectable } from "@src/common/Util";
+import { unselectable } from "@src/common/util";
+
+import pisnp from "./pisnp.json";
+import CommonPost from "@src/common/CommonPost";
 
 function ExplainBlog(props: { width: number; height: number }) {
   const testTab = [
-    { label: "A", value: 0 },
-    { label: "B", value: 1 },
-    { label: "C", value: 2 },
-    { label: "D", value: 3 },
+    { label: "P=NP", value: 0 },
+    { label: "n-퀸 문제", value: 1 },
+    { label: "풀어줘", value: 2 },
   ];
   const [nowTab, setNowTab] = useState(0);
   const givenHeight = Math.max(props.height, testTab.length * 50 + 10);
@@ -25,7 +27,7 @@ function ExplainBlog(props: { width: number; height: number }) {
           return (
             <div
               css={css`
-                width: 150px;
+                width: ${nowTab === tab.value ? 151 : 150}px;
                 height: 50px;
                 display: flex;
                 align-items: center;
@@ -33,7 +35,7 @@ function ExplainBlog(props: { width: number; height: number }) {
                 border-radius: 20px 0px 0px 20px;
                 ${nowTab === tab.value
                   ? "border: 5px solid; border-right-width: 0px;"
-                  : "border: 0px solid; border-right-width: 5px;"}
+                  : "border: 1px solid; border-right-width: 5px;"}
                 ${unselectable}
               `}
               onClick={() => setNowTab(tab.value)}
@@ -44,7 +46,7 @@ function ExplainBlog(props: { width: number; height: number }) {
         })}
         <div
           css={css`
-            height: ${givenHeight - testTab.length * 50 - 10}px;
+            height: ${givenHeight - testTab.length * 52 - 8}px;
             border: 0px solid;
             border-right-width: 5px;
           `}
@@ -56,7 +58,9 @@ function ExplainBlog(props: { width: number; height: number }) {
           border: 5px solid;
           border-left-width: 0px;
         `}
-      ></div>
+      >
+        <CommonPost script={pisnp} />
+      </div>
     </div>
   );
 }
