@@ -2,7 +2,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import ThemeToggle from "./common/ThemeToggle";
 import { css } from "@emotion/react";
 import MainPage from "./projects/project0/page/MainPage";
-import ChessPage from "./projects/project1/page/ChessPage";
+import ChessPage from "./projects/project1-nqueen/page/ChessPage";
 import { unselectable } from "./common/util";
 
 function App() {
