@@ -3,6 +3,7 @@ import ThemeToggle from "./common/ThemeToggle";
 import { css } from "@emotion/react";
 import MainPage from "./projects/project0/page/MainPage";
 import ChessPage from "./projects/project1-nqueen/page/ChessPage";
+import SortPage from "./projects/project2-sort/page/SortPage";
 import { unselectable } from "./common/util";
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/chess" element={<ChessPage />} />
+          <Route path="/sort" element={<SortPage />} />
         </Routes>
       </div>
     </div>

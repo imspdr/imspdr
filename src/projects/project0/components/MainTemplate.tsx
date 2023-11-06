@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import { css } from "@emotion/react";
 import { useMainStore } from "../store/MainStoreProvider";
-import DraggableBadge from "../components/draggableBadge/DraggableBadge";
+import DraggableBadge from "./draggableBadge/DraggableBadge";
 import { badge } from "../store/types";
 
 function MainPageTemplate() {

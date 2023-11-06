@@ -1,10 +1,7 @@
 import { makeAutoObservable } from "mobx";
+import { sleep } from "@src/common/util";
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-const sleep = async (ms: number) => {
-  return new Promise((r) => setTimeout(r, ms));
-};
 
 class ChessStore {
   private __nQueen: number;

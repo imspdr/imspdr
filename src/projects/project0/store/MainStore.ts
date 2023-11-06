@@ -27,6 +27,17 @@ class MainStore {
         description: "P=NP와 N퀸 문제",
         route: "chess",
       },
+      {
+        id: 2,
+        pos: {
+          x: 800,
+          y: 200,
+        },
+        radius: 100,
+        title: "Project2 - sort 시각화",
+        description: "sort 시각화",
+        route: "sort",
+      },
     ];
     makeAutoObservable(this);
   }
@@ -49,6 +60,11 @@ class MainStore {
           (badge.pos.x - x) * (badge.pos.x - x) + (badge.pos.y - y) * (badge.pos.y - y)
         );
         if (dist < badge.radius + movingBadge.radius) {
+          this.setPos(
+            badge.id,
+            badge.pos.x + ((badge.radius + movingBadge.radius - dist) * (badge.pos.x - x)) / dist,
+            badge.pos.y + ((badge.radius + movingBadge.radius - dist) * (badge.pos.y - y)) / dist
+          );
           return {
             ...badge,
             pos: {
