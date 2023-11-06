@@ -35,7 +35,7 @@ function DraggableBadge(props: { badgeId: number }) {
             `}
             onMouseDown={(e) => {
               const mousemove = (ev: MouseEvent) => {
-                mainStore.setPos(props.badgeId, ev.clientX, ev.clientY);
+                mainStore.setPos(props.badgeId, ev.clientX, ev.clientY, []);
                 setDescription(false);
               };
               const mouseup = () => {

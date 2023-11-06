@@ -42,7 +42,7 @@ class MainStore {
     makeAutoObservable(this);
   }
 
-  setPos = (id: number, x: number, y: number) => {
+  setPos = (id: number, x: number, y: number, ids: number[]) => {
     const movingBadge = this.badges.find((badge: badge) => badge.id === id);
     if (!movingBadge) return;
 
@@ -56,6 +56,11 @@ class MainStore {
           },
         };
       } else {
+        return badge;
+      }
+    });
+    this.badges.forEach((badge: badge) => {
+      if (badge.id !== id && !ids.includes(badge.id)) {
         const dist = Math.sqrt(
           (badge.pos.x - x) * (badge.pos.x - x) + (badge.pos.y - y) * (badge.pos.y - y)
         );
@@ -63,21 +68,9 @@ class MainStore {
           this.setPos(
             badge.id,
             badge.pos.x + ((badge.radius + movingBadge.radius - dist) * (badge.pos.x - x)) / dist,
-            badge.pos.y + ((badge.radius + movingBadge.radius - dist) * (badge.pos.y - y)) / dist
+            badge.pos.y + ((badge.radius + movingBadge.radius - dist) * (badge.pos.y - y)) / dist,
+            [...ids, badge.id]
           );
-          return {
-            ...badge,
-            pos: {
-              x:
-                badge.pos.x +
-                ((badge.radius + movingBadge.radius - dist) * (badge.pos.x - x)) / dist,
-              y:
-                badge.pos.y +
-                ((badge.radius + movingBadge.radius - dist) * (badge.pos.y - y)) / dist,
-            },
-          };
-        } else {
-          return badge;
         }
       }
     });
