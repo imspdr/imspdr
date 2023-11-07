@@ -14,7 +14,7 @@ class MainStore {
         radius: 100,
         title: "Project1 - N퀸 문제",
         description:
-          "P=NP 문제에 대한 간단한 요약과 다항 시간 내에 풀면 10억을 주는 NP complete 문제 중 하나인 n-퀸 문제를 구현",
+          "P=NP 문제에 대한 간단한 요약과 NP-complete 문제 중 하나인 n-퀸 문제를 플레이할 수 있는 게임으로 구현. 문제의 해답을 구하는 과정을 백 트래킹 알고리즘으로 구현하고 비동기 함수를 이용해 시각화",
         route: "chess",
         tag: ["짧은 글", "웹 게임", "상태 관리", "알고리즘 시각화"],
         icon: "queen",

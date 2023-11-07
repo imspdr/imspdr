@@ -18,10 +18,10 @@ function ChessBlock(props: {
         height: ${props.size}px;
         background-color: ${props.color === 0
           ? props.isCovered
-            ? "#00dddd"
+            ? "#009999"
             : "#000000"
           : props.isCovered
-          ? "#55ffff"
+          ? "#22cccc"
           : "#ffffff"};
         color: #000000;
         transition: 0s;
@@ -32,7 +32,15 @@ function ChessBlock(props: {
       `}
       onClick={props.onClick}
     >
-      {props.hasQueen ? <QueenIcon width={`${props.size}px`} height={`${props.size}px`} /> : ""}
+      {props.hasQueen ? (
+        <QueenIcon
+          width={`${props.size}px`}
+          height={`${props.size}px`}
+          fill={props.color === 0 ? "#ffffff" : "#000000"}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 }

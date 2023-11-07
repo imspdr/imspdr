@@ -106,6 +106,7 @@ class SortStore {
     }
   };
   reset = () => {
+    this.stopFlag = true;
     this.compareCount = 0;
     this.numberArray = generateArray(this.arrayLength);
   };
