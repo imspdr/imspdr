@@ -2,11 +2,12 @@ import { css } from "@emotion/react";
 import { observer } from "mobx-react";
 import { useSortStore } from "../store/SortStoreProvider";
 
-function SortScore() {
+function SortScore(props: { width: number }) {
   const sortStore = useSortStore();
   return (
     <div
       css={css`
+        width: ${props.width}px;
         display: flex;
         flex-direction: column;
         align-items: flex-end;

@@ -30,7 +30,7 @@ class SortStore {
   private __numberArray: bar[];
   constructor() {
     this.compareCount = 0;
-    this.__animateTime = 100;
+    this.__animateTime = 10;
     this.__arrayLength = 300;
     this.__numberArray = generateArray(this.arrayLength);
     this.__stopFlag = true;
@@ -73,13 +73,19 @@ class SortStore {
     return this.__selectedAlgo;
   }
   set selectedAlgo(algo: string) {
-    this.__selectedAlgo = algo;
+    if (this.selectedAlgo !== algo) {
+      this.__selectedAlgo = algo;
+      this.reset();
+    }
   }
   get arrayLength() {
     return this.__arrayLength;
   }
   set arrayLength(length: number) {
-    this.__arrayLength = length;
+    if (this.arrayLength !== length) {
+      this.__arrayLength = length;
+      this.reset();
+    }
   }
   get animateTime() {
     return this.__animateTime;

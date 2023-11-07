@@ -9,12 +9,12 @@ function Bar(props: { state: string; value: number; max: number; height: number;
       css={css`
         height: ${(props.height * props.value) / props.max}px;
         width: ${props.width}px;
-        border: 1px solid;
         ${props.state === "compare"
-          ? "color: #00dddd;"
+          ? "background-color: #00ff00;"
           : props.state === "moving"
-          ? "color: #dddd00;"
-          : ""}
+          ? "background-color: #0000ff;"
+          : "background-color: #dddddd;"}
+        transition: background-color 0.1s;
       `}
     ></div>
   );
@@ -22,8 +22,7 @@ function Bar(props: { state: string; value: number; max: number; height: number;
 
 function SortBar(props: { width: number; height: number }) {
   const sortStore = useSortStore();
-  const max = Math.max(...sortStore.numberArray.map((bar: bar) => bar.value));
-  const width = Math.round(props.width / sortStore.numberArray.length);
+  const width = props.width / sortStore.numberArray.length;
   return (
     <div
       css={css`
@@ -34,7 +33,7 @@ function SortBar(props: { width: number; height: number }) {
     >
       {sortStore.numberArray.map((bar: bar) => {
         return (
-          <Bar state={bar.state} value={bar.value} max={max} height={props.height} width={width} />
+          <Bar state={bar.state} value={bar.value} max={1000} height={props.height} width={width} />
         );
       })}
     </div>

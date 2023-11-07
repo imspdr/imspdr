@@ -7,13 +7,13 @@ import SortController from "../components/SortController";
 import SortScore from "../components/SortScore";
 
 export default function SortPage() {
-  const [chessWidth, setChessWidth] = useState(window.innerWidth);
-  const [chessHeight, setChessHeight] = useState(window.innerHeight);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
   useEffect(() => {
     addEventListener("resize", () => {
-      setChessWidth(window.innerWidth);
-      setChessHeight(window.innerHeight);
+      setWindowWidth(window.innerWidth);
+      setWindowHeight(window.innerHeight);
     });
   }, []);
 
@@ -23,16 +23,16 @@ export default function SortPage() {
         <div
           css={css`
             display: flex;
+            height: 95%;
+            width: 95%;
             flex-direction: column;
             justify-content: center;
             align-items: center;
           `}
         >
-          <div>
-            <SortController />
-            <SortScore />
-            <SortBar width={1000} height={500} />
-          </div>
+          <SortController width={1200} />
+          <SortScore width={1200} />
+          <SortBar width={1200} height={500} />
         </div>
       </CommonTemplate>
     </SortStoreProvider>

@@ -35,7 +35,12 @@ div {
   background: var(--background);
   color: var(--foreground);
   font-family: "GmarketSansMedium";
-
+  transition: background-color 1s;
+}
+input {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "GmarketSansMedium";
   transition: background-color 1s;
 }
 @font-face {

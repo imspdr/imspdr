@@ -12,11 +12,13 @@ export default function CommonDropDown(props: {
   onSelect: (v: string) => void;
   height?: number;
   width?: number;
+  customCss?: string;
 }) {
   const [open, setOpen] = useState(false);
   return (
     <div
       css={css`
+        ${props.customCss && props.customCss}
         display: flex;
         flex-direction: column;
         position: relative;
