@@ -1,5 +1,5 @@
 {
-	"compilerOptions": {
+  "compilerOptions": {
     "baseUrl": ".",
     "target": "es5",
     "module": "ESNext",
@@ -23,6 +23,6 @@
     },
     "jsxImportSource": "@emotion/react"
   },
-	"exclude": ["node_modules"],
-	"include": ["src", "@types", "types", "custom.d.ts"]
+  "exclude": ["node_modules"],
+  "include": ["src", "@types", "types", "src/svg.d.ts"]
 }

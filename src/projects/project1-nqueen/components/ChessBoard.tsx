@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { observer } from "mobx-react";
 import { useChessStore } from "../store/ChessStoreProvider";
 import { unselectable } from "@src/common/util";
+import { ReactComponent as QueenIcon } from "@src/images/queenIcon.svg";
 
 function ChessBlock(props: {
   color: number; // 0 for black 1 for white
@@ -31,7 +32,7 @@ function ChessBlock(props: {
       `}
       onClick={props.onClick}
     >
-      {props.hasQueen ? "Q" : ""}
+      {props.hasQueen ? <QueenIcon width={`${props.size}px`} height={`${props.size}px`} /> : ""}
     </div>
   );
 }

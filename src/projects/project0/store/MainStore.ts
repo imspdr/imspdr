@@ -17,6 +17,7 @@ class MainStore {
           "P=NP 문제에 대한 간단한 요약과 다항 시간 내에 풀면 10억을 주는 NP complete 문제 중 하나인 n-퀸 문제를 구현",
         route: "chess",
         tag: ["짧은 글", "웹 게임", "상태 관리", "알고리즘 시각화"],
+        icon: "queen",
       },
       {
         id: 2,
@@ -30,6 +31,7 @@ class MainStore {
           "버블 정렬, 머지 정렬, 퀵 정렬, 팀 정렬을 javascript 코드로 구현하고 비동기 함수를 이용해 정렬 과정을 시각화",
         route: "sort",
         tag: ["상태 관리", "알고리즘 시각화"],
+        icon: "sort",
       },
     ];
     makeAutoObservable(this);

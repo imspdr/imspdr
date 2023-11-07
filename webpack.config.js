@@ -3,7 +3,6 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const path = require("path");
 
-
 module.exports = {
   entry: path.join(__dirname, "src/index.tsx"),
   output: {
@@ -67,6 +66,9 @@ module.exports = {
         use: [
           {
             loader: "@svgr/webpack",
+          },
+          {
+            loader: "file-loader",
           },
           {
             loader: "url-loader",

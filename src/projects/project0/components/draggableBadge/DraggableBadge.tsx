@@ -6,6 +6,18 @@ import { useNavigate } from "react-router-dom";
 import { badge } from "../../store/types";
 import { unselectable } from "@src/common/util";
 import { ReactComponent as QueenIcon } from "@src/images/queenIcon.svg";
+import { ReactComponent as SortIcon } from "@src/images/sortIcon.svg";
+
+const iconMap = [
+  {
+    label: "queen",
+    comp: <QueenIcon width={"100px"} height={"100px"} />,
+  },
+  {
+    label: "sort",
+    comp: <SortIcon width={"100px"} height={"100px"} />,
+  },
+];
 
 function DraggableBadge(props: { badgeId: number }) {
   const mainStore = useMainStore();
@@ -60,7 +72,7 @@ function DraggableBadge(props: { badgeId: number }) {
               navigate(`/${badge.route}`);
             }}
           >
-            <QueenIcon />
+            {iconMap.find((icon) => icon.label === badge.icon)?.comp}
           </div>
           {description && (
             <div
