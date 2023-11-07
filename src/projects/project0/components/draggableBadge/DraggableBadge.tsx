@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { badge } from "../../store/types";
 import { unselectable } from "@src/common/util";
+import { ReactComponent as QueenIcon } from "@src/images/queenIcon.svg";
 
 function DraggableBadge(props: { badgeId: number }) {
   const mainStore = useMainStore();
@@ -59,7 +60,7 @@ function DraggableBadge(props: { badgeId: number }) {
               navigate(`/${badge.route}`);
             }}
           >
-            {badge.title}
+            <QueenIcon />
           </div>
           {description && (
             <div
@@ -89,6 +90,15 @@ function DraggableBadge(props: { badgeId: number }) {
                 `}
               >
                 {badge.description}
+              </div>
+              <div
+                css={css`
+                  margin-top: 30px;
+                `}
+              >
+                {badge.tag.map((tag: string) => {
+                  return <div>{"#" + tag}</div>;
+                })}
               </div>
             </div>
           )}

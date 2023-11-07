@@ -6,17 +6,6 @@ class MainStore {
   constructor() {
     this.badges = [
       {
-        id: 0,
-        pos: {
-          x: 200,
-          y: 200,
-        },
-        radius: 100,
-        title: "Project0 - 포트폴리오 페이지",
-        description: "현재 화면 포트폴리오",
-        route: "",
-      },
-      {
         id: 1,
         pos: {
           x: 500,
@@ -24,8 +13,10 @@ class MainStore {
         },
         radius: 100,
         title: "Project1 - N퀸 문제",
-        description: "P=NP와 N퀸 문제",
+        description:
+          "P=NP 문제에 대한 간단한 요약과 다항 시간 내에 풀면 10억을 주는 NP complete 문제 중 하나인 n-퀸 문제를 구현",
         route: "chess",
+        tag: ["짧은 글", "웹 게임", "상태 관리", "알고리즘 시각화"],
       },
       {
         id: 2,
@@ -34,9 +25,11 @@ class MainStore {
           y: 200,
         },
         radius: 100,
-        title: "Project2 - sort 시각화",
-        description: "sort 시각화",
+        title: "Project2 - 정렬 시각화",
+        description:
+          "버블 정렬, 머지 정렬, 퀵 정렬, 팀 정렬을 javascript 코드로 구현하고 비동기 함수를 이용해 정렬 과정을 시각화",
         route: "sort",
+        tag: ["상태 관리", "알고리즘 시각화"],
       },
     ];
     makeAutoObservable(this);

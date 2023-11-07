@@ -1,3 +1,5 @@
+import { ReactComponentElement } from "react";
+
 export type badge = {
   id: number;
   pos: {
@@ -8,4 +10,5 @@ export type badge = {
   title: string;
   description: string;
   route: string;
+  tag: string[];
 };

@@ -61,6 +61,7 @@ export default function CommonNumberField(props: {
           width: 50px;
           font-size: 15px;
           height: 40px;
+          margin-right: 5px;
         `}
       />
       {props.unit}
