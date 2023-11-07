@@ -45,12 +45,8 @@ class SortStore {
         value: "bubble",
       },
       {
-        label: "Bubble Sort2",
-        value: "bubble2",
-      },
-      {
-        label: "Bubble Sort3",
-        value: "bubble3",
+        label: "Quick Sort",
+        value: "quick",
       },
     ];
     this.__selectedAlgo = "merge";
@@ -96,12 +92,16 @@ class SortStore {
 
   runSort = () => {
     switch (this.selectedAlgo) {
-      case "merge":
-        this.mergeSort();
-        return;
       case "bubble":
-      default:
         this.bubbleSort();
+        return;
+      case "quick":
+        this.quickSort();
+        return;
+
+      case "merge":
+      default:
+        this.mergeSort();
         return;
     }
   };
@@ -134,7 +134,6 @@ class SortStore {
     });
   };
 
-  // 버블
   swap = async (i: number, j: number) => {
     this.setState([i, j], "moving");
     await sleep(this.animateTime);
@@ -150,6 +149,8 @@ class SortStore {
     this.setState([i, j], "normal");
     this.compareCount++;
   };
+
+  // 버블
   bubbleSort = async () => {
     this.stopFlag = false;
     for (let i = 0; i < this.numberArray.length - 1; i++) {
@@ -223,6 +224,45 @@ class SortStore {
   mergeSort = async () => {
     this.stopFlag = false;
     await this.innerDivide(0, this.numberArray.length - 1);
+    this.stopFlag = true;
+  };
+
+  // 퀵
+  innerQuickSort = async (left: number, right: number) => {
+    if (left < right) {
+      const pivot = this.numberArray[left]?.value;
+      if (pivot) {
+        let biggerIndex = right;
+        let smallerIndex = left;
+        while (biggerIndex > smallerIndex) {
+          if (this.stopFlag) return;
+          let biggerVal = this.numberArray[biggerIndex]?.value;
+          while (biggerVal && biggerVal > pivot) {
+            if (this.stopFlag) return;
+            await this.compare(left, biggerIndex);
+            biggerIndex -= 1;
+            biggerVal = this.numberArray[biggerIndex]?.value;
+          }
+          let smallerVal = this.numberArray[smallerIndex]?.value;
+          while (smallerIndex < biggerIndex && smallerVal && smallerVal <= pivot) {
+            if (this.stopFlag) return;
+            await this.compare(left, smallerIndex);
+            smallerIndex += 1;
+            smallerVal = this.numberArray[smallerIndex]?.value;
+          }
+          await this.swap(smallerIndex, biggerIndex);
+        }
+
+        let smallerVal = this.numberArray[smallerIndex]?.value;
+        if (smallerVal) this.setValues([left, smallerIndex], [smallerVal, pivot]);
+        await this.innerQuickSort(left, smallerIndex - 1);
+        await this.innerQuickSort(smallerIndex + 1, right);
+      }
+    }
+  };
+  quickSort = async () => {
+    this.stopFlag = false;
+    await this.innerQuickSort(0, this.numberArray.length - 1);
     this.stopFlag = true;
   };
 }
