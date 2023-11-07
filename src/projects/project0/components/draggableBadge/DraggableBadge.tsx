@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import { css, keyframes } from "@emotion/react";
 import { useMainStore } from "../../store/MainStoreProvider";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { badge } from "../../store/types";
 import { unselectable } from "@src/common/util";
@@ -27,6 +27,13 @@ function DraggableBadge(props: { badgeId: number }) {
   const badge: badge | undefined = mainStore.badges.find(
     (badge: badge) => badge.id === props.badgeId
   );
+
+  useEffect(() => {
+    addEventListener("resize", () => {
+      mainStore.windowHeight = window.innerHeight;
+      mainStore.windowWidth = window.innerWidth;
+    });
+  }, []);
   return (
     <>
       {badge && (
@@ -48,7 +55,18 @@ function DraggableBadge(props: { badgeId: number }) {
             `}
             onMouseDown={(e) => {
               const mousemove = (ev: MouseEvent) => {
-                mainStore.setPos(props.badgeId, ev.clientX, ev.clientY, []);
+                mainStore.setPos(
+                  props.badgeId,
+                  Math.max(
+                    badge.radius + 20,
+                    Math.min(ev.clientX, mainStore.windowWidth - badge.radius - 20)
+                  ),
+                  Math.max(
+                    badge.radius + 20,
+                    Math.min(ev.clientY, mainStore.windowHeight - badge.radius - 20)
+                  ),
+                  []
+                );
                 setDescription(false);
               };
               const mouseup = () => {
@@ -75,26 +93,25 @@ function DraggableBadge(props: { badgeId: number }) {
             {iconMap.find((icon) => icon.label === badge.icon)?.comp}
           </div>
           {description && (
-            <>
+            <div
+              css={css`
+                position: absolute;
+                left: ${badge.pos.x > mainStore.windowWidth - badge.radius - 350
+                  ? badge.pos.x - badge.radius - 350
+                  : badge.pos.x + badge.radius + 20}px;
+                ${badge.pos.y < mainStore.windowHeight / 2
+                  ? `top: ${badge.pos.y - badge.radius - 10}px;`
+                  : `bottom: ${mainStore.windowHeight - badge.pos.y - badge.radius - 10}px;`}
+                width: 330px;
+                z-index: 10;
+                ${unselectable}
+              `}
+            >
+              <div>{"아이콘을 드래그 해보세요 / 더블 클릭 시 이동"}</div>
               <div
                 css={css`
-                  position: absolute;
-                  left: ${badge.pos.x + badge.radius + 20}px;
-                  top: ${badge.pos.y - badge.radius - 40}px;
-                  z-index: 10;
-                  ${unselectable}
-                `}
-              >
-                {"아이콘을 드래그 해보세요 / 더블 클릭 시 이동"}
-              </div>
-              <div
-                css={css`
-                  position: absolute;
-                  left: ${badge.pos.x + badge.radius + 20}px;
-                  top: ${badge.pos.y - badge.radius - 10}px;
                   border: 3px solid;
                   padding: 10px;
-                  width: 300px;
                   min-height: ${badge.radius * 2}px;
                   z-index: 10;
                   ${unselectable}
@@ -125,7 +142,7 @@ function DraggableBadge(props: { badgeId: number }) {
                   })}
                 </div>
               </div>
-            </>
+            </div>
           )}
         </>
       )}

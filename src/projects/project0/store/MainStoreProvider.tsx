@@ -5,7 +5,7 @@ const MainContext = createContext<MainStore | null>(null);
 
 export const MainStoreProvider = ({ children }: { children: React.ReactElement }) => {
   const store = useMemo(() => {
-    return new MainStore();
+    return new MainStore(window.innerWidth, window.innerHeight);
   }, []);
 
   return <MainContext.Provider value={store}> {children} </MainContext.Provider>;

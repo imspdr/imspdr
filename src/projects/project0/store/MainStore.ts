@@ -3,7 +3,11 @@ import { badge } from "./types";
 
 class MainStore {
   public badges: badge[];
-  constructor() {
+  public windowWidth: number;
+  public windowHeight: number;
+  constructor(width: number, height: number) {
+    this.windowWidth = width;
+    this.windowHeight = height;
     this.badges = [
       {
         id: 1,
@@ -40,14 +44,24 @@ class MainStore {
   setPos = (id: number, x: number, y: number, ids: number[]) => {
     const movingBadge = this.badges.find((badge: badge) => badge.id === id);
     if (!movingBadge) return;
-
+    const newX = Math.max(
+      movingBadge.radius + 20,
+      Math.min(x, this.windowWidth - movingBadge.radius - 20)
+    );
+    const newY = Math.max(
+      movingBadge.radius + 20,
+      Math.min(y, this.windowHeight - movingBadge.radius - 20)
+    );
+    if (ids.length > 0) {
+      console.log(movingBadge.pos);
+    }
     this.badges = this.badges.map((badge: badge) => {
       if (badge.id === id) {
         return {
           ...badge,
           pos: {
-            x: x,
-            y: y,
+            x: newX,
+            y: newY,
           },
         };
       } else {
@@ -60,12 +74,16 @@ class MainStore {
           (badge.pos.x - x) * (badge.pos.x - x) + (badge.pos.y - y) * (badge.pos.y - y)
         );
         if (dist < badge.radius + movingBadge.radius) {
-          this.setPos(
-            badge.id,
-            badge.pos.x + ((badge.radius + movingBadge.radius - dist) * (badge.pos.x - x)) / dist,
-            badge.pos.y + ((badge.radius + movingBadge.radius - dist) * (badge.pos.y - y)) / dist,
-            [...ids, badge.id]
-          );
+          if (dist < badge.radius) {
+            return;
+          } else {
+            this.setPos(
+              badge.id,
+              badge.pos.x + ((badge.radius + movingBadge.radius - dist) * (badge.pos.x - x)) / dist,
+              badge.pos.y + ((badge.radius + movingBadge.radius - dist) * (badge.pos.y - y)) / dist,
+              [...ids, badge.id]
+            );
+          }
         }
       }
     });
