@@ -9,7 +9,7 @@ function Bar(props: { state: string; value: number; max: number; height: number;
       css={css`
         height: ${(props.height * props.value) / props.max}px;
         width: ${props.width}px;
-        border: 2px solid;
+        border: 1px solid;
         ${props.state === "compare"
           ? "color: #00dddd;"
           : props.state === "moving"

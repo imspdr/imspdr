@@ -1,9 +1,10 @@
 import { css } from "@emotion/react";
 import { useState, useEffect } from "react";
 import CommonTemplate from "@src/common/CommonTemplate";
+import { SortStoreProvider } from "../store/SortStoreProvider";
 import SortBar from "../components/SortBar";
 import SortController from "../components/SortController";
-import { SortStoreProvider } from "../store/SortStoreProvider";
+import SortScore from "../components/SortScore";
 
 export default function SortPage() {
   const [chessWidth, setChessWidth] = useState(window.innerWidth);
@@ -21,11 +22,15 @@ export default function SortPage() {
           css={css`
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
+            justify-content: center;
+            align-items: center;
           `}
         >
-          <SortBar height={500} />
-          <SortController />
+          <div>
+            <SortScore />
+            <SortBar height={500} />
+            <SortController />
+          </div>
         </div>
       </CommonTemplate>
     </SortStoreProvider>
