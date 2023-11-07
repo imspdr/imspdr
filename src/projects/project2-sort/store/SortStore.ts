@@ -18,19 +18,43 @@ const generateArray = (length: number) => {
 };
 
 class SortStore {
-  public animationTime: number;
-  public arrayLength: number;
   public compareCount: number;
-  public iterState: number;
+  public sortAlgos: {
+    label: string;
+    value: string;
+  }[];
+  private __selectedAlgo: string;
+  private __animateTime: number;
+  private __arrayLength: number;
   private __stopFlag: boolean;
   private __numberArray: bar[];
   constructor() {
-    this.animationTime = 10;
-    this.arrayLength = 100;
     this.compareCount = 0;
-    this.iterState = 0;
+    this.__animateTime = 100;
+    this.__arrayLength = 300;
     this.__numberArray = generateArray(this.arrayLength);
     this.__stopFlag = true;
+
+    this.sortAlgos = [
+      {
+        label: "Merge Sort",
+        value: "merge",
+      },
+      {
+        label: "Bubble Sort",
+        value: "bubble",
+      },
+      {
+        label: "Bubble Sort2",
+        value: "bubble2",
+      },
+      {
+        label: "Bubble Sort3",
+        value: "bubble3",
+      },
+    ];
+    this.__selectedAlgo = "merge";
+
     makeAutoObservable(this);
   }
   get numberArray() {
@@ -45,10 +69,38 @@ class SortStore {
   set stopFlag(bool: boolean) {
     this.__stopFlag = bool;
   }
+  get selectedAlgo() {
+    return this.__selectedAlgo;
+  }
+  set selectedAlgo(algo: string) {
+    this.__selectedAlgo = algo;
+  }
+  get arrayLength() {
+    return this.__arrayLength;
+  }
+  set arrayLength(length: number) {
+    this.__arrayLength = length;
+  }
+  get animateTime() {
+    return this.__animateTime;
+  }
+  set animateTime(time: number) {
+    this.__animateTime = time;
+  }
 
+  runSort = () => {
+    switch (this.selectedAlgo) {
+      case "merge":
+        this.mergeSort();
+        return;
+      case "bubble":
+      default:
+        this.bubbleSort();
+        return;
+    }
+  };
   reset = () => {
     this.compareCount = 0;
-    this.iterState = 0;
     this.numberArray = generateArray(this.arrayLength);
   };
 
@@ -79,7 +131,7 @@ class SortStore {
   // 버블
   swap = async (i: number, j: number) => {
     this.setState([i, j], "moving");
-    await sleep(this.animationTime);
+    await sleep(this.animateTime);
     const ival = this.numberArray[i]?.value;
     const jval = this.numberArray[j]?.value;
     if (ival && jval) {
@@ -88,24 +140,23 @@ class SortStore {
   };
   compare = async (i: number, j: number) => {
     this.setState([i, j], "compare");
-    await sleep(this.animationTime);
+    await sleep(this.animateTime);
     this.setState([i, j], "normal");
     this.compareCount++;
   };
   bubbleSort = async () => {
     this.stopFlag = false;
-    for (; this.iterState < this.numberArray.length - 1; this.iterState++) {
-      for (let j = 0; j < this.numberArray.length - 1 - this.iterState; j++) {
+    for (let i = 0; i < this.numberArray.length - 1; i++) {
+      for (let j = 0; j < this.numberArray.length - 1 - i; j++) {
+        if (this.stopFlag) {
+          return;
+        }
         await this.compare(j, j + 1);
         let val1 = this.numberArray[j]?.value;
         let val2 = this.numberArray[j + 1]?.value;
         if (val1 && val2) {
           if (val1 > val2) await this.swap(j, j + 1);
         }
-      }
-      if (this.stopFlag) {
-        this.iterState++;
-        return;
       }
     }
     this.stopFlag = true;
@@ -121,8 +172,8 @@ class SortStore {
     let right = middle;
 
     this.setState(nowIndexes, "compare");
+    await sleep(this.animateTime);
     this.compareCount += nowIndexes.length;
-    await sleep(this.animationTime);
     this.setState(nowIndexes, "normal");
 
     for (let i = 0; i < end - start + 1; i++) {
@@ -148,6 +199,10 @@ class SortStore {
         }
       }
     }
+
+    this.setState(nowIndexes, "moving");
+    await sleep(this.animateTime);
+    this.setState(nowIndexes, "normal");
     this.setValues(nowIndexes, tempArray);
   };
   innerDivide = async (start: number, end: number) => {

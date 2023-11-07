@@ -20,10 +20,10 @@ function Bar(props: { state: string; value: number; max: number; height: number;
   );
 }
 
-function SortBar(props: { height: number }) {
+function SortBar(props: { width: number; height: number }) {
   const sortStore = useSortStore();
   const max = Math.max(...sortStore.numberArray.map((bar: bar) => bar.value));
-  const width = Math.round(props.height / sortStore.numberArray.length);
+  const width = Math.round(props.width / sortStore.numberArray.length);
   return (
     <div
       css={css`
