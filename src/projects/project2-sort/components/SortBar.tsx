@@ -3,11 +3,11 @@ import { observer } from "mobx-react";
 import { useSortStore } from "../store/SortStoreProvider";
 import { bar } from "../store/SortStore";
 
-function Bar(props: { state: string; value: number; max: number; height: number; width: number }) {
+function Bar(props: { state: string; value: number; height: number; width: number }) {
   return (
     <div
       css={css`
-        height: ${(props.height * props.value) / props.max}px;
+        height: ${(props.height * props.value) / 1000}px;
         width: ${props.width}px;
         ${props.state === "compare"
           ? "background-color: #00ff00;"
@@ -29,12 +29,11 @@ function SortBar(props: { width: number; height: number }) {
         display: flex;
         flex-direction: row;
         align-items: flex-end;
+        height: ${props.height}px;
       `}
     >
       {sortStore.numberArray.map((bar: bar) => {
-        return (
-          <Bar state={bar.state} value={bar.value} max={1000} height={props.height} width={width} />
-        );
+        return <Bar state={bar.state} value={bar.value} height={props.height} width={width} />;
       })}
     </div>
   );

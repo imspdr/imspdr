@@ -75,44 +75,57 @@ function DraggableBadge(props: { badgeId: number }) {
             {iconMap.find((icon) => icon.label === badge.icon)?.comp}
           </div>
           {description && (
-            <div
-              css={css`
-                position: absolute;
-                left: ${badge.pos.x + badge.radius + 20}px;
-                top: ${badge.pos.y - badge.radius - 10}px;
-                border: 3px solid;
-                padding: 10px;
-                width: 300px;
-                min-height: ${badge.radius * 2}px;
-                z-index: 10;
-                ${unselectable}
-              `}
-            >
+            <>
               <div
                 css={css`
-                  font-size: 20px;
+                  position: absolute;
+                  left: ${badge.pos.x + badge.radius + 20}px;
+                  top: ${badge.pos.y - badge.radius - 40}px;
+                  z-index: 10;
+                  ${unselectable}
                 `}
               >
-                {badge.title}
+                {"아이콘을 드래그 해보세요 / 더블 클릭 시 이동"}
               </div>
               <div
                 css={css`
-                  font-size: 15px;
-                  margin-top: 10px;
+                  position: absolute;
+                  left: ${badge.pos.x + badge.radius + 20}px;
+                  top: ${badge.pos.y - badge.radius - 10}px;
+                  border: 3px solid;
+                  padding: 10px;
+                  width: 300px;
+                  min-height: ${badge.radius * 2}px;
+                  z-index: 10;
+                  ${unselectable}
                 `}
               >
-                {badge.description}
+                <div
+                  css={css`
+                    font-size: 20px;
+                  `}
+                >
+                  {badge.title}
+                </div>
+                <div
+                  css={css`
+                    font-size: 15px;
+                    margin-top: 10px;
+                  `}
+                >
+                  {badge.description}
+                </div>
+                <div
+                  css={css`
+                    margin-top: 30px;
+                  `}
+                >
+                  {badge.tag.map((tag: string) => {
+                    return <div>{"#" + tag}</div>;
+                  })}
+                </div>
               </div>
-              <div
-                css={css`
-                  margin-top: 30px;
-                `}
-              >
-                {badge.tag.map((tag: string) => {
-                  return <div>{"#" + tag}</div>;
-                })}
-              </div>
-            </div>
+            </>
           )}
         </>
       )}
