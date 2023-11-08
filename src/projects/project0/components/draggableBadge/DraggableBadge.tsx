@@ -112,7 +112,7 @@ function DraggableBadge(props: { badgeId: number }) {
                 css={css`
                   border: 3px solid;
                   padding: 10px;
-                  min-height: ${badge.radius * 2}px;
+                  min-height: ${badge.radius}px;
                   z-index: 10;
                   ${unselectable}
                 `}

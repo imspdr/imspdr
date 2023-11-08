@@ -23,8 +23,6 @@ export default function SortPage() {
         <div
           css={css`
             display: flex;
-            height: 95%;
-            width: 95%;
             flex-direction: column;
             justify-content: center;
             align-items: center;

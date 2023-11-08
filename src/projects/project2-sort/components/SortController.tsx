@@ -15,6 +15,7 @@ function SortController(props: { width: number }) {
       css={css`
         display: flex;
         width: ${props.width}px;
+        height: 100px;
         flex-direction: row;
         margin-bottom: 30px;
         align-items: center;
