@@ -7,16 +7,6 @@ import SortController from "../components/SortController";
 import SortScore from "../components/SortScore";
 
 export default function SortPage() {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-
-  useEffect(() => {
-    addEventListener("resize", () => {
-      setWindowWidth(window.innerWidth);
-      setWindowHeight(window.innerHeight);
-    });
-  }, []);
-
   return (
     <SortStoreProvider>
       <CommonTemplate title="정렬 시각화">
