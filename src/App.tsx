@@ -1,13 +1,14 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import ThemeToggle from "./common/ThemeToggle";
 import { css } from "@emotion/react";
 import MainPage from "./projects/project0/page/MainPage";
-import ChessPage from "./projects/project1-nqueen/page/ChessPage";
-import SortPage from "./projects/project2-sort/page/SortPage";
 import { unselectable } from "./common/util";
 
 function App() {
   const navigate = useNavigate();
+  const ChessPage = lazy(() => import("./projects/project1-nqueen/page/ChessPage"));
+  const SortPage = lazy(() => import("./projects/project2-sort/page/SortPage"));
   return (
     <div>
       <div
@@ -41,11 +42,13 @@ function App() {
           height: calc(99vh - 64px);
         `}
       >
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/chess" element={<ChessPage />} />
-          <Route path="/sort" element={<SortPage />} />
-        </Routes>
+        <Suspense fallback={<div>{"loading"}</div>}>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/chess" element={<ChessPage />} />
+            <Route path="/sort" element={<SortPage />} />
+          </Routes>
+        </Suspense>
       </div>
     </div>
   );
