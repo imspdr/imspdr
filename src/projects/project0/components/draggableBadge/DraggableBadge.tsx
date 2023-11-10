@@ -17,6 +17,10 @@ const iconMap = [
     label: "sort",
     comp: <SortIcon width={"100px"} height={"100px"} />,
   },
+  {
+    label: "lol",
+    comp: <div>L</div>,
+  },
 ];
 
 function DraggableBadge(props: { badgeId: number }) {

@@ -37,6 +37,19 @@ class MainStore {
         tag: ["상태 관리", "알고리즘 시각화"],
         icon: "sort",
       },
+      {
+        id: 3,
+        pos: {
+          x: 1100,
+          y: 200,
+        },
+        radius: 100,
+        title: "Project3 - 롤 전적검색",
+        description: "Riot API를 이용한 모의 전적검색 사이트 개발",
+        route: "lol",
+        tag: ["상태 관리", "open API"],
+        icon: "lol",
+      },
     ];
     makeAutoObservable(this);
   }
