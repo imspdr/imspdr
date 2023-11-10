@@ -9,7 +9,7 @@ function MainPageTemplate() {
   return (
     <>
       {mainStore.badges.map((badge: badge) => (
-        <DraggableBadge badgeId={badge.id} />
+        <DraggableBadge key={`${badge.id}+${badge.title}`} badgeId={badge.id} />
       ))}
     </>
   );

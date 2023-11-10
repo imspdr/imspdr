@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import { css, keyframes } from "@emotion/react";
+import { css } from "@emotion/react";
 import { useMainStore } from "../../store/MainStoreProvider";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";

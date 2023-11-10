@@ -183,6 +183,7 @@ function ChessBoard(props: { boardSize: number }) {
         {[...new Array(chessStore.nQueen)].map((_, i) => {
           return (
             <div
+              key={`${i}th-row-of-chessboard`}
               css={css`
                 display: flex;
                 flex-direcion: row;
@@ -191,6 +192,7 @@ function ChessBoard(props: { boardSize: number }) {
               {[...new Array(chessStore.nQueen)].map((_, j) => {
                 return (
                   <ChessBlock
+                    key={`${i}${j}th-chessblock`}
                     color={(i + j) % 2 === 0 ? 0 : 1}
                     size={Math.round(givenSize / chessStore.nQueen)}
                     hasQueen={chessStore.included(i, j)}
