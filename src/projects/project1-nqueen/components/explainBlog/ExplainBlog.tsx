@@ -4,13 +4,15 @@ import { useState, useEffect } from "react";
 import { unselectable } from "@src/common/util";
 
 import pisnp from "./pisnp.json";
+import nqueen from "./nqueen.json";
+import solve from "./solve.json";
 import CommonPost from "@src/common/CommonPost";
 
 function ExplainBlog(props: { width: number; height: number }) {
   const testTab = [
-    { label: "P=NP", value: 0 },
-    { label: "n-퀸 문제", value: 1 },
-    { label: "풀어줘", value: 2 },
+    { label: "P vs NP", value: 0, comp: <CommonPost script={pisnp} /> },
+    { label: "n-퀸 문제", value: 1, comp: <CommonPost script={nqueen} /> },
+    { label: "풀어줘!", value: 2, comp: <CommonPost script={solve} /> },
   ];
   const [nowTab, setNowTab] = useState(0);
   const givenHeight = Math.max(props.height, testTab.length * 50 + 10);
@@ -57,9 +59,10 @@ function ExplainBlog(props: { width: number; height: number }) {
           width: ${props.width - 150}px;
           border: 5px solid;
           border-left-width: 0px;
+          overflow: auto;
         `}
       >
-        <CommonPost script={pisnp} />
+        {testTab.find((tab) => tab.value === nowTab)?.comp}
       </div>
     </div>
   );

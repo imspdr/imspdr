@@ -12,7 +12,7 @@ export default function CommonPost(props: { script: scriptPost }) {
     >
       <div
         css={css`
-          font-size: 25px;
+          font-size: 30px;
           margin-bottom: 20px;
         `}
       >
@@ -25,16 +25,18 @@ export default function CommonPost(props: { script: scriptPost }) {
               <div
                 css={css`
                   font-size: 20px;
-                  margin-bottom: 10px;
+                  margin-top: 20px;
+                  margin-bottom: 20px;
                 `}
               >
                 {block.title}
               </div>
-              {block.text.map((txt) => {
+              {block.text.map((txt, i) => {
                 return (
                   <div
                     css={css`
                       font-size: 15px;
+                      margin-bottom: 10px;
                     `}
                   >
                     {txt}
