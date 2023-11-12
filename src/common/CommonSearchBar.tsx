@@ -1,17 +1,27 @@
 import { css } from "@emotion/react";
 import { unselectable } from "@src/common/util";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
 export default function CommonSearchBar(props: {
-  value: string;
-  onChange: (v: string) => void;
   onEnter: (v: string) => void;
+  onClick: (v: string) => void;
   height?: number;
   width?: number;
   customCss?: string;
 }) {
-  const [tempVal, setTempVal] = useState<string>(props.value);
+  const [tempVal, setTempVal] = useState<string>("");
+
+  const enterEvent = (ev: KeyboardEvent) => {
+    if (ev.key === "Enter") {
+      props.onEnter(tempVal);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("keydown", enterEvent);
+    return () => window.removeEventListener("keydown", enterEvent);
+  }, [tempVal]);
+
   return (
     <div
       css={css`
@@ -34,7 +44,6 @@ export default function CommonSearchBar(props: {
         onChange={(e) => {
           setTempVal(e.target.value);
         }}
-        onBlur={(e) => {}}
         css={css`
           width: 50px;
           height: 40px;
@@ -45,16 +54,18 @@ export default function CommonSearchBar(props: {
           margin-right: 5px;
         `}
       />
-      <SearchIcon
-        css={css`
-          width: 50px;
-          height: 40px;
-          ${props.height && `height: ${props.height}px;`}
-          ${props.width && `width: ${props.width * 0.2}px;`}
+      <div onClick={() => props.onClick(tempVal)}>
+        <SearchIcon
+          css={css`
+            width: 50px;
+            height: 40px;
+            ${props.height && `height: ${props.height}px;`}
+            ${props.width && `width: ${props.width * 0.2}px;`}
           border: 0px;
-          font-size: ${props.height ? props.height * 0.3 + "px" : "15px"};
-        `}
-      />
+            font-size: ${props.height ? props.height * 0.3 + "px" : "15px"};
+          `}
+        />
+      </div>
     </div>
   );
 }

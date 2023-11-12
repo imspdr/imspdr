@@ -82,6 +82,12 @@ module.exports = {
     ],
   },
   devServer: {
+    proxy: {
+      "/riot": {
+        target: "https://kr.api.riotgames.com",
+        changeOrigin: true,
+      },
+    },
     historyApiFallback: true,
     host: "localhost",
     port: 4545,

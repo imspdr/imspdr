@@ -25,14 +25,16 @@ function LolSearchPage() {
         {"IM.SPDR"}
       </div>
       <CommonSearchBar
-        value={lolStore.nowName}
-        onChange={(v) => {
-          lolStore.nowName = v;
+        onEnter={(v) => {
+          lolStore.onSearch(v);
         }}
-        onEnter={() => {}}
+        onClick={(v) => {
+          lolStore.onSearch(v);
+        }}
         width={700}
         height={100}
       />
+      <div>{lolStore.puuid}</div>
     </div>
   );
 }
