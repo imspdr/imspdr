@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASEURL = "http://localhost:4545/riot";
+const BASEURL = "/riot";
 
 const APIkey = "RGAPI-f54999ef-ecd9-4c80-bc1e-02670624a813";
 
