@@ -85,6 +85,7 @@ module.exports = {
     proxy: {
       "/back": {
         target: "http://localhost:5000",
+        pathRewrite: { "/back": "" },
       },
     },
     historyApiFallback: true,

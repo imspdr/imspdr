@@ -1,20 +1,15 @@
 import axios from "axios";
 
-const BASEURL = "/back";
-
-const APIkey = "RGAPI-f54999ef-ecd9-4c80-bc1e-02670624a813";
+const BASEURL = "/back/riot";
 
 export const RiotAPI = {
   getPUUID: async (name: string) => {
     const puuid = await axios({
       method: "get",
-      url: BASEURL + `/lol/summoner/v4/summoners/by-name/${encodeURIComponent(name)}`,
-      headers: {
-        "X-Riot-Token": APIkey,
-      },
+      url: BASEURL + `/${encodeURIComponent(name)}`,
     })
       .then((data: any) => {
-        return data.puuid ? data.puuid : "";
+        return data.data?.puuid ? data.data.puuid : "";
       })
       .catch((e) => `error ${e}`);
     return {
