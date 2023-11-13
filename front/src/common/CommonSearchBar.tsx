@@ -27,6 +27,7 @@ export default function CommonSearchBar(props: {
       css={css`
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
         align-items: center;
         position: relative;
         padding: 5px;
@@ -60,9 +61,9 @@ export default function CommonSearchBar(props: {
             width: 50px;
             height: 40px;
             ${props.height && `height: ${props.height}px;`}
-            ${props.width && `width: ${props.width * 0.2}px;`}
-          border: 0px;
-            font-size: ${props.height ? props.height * 0.3 + "px" : "15px"};
+            ${props.width && `width: ${props.width * 0.18}px;`}
+            border: 0px;
+            font-size: ${props.height ? props.height * 0.2 + "px" : "15px"};
           `}
         />
       </div>
