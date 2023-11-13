@@ -4,5 +4,6 @@ node_modules
 front/node_modules
 front/dist
 front/package-lock.json
+back/venv
 !.gitkeep
 package-lock.json
