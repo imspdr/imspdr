@@ -1,12 +1,14 @@
 type game = {
-  win: boolean;
-  champ: string;
+  kill: number;
+  death: number;
+  assist: number;
+  win: number;
+  championName: string;
 };
 
 type most = {
-  champ: string;
-  winRate: number;
-  playTime: number;
+  champ: number;
+  point: number;
 };
 
 export type lolUser = {

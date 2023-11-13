@@ -34,7 +34,11 @@ function LolSearchPage() {
         width={700}
         height={100}
       />
-      <div>{lolStore.puuid}</div>
+      <div>
+        {lolStore.nowUsers.map((asd) => {
+          return <div>{asd.id}</div>;
+        })}
+      </div>
     </div>
   );
 }

@@ -1,16 +1,15 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { RiotAPI } from "./api";
+import { lolUser } from "./types";
 import { sleep } from "@src/common/util";
 
 class LolMainStore {
-  public puuid: string;
-  public encodedName: string;
+  public nowUsers: lolUser[];
 
   private __nowName: string;
   constructor() {
     this.__nowName = "";
-    this.puuid = "";
-    this.encodedName = "";
+    this.nowUsers = [];
     makeAutoObservable(this);
   }
   get nowName() {
@@ -24,8 +23,7 @@ class LolMainStore {
     const ret = await RiotAPI.getPUUID(name);
 
     runInAction(() => {
-      this.encodedName = ret.name;
-      this.puuid = ret.puuid;
+      if (ret) this.nowUsers = [ret, ...this.nowUsers];
     });
   };
 }
