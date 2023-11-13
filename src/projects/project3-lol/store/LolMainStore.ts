@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { RiotAPI } from "./api";
 import { sleep } from "@src/common/util";
 
@@ -22,8 +22,11 @@ class LolMainStore {
 
   onSearch = async (name: string) => {
     const ret = await RiotAPI.getPUUID(name);
-    this.encodedName = ret.name;
-    this.puuid = ret.puuid;
+
+    runInAction(() => {
+      this.encodedName = ret.name;
+      this.puuid = ret.puuid;
+    });
   };
 }
 
