@@ -1,5 +1,8 @@
 .vscode
 dist
 node_modules
+front/node_modules
+front/dist
+front/package-lock.json
 !.gitkeep
 package-lock.json

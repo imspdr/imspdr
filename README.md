@@ -1,1 +1,1 @@
-# repo for frontend practicce
+# imspdr develop practice
