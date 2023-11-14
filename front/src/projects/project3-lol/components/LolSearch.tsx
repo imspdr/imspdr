@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { useLolMainStore } from "../store/LolMainStoreProvider";
 import CommonSearchBar from "@src/common/CommonSearchBar";
 
-function LolSearchPage() {
+function LolSearch() {
   const lolStore = useLolMainStore();
   return (
     <div
@@ -43,4 +43,4 @@ function LolSearchPage() {
   );
 }
 
-export default observer(LolSearchPage);
+export default observer(LolSearch);

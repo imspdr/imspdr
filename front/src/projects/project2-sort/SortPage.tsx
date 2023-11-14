@@ -1,10 +1,10 @@
 import { css } from "@emotion/react";
 import { useState, useEffect } from "react";
 import CommonTemplate from "@src/common/CommonTemplate";
-import { SortStoreProvider } from "../store/SortStoreProvider";
-import SortBar from "../components/SortBar";
-import SortController from "../components/SortController";
-import SortScore from "../components/SortScore";
+import { SortStoreProvider } from "./store/SortStoreProvider";
+import SortBar from "./components/SortBar";
+import SortController from "./components/SortController";
+import SortScore from "./components/SortScore";
 
 export default function SortPage() {
   return (

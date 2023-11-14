@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { observer } from "mobx-react";
 import { useLolMainStore } from "../store/LolMainStoreProvider";
 
-function LolResultPage() {
+function LolResult() {
   const lolStore = useLolMainStore();
   return (
     <div
@@ -14,8 +14,10 @@ function LolResultPage() {
         justify-content: center;
         align-items: center;
       `}
-    ></div>
+    >
+      result
+    </div>
   );
 }
 
-export default observer(LolResultPage);
+export default observer(LolResult);

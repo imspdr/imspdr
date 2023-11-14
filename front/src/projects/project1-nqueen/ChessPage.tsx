@@ -1,9 +1,9 @@
 import { css } from "@emotion/react";
-import ChessBoard from "../components/ChessBoard";
-import ExplainBlog from "../components/explainBlog/ExplainBlog";
+import ChessBoard from "./components/ChessBoard";
+import ExplainBlog from "./components/explainBlog/ExplainBlog";
 import { useState, useEffect } from "react";
 import CommonTemplate from "@src/common/CommonTemplate";
-import { ChessStoreProvider } from "../store/ChessStoreProvider";
+import { ChessStoreProvider } from "./store/ChessStoreProvider";
 
 function ChessPage() {
   const [chessWidth, setChessWidth] = useState(window.innerWidth);
