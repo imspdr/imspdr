@@ -4,7 +4,7 @@ import requests
 app = Flask(__name__)
 
 
-RIOTKEY = "RGAPI-a25f796f-0a79-4843-83ca-2d6c89297fed"
+RIOTKEY = "RGAPI-783d230e-781a-482b-bdde-5c98df41ab1c"
 
 
 @app.route("/")
@@ -23,24 +23,42 @@ def riot(name):
   matchs = "lol/match/v5/matches/by-puuid/"
   match_info = "lol/match/v5/matches/"
   champ_top = "lol/champion-mastery/v4/champion-masteries/by-puuid/"
+  find_tier = "lol/league/v4/entries/by-summoner/"
 
   header = {"X-Riot-Token" : RIOTKEY}
 
   # puuid 찾기
   try:
-    puuid = requests.get(url_kr + summoner + name, headers=header).json()["puuid"]
-  except KeyError:
-    puuid = "error"
+    summoner_response = requests.get(url_kr + summoner + name, headers=header).json()
+    puuid = summoner_response["puuid"]
+    userid = summoner_response["id"]
+  except KeyError or TypeError:
+    return {
+      "status": "error",
+      "data": "0"
+    }
 
   # 최근 전적 id 찾기
-  if puuid != "error":
+  try:
     matchList = requests.get(url_asia + matchs + puuid + "/ids", headers=header).json()
-  else:
-    matchList = []
+  except KeyError or TypeError:
+    return {
+      "status": "error",
+      "data": "0"
+    }
 
+  # 유저 티어 찾기
+  try:
+    tierList = requests.get(url_kr + find_tier + userid, headers=header).json()
+  except KeyError or TypeError:
+    return {
+      "status": "error",
+      "data": "0"
+    }
+  
   # 최근 전적 정보 찾기
   match_info_list = []
-  for match in matchList:
+  for match in matchList[:10]:
     try:
       ret = requests.get(url_asia + match_info + match, headers=header).json()
       participants = ret["info"]["participants"]
@@ -57,14 +75,11 @@ def riot(name):
         "win": 1 if his_result["win"] else 0
       }
       match_info_list.append(ret_his_result)
-    except KeyError:
-      match_info_list.append({
-        "championName":"error",
-        "kill": 0,
-        "death": 0,
-        "assist": 0,
-        "win": 0
-      });
+    except KeyError or TypeError:
+      return {
+        "status": "error",
+        "data": "0"
+      }
 
   # 모스트 찾기
   mosts = []
@@ -76,10 +91,13 @@ def riot(name):
         "champ": re["championId"],
         "point": re["championPoints"]
       })
-  except KeyError:
-    mosts = []  
+  except KeyError or TypeError:
+    return {
+      "status": "error",
+      "data": "0"
+    }
 
-  return {"id": puuid, "name": name,"lastGames": match_info_list, "mosts": mosts}
+  return {"status": "success", "data": {"id": puuid, "name": name,"lastGames": match_info_list, "mosts": mosts, "tierList": tierList}}
 
 
 if __name__ == "__main__":

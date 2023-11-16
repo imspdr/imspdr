@@ -39,7 +39,7 @@ export default function CommonTemplate(props: { title: string; children: JSX.Ele
       </div>
       <div
         css={css`
-          margin-top: 20px;
+          padding: 30px 30px 0px 30px;
           overflow: auto;
           height: calc(100% - 50px);
         `}

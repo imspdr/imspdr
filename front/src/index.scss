@@ -76,8 +76,9 @@ input {
 
 *::-webkit-scrollbar,
 *::-webkit-scrollbar-thumb {
-  width: 0.7rem !important;
-  border-radius: 1rem !important;
+  width: 8px !important;
+  height: 8px;
+  border-radius: 1px !important;
   margin: 0 !important;
 }
 body::-webkit-scrollbar-thumb {

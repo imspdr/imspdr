@@ -1,4 +1,4 @@
-type game = {
+export type game = {
   kill: number;
   death: number;
   assist: number;
@@ -6,14 +6,23 @@ type game = {
   championName: string;
 };
 
-type most = {
-  champ: number;
+export type most = {
+  champ: string;
   point: number;
 };
 
+export type tierInfo = {
+  tier: string;
+  rank: string;
+  leaguePoints: number;
+  queueType: string;
+  wins: number;
+  losses: number;
+};
 export type lolUser = {
-  id: number;
+  id: string;
   name: string;
   lastGames: game[];
   mosts: most[];
+  tierList: tierInfo[];
 };
