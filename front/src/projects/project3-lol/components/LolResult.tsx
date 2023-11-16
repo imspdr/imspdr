@@ -1,6 +1,8 @@
 import { css } from "@emotion/react";
 import { observer } from "mobx-react";
 import { useLolMainStore } from "../store/LolMainStoreProvider";
+import ProfileCard from "./ProfileCard";
+import CommonLoading from "@src/common/CommonLoading";
 
 function LolResult() {
   const lolStore = useLolMainStore();
@@ -15,7 +17,8 @@ function LolResult() {
         align-items: center;
       `}
     >
-      result
+      <ProfileCard />
+      <CommonLoading width={300} fontSize={50} />
     </div>
   );
 }
