@@ -19,7 +19,15 @@ const iconMap = [
   },
   {
     label: "lol",
-    comp: <div>L</div>,
+    comp: (
+      <div
+        css={css`
+          font-size: 50px;
+        `}
+      >
+        LOL
+      </div>
+    ),
   },
   {
     label: "suika",
