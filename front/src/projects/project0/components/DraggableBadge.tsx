@@ -1,9 +1,9 @@
 import { observer } from "mobx-react";
 import { css } from "@emotion/react";
-import { useMainStore } from "../../store/MainStoreProvider";
+import { useMainStore } from "../store/MainStoreProvider";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { badge } from "../../store/types";
+import { badge } from "../store/types";
 import { unselectable } from "@src/common/util";
 import { ReactComponent as QueenIcon } from "@src/images/queenIcon.svg";
 import { ReactComponent as SortIcon } from "@src/images/sortIcon.svg";
@@ -20,6 +20,10 @@ const iconMap = [
   {
     label: "lol",
     comp: <div>L</div>,
+  },
+  {
+    label: "suika",
+    comp: <div></div>,
   },
 ];
 
