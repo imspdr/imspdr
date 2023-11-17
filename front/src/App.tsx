@@ -10,6 +10,7 @@ function App() {
   const ChessPage = lazy(() => import("./projects/project1-nqueen/ChessPage"));
   const SortPage = lazy(() => import("./projects/project2-sort/SortPage"));
   const LolPage = lazy(() => import("./projects/project3-lol/LolMainPage"));
+  const SuikaPage = lazy(() => import("./projects/project4-suika/SuikaPage"));
   return (
     <div>
       <div
@@ -49,6 +50,7 @@ function App() {
             <Route path="/chess" element={<ChessPage />} />
             <Route path="/sort" element={<SortPage />} />
             <Route path="/lol" element={<LolPage />} />
+            <Route path="/suika" element={<SuikaPage />} />
           </Routes>
         </Suspense>
       </div>

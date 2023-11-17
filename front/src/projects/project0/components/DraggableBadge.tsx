@@ -31,7 +31,15 @@ const iconMap = [
   },
   {
     label: "suika",
-    comp: <div></div>,
+    comp: (
+      <div
+        css={css`
+          font-size: 50px;
+        `}
+      >
+        수박
+      </div>
+    ),
   },
 ];
 
