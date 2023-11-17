@@ -25,7 +25,6 @@ module.exports = {
     new CleanWebpackPlugin(),
     new ReactRefreshWebpackPlugin(),
   ],
-  mode: "development",
   devtool: "eval-source-map",
   module: {
     rules: [

@@ -23,8 +23,8 @@
     "react-spring": "^9.1.2"
   },
   "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server"
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --mode development"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
