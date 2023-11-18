@@ -9,7 +9,6 @@
   "dependencies": {
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.10.14",
-    "@mui/material": "^5.10.14",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.2.1",
     "mobx": "^6.6.2",

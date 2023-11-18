@@ -1,10 +1,135 @@
 import { css } from "@emotion/react";
 import { observer } from "mobx-react";
-import { lolUser, game, most, tierInfo } from "../store/types";
+import { lolUser, game, most, tierInfo, participant } from "../store/types";
 import { useState } from "react";
+
+function GameDetail(props: { participants: participant[] }) {
+  const maxDeal = Math.max(...props.participants.map((part) => part.deal));
+  return (
+    <div
+      css={css`
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      `}
+    >
+      <div
+        css={css`
+          width: 400px;
+        `}
+      >
+        {props.participants
+          .filter((part) => part.win === 1)
+          .map((part) => {
+            return (
+              <div
+                css={css`
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  justify-content: flex-start;
+                `}
+              >
+                <div
+                  css={css`
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-evenly;
+                    align-items: center;
+                    width: 200px;
+                    height: 70px;
+                    padding: 10px;
+                  `}
+                >
+                  <span>{part.name}</span>
+                  <div
+                    css={css`
+                      display: flex;
+                      flex-direction: row;
+                      justify-content: space-between;
+                      width: 180px;
+                      align-items: center;
+                    `}
+                  >
+                    <span>{`${part.kill} / ${part.death} / ${part.assist} `}</span>
+                    <span>{part.championName}</span>
+                  </div>
+                </div>
+                <div
+                  css={css`
+                    background-color: #22cccc;
+                    transition: 0s;
+                    width: ${(180 * part.deal) / maxDeal}px;
+                    height: 30px;
+                  `}
+                ></div>
+              </div>
+            );
+          })}
+      </div>
+      <div
+        css={css`
+          margin-left: 50px;
+          width: 400px;
+        `}
+      >
+        {props.participants
+          .filter((part) => part.win === 0)
+          .map((part) => {
+            return (
+              <div
+                css={css`
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  justify-content: flex-end;
+                `}
+              >
+                <div
+                  css={css`
+                    background-color: #009999;
+                    transition: 0s;
+                    width: ${(180 * part.deal) / maxDeal}px;
+                    height: 30px;
+                  `}
+                ></div>
+                <div
+                  css={css`
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-evenly;
+                    align-items: center;
+                    width: 200px;
+                    height: 70px;
+                    padding: 10px;
+                  `}
+                >
+                  <span>{part.name}</span>
+                  <div
+                    css={css`
+                      display: flex;
+                      flex-direction: row;
+                      justify-content: space-between;
+                      width: 180px;
+                      align-items: center;
+                    `}
+                  >
+                    <span>{part.championName}</span>
+                    <span>{`${part.kill} / ${part.death} / ${part.assist} `}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+      </div>
+    </div>
+  );
+}
 
 function GameCard(props: { game: game }) {
   const game = props.game;
+  const bgcolor = game.myPlay.win ? "#22cccc" : "#009999";
+  const [hover, setHover] = useState(false);
   return (
     <div
       css={css`
@@ -12,18 +137,19 @@ function GameCard(props: { game: game }) {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        background-color: ${game.win ? "#22cccc" : "#009999"};
         transition: 0s;
         width: 400px;
         height: 30px;
         border-radius: 10px;
-        margin-bottom: 5px;
-        padding: 10px;
+        padding: ${hover ? "8px" : "10px"};
+        ${hover ? "border: 2px solid;" : `background-color: ${bgcolor};`}
       `}
+      onMouseOver={() => setHover(true)}
+      onMouseOut={() => setHover(false)}
     >
-      <span>{game.win ? "승리" : "패배"}</span>
-      <span>{game.championName}</span>
-      <span>{`KDA : ${game.kill} / ${game.death} / ${game.assist} `}</span>
+      <span>{game.myPlay.win ? "승리" : "패배"}</span>
+      <span>{game.myPlay.championName}</span>
+      <span>{`KDA : ${game.myPlay.kill} / ${game.myPlay.death} / ${game.myPlay.assist} `}</span>
     </div>
   );
 }
@@ -83,6 +209,7 @@ function MostCard(props: { most: most }) {
 
 function ProfileCard(props: { user: lolUser | undefined }) {
   const [hover, setHover] = useState(true);
+  const [gameIndex, setGameIndex] = useState(-1);
   return (
     <>
       {props.user && (
@@ -137,9 +264,29 @@ function ProfileCard(props: { user: lolUser | undefined }) {
                 top: 0px;
               `}
             >
-              {props.user.lastGames.map((game) => {
-                return <GameCard game={game} />;
+              {props.user.lastGames.map((game, index) => {
+                return (
+                  <div
+                    css={css`
+                      margin-bottom: 5px;
+                    `}
+                    onClick={() => setGameIndex((v) => (v === index ? -1 : index))}
+                  >
+                    <GameCard game={game} />
+                  </div>
+                );
               })}
+            </div>
+          )}
+          {gameIndex >= 0 && gameIndex < 10 && props.user.lastGames[gameIndex] && (
+            <div
+              css={css`
+                position: absolute;
+                left: 900px;
+                top: 0px;
+              `}
+            >
+              <GameDetail participants={props.user.lastGames[gameIndex]!.participants} />
             </div>
           )}
         </div>

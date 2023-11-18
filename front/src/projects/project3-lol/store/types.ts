@@ -1,9 +1,19 @@
-export type game = {
+export type playInfo = {
   kill: number;
   death: number;
   assist: number;
   win: number;
   championName: string;
+};
+
+export type participant = {
+  name: string;
+  deal: number;
+} & playInfo;
+
+export type game = {
+  participants: participant[];
+  myPlay: playInfo;
 };
 
 export type most = {
