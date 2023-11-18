@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { observer } from "mobx-react";
 import { lolUser, game, most, tierInfo, participant } from "../store/types";
 import { useState } from "react";
+import { unselectable } from "@src/common/util";
 
 function GameDetail(props: { participants: participant[] }) {
   const maxDeal = Math.max(...props.participants.map((part) => part.deal));
@@ -208,7 +209,6 @@ function MostCard(props: { most: most }) {
 }
 
 function ProfileCard(props: { user: lolUser | undefined }) {
-  const [hover, setHover] = useState(true);
   const [gameIndex, setGameIndex] = useState(-1);
   return (
     <>
@@ -216,21 +216,20 @@ function ProfileCard(props: { user: lolUser | undefined }) {
         <div
           css={css`
             position: relative;
+            ${unselectable}
           `}
         >
-          {hover && (
-            <div
-              css={css`
-                position: absolute;
-                left: 50px;
-                top: 250px;
-              `}
-            >
-              {props.user.mosts.map((mo: most) => (
-                <MostCard most={mo} />
-              ))}
-            </div>
-          )}
+          <div
+            css={css`
+              position: absolute;
+              left: 50px;
+              top: 250px;
+            `}
+          >
+            {props.user.mosts.map((mo: most) => (
+              <MostCard most={mo} />
+            ))}
+          </div>
           <div
             css={css`
               padding: 20px;
@@ -238,9 +237,6 @@ function ProfileCard(props: { user: lolUser | undefined }) {
               border-radius: 20px;
               width: 350px;
             `}
-            onClick={() => {
-              setHover((v) => !v);
-            }}
           >
             <div
               css={css`
@@ -256,28 +252,26 @@ function ProfileCard(props: { user: lolUser | undefined }) {
               ))}
             </div>
           </div>
-          {hover && (
-            <div
-              css={css`
-                position: absolute;
-                left: 450px;
-                top: 0px;
-              `}
-            >
-              {props.user.lastGames.map((game, index) => {
-                return (
-                  <div
-                    css={css`
-                      margin-bottom: 5px;
-                    `}
-                    onClick={() => setGameIndex((v) => (v === index ? -1 : index))}
-                  >
-                    <GameCard game={game} />
-                  </div>
-                );
-              })}
-            </div>
-          )}
+          <div
+            css={css`
+              position: absolute;
+              left: 450px;
+              top: 0px;
+            `}
+          >
+            {props.user.lastGames.map((game, index) => {
+              return (
+                <div
+                  css={css`
+                    margin-bottom: 5px;
+                  `}
+                  onClick={() => setGameIndex((v) => (v === index ? -1 : index))}
+                >
+                  <GameCard game={game} />
+                </div>
+              );
+            })}
+          </div>
           {gameIndex >= 0 && gameIndex < 10 && props.user.lastGames[gameIndex] && (
             <div
               css={css`
