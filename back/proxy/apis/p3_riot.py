@@ -1,18 +1,24 @@
-from flask import Flask, request
 import requests
-
-app = Flask(__name__)
-
 
 RIOTKEY = "RGAPI-72e763f4-0992-4114-baf6-69ca40311016"
 
+def update_key(key, password):
+  global RIOTKEY
 
-@app.route("/")
-def home():
-  return "This is home!"
+  print(key)
+  print(password)
+  if password == "updatetoken":
+    RIOTKEY = key;
+    return {
+      "status": "success",
+      "data": "0"
+    }
+  else:
+    return {
+      "status": "error",
+      "data": "0"
+    }
 
-
-@app.route("/riot/<name>", methods=["GET"])
 def riot(name):
   global RIOTKEY
 
@@ -135,7 +141,3 @@ def riot(name):
     }
 
   return {"status": "success", "data": {"id": puuid, "name": name,"lastGames": match_info_list, "mosts": mosts, "tierList": tierList}}
-
-
-if __name__ == "__main__":
-  app.run("0.0.0.0", port=5000, debug=True)

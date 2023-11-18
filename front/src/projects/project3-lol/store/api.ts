@@ -4,7 +4,7 @@ import { lolUser } from "./types";
 const BASEURL = "/back/riot";
 
 export const RiotAPI = {
-  getPUUID: async (name: string) => {
+  getUserInfo: async (name: string) => {
     const ret = await axios({
       method: "get",
       url: BASEURL + `/${encodeURIComponent(name)}`,
@@ -16,4 +16,20 @@ export const RiotAPI = {
 
     return ret;
   },
+  updateToken: async (token: string, password: string) => {
+    const ret = await axios({
+      method: "post",
+      url: BASEURL + `/updateKey`,
+      params: {
+        token: token,
+        password: password,
+      },
+    })
+      .then((data: any) => {
+        return data.data;
+      })
+      .catch(() => undefined);
+    return ret;
+  },
 };
+

@@ -33,7 +33,7 @@ export default function CommonSearchBar(props: {
         padding: 5px;
         border: 3px solid;
         min-width: 50px;
-        min-height: 40px;
+        min-height: 30px;
         ${props.customCss && props.customCss}
         ${props.height && `height: ${props.height}px;`}
         ${props.width && `width: ${props.width}px;`}
@@ -51,7 +51,7 @@ export default function CommonSearchBar(props: {
           ${props.height && `height: ${props.height}px;`}
           ${props.width && `width: ${props.width * 0.8}px;`}
           border: 0px;
-          font-size: ${props.height ? props.height * 0.3 + "px" : "15px"};
+          font-size: ${props.height ? props.height * 0.5 + "px" : "15px"};
           margin-right: 5px;
         `}
       />

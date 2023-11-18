@@ -1,8 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { RiotAPI } from "./api";
-import { lolUser, participant } from "./types";
+import { lolUser } from "./types";
 import id2name from "./id2name.json";
-import { sleep } from "@src/common/util";
 
 type idname = {
   id: number;
@@ -49,6 +48,17 @@ class LolMainStore {
     this.__loading = bool;
   }
 
+  updateToken = async (key: string, password: string) => {
+    if (key.length > 0 && password.length > 0) {
+      const ret = await RiotAPI.updateToken(key, password);
+      if (ret && ret.status === "success") {
+        return "success";
+      }
+    } else {
+      return "fail";
+    }
+  };
+
   onSearch = async (name: string) => {
     if (name.length > 0) {
       this.showResult = true;
@@ -60,19 +70,7 @@ class LolMainStore {
         this.loading = false;
         return;
       }
-      // const sample2 = {
-      //   ...sample,
-      //   mosts: sample.mosts.map((mo: tempMost) => {
-      //     const find = id2name.find((idname: idname) => idname.id === mo.champ);
-      //     return {
-      //       champ: find ? find.name : "not found",
-      //       point: mo.point,
-      //     };
-      //   }),
-      // };
-      // this.nowUsers = [sample2];
-      // this.loading = false;
-      let apiRet = await RiotAPI.getPUUID(name);
+      let apiRet = await RiotAPI.getUserInfo(name);
       runInAction(() => {
         if (apiRet && apiRet.status === "success") {
           const ret = apiRet.data;
