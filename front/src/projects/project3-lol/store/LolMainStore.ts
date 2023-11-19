@@ -1,16 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { RiotAPI } from "./api";
-import { lolUser } from "./types";
-import id2name from "./id2name.json";
-
-type idname = {
-  id: number;
-  name: string;
-};
-type tempMost = {
-  champ: number;
-  point: number;
-};
+import { lolUser, participant } from "./types";
 
 class LolMainStore {
   public nowUsers: lolUser[];
@@ -42,6 +32,9 @@ class LolMainStore {
     this.__nowName = name;
   }
   set showResult(bool: boolean) {
+    if (!bool) {
+      this.nowUsers = [];
+    }
     this.__showResult = bool;
   }
   set loading(bool: boolean) {
@@ -70,27 +63,115 @@ class LolMainStore {
         this.loading = false;
         return;
       }
-      let apiRet = await RiotAPI.getUserInfo(name);
-      runInAction(() => {
-        if (apiRet && apiRet.status === "success") {
-          const ret = apiRet.data;
-          const processdRet = {
-            ...ret,
-            mosts: ret.mosts.map((mo: tempMost) => {
-              const find = id2name.find((idname: idname) => idname.id === mo.champ);
-              return {
-                champ: find ? find.name : "not found",
-                point: mo.point,
-              };
-            }),
-          };
-          this.nowUsers = [processdRet, ...this.nowUsers.slice(0, 9)];
-          this.nowIndex = 0;
-        } else {
-          this.nowIndex = -1;
+
+      const userInfo = await RiotAPI.getPuuid(name);
+      if (userInfo) {
+        const userid = userInfo.userid;
+        const puuid = userInfo.puuid;
+        const mostInfo = await RiotAPI.getMost(puuid);
+        const tierList = await RiotAPI.getTier(userid);
+        const matchList = await RiotAPI.getMatchList(puuid, 0, 10);
+
+        runInAction(() => {
+          if (mostInfo && tierList) {
+            this.nowUsers = [
+              {
+                puuid: puuid,
+                id: userid,
+                name: name,
+                mosts: mostInfo,
+                tierList: tierList,
+                lastGames: [],
+              },
+              ...this.nowUsers.slice(0, 9),
+            ];
+            this.nowIndex = 0;
+          } else {
+            this.nowIndex = -1;
+          }
+          this.loading = false;
+        });
+
+        if (matchList) {
+          for (let i = 0; i < matchList.length; i++) {
+            if (matchList[i]) {
+              const participants = await RiotAPI.getMatchInfo(matchList[i]!);
+              runInAction(() => {
+                if (participants) {
+                  const me = participants.find((part: participant) => part.name === name);
+                  if (me) {
+                    const thisgame = {
+                      myPlay: {
+                        kill: me.kill,
+                        death: me.death,
+                        assist: me.assist,
+                        win: me.win,
+                        championName: me.championName,
+                      },
+                      participants: participants,
+                    };
+                    this.nowUsers = this.nowUsers.map((user: lolUser) => {
+                      if (user.name === name) {
+                        return {
+                          ...user,
+                          lastGames: [...user.lastGames, thisgame],
+                        };
+                      } else {
+                        return user;
+                      }
+                    });
+                  }
+                }
+              });
+            }
+          }
         }
+      } else {
         this.loading = false;
-      });
+        this.nowIndex = -1;
+      }
+    }
+  };
+  getMoreMatch = async () => {
+    const nowUser = this.nowUsers[this.nowIndex];
+    if (nowUser) {
+      const puuid = nowUser.puuid;
+      const name = nowUser.name;
+      const matchList = await RiotAPI.getMatchList(puuid, nowUser.lastGames.length, 10);
+      if (matchList) {
+        for (let i = 0; i < matchList.length; i++) {
+          if (matchList[i]) {
+            const participants = await RiotAPI.getMatchInfo(matchList[i]!);
+            runInAction(() => {
+              if (participants) {
+                const me = participants.find((part: participant) => part.name === name);
+                if (me) {
+                  const thisgame = {
+                    myPlay: {
+                      kill: me.kill,
+                      death: me.death,
+                      assist: me.assist,
+                      win: me.win,
+                      championName: me.championName,
+                    },
+                    participants: participants,
+                  };
+                  this.nowUsers = this.nowUsers.map((user: lolUser) => {
+                    if (user.name === name) {
+                      return {
+                        ...user,
+                        lastGames: [...user.lastGames, thisgame],
+                      };
+                    } else {
+                      return user;
+                    }
+                  });
+                }
+              }
+            });
+          }
+        }
+      }
     }
   };
 }

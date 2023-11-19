@@ -30,6 +30,7 @@ export type tierInfo = {
   losses: number;
 };
 export type lolUser = {
+  puuid: string;
   id: string;
   name: string;
   lastGames: game[];

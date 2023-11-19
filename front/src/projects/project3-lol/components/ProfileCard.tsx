@@ -3,6 +3,8 @@ import { observer } from "mobx-react";
 import { lolUser, game, most, tierInfo, participant } from "../store/types";
 import { useState } from "react";
 import { unselectable } from "@src/common/util";
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
+import { useLolMainStore } from "../store/LolMainStoreProvider";
 
 function GameDetail(props: { participants: participant[] }) {
   const maxDeal = Math.max(...props.participants.map((part) => part.deal));
@@ -209,6 +211,7 @@ function MostCard(props: { most: most }) {
 }
 
 function ProfileCard(props: { user: lolUser | undefined }) {
+  const lolStore = useLolMainStore();
   const [gameIndex, setGameIndex] = useState(-1);
   return (
     <>
@@ -257,6 +260,8 @@ function ProfileCard(props: { user: lolUser | undefined }) {
               position: absolute;
               left: 450px;
               top: 0px;
+              height: 580px;
+              overflow: auto;
             `}
           >
             {props.user.lastGames.map((game, index) => {
@@ -271,18 +276,32 @@ function ProfileCard(props: { user: lolUser | undefined }) {
                 </div>
               );
             })}
+            {props.user.lastGames.length >= 10 && (
+              <div
+                css={css`
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                `}
+                onClick={() => lolStore.getMoreMatch()}
+              >
+                <KeyboardDoubleArrowDownIcon />
+              </div>
+            )}
           </div>
-          {gameIndex >= 0 && gameIndex < 10 && props.user.lastGames[gameIndex] && (
-            <div
-              css={css`
-                position: absolute;
-                left: 900px;
-                top: 0px;
-              `}
-            >
-              <GameDetail participants={props.user.lastGames[gameIndex]!.participants} />
-            </div>
-          )}
+          {gameIndex >= 0 &&
+            gameIndex < props.user.lastGames.length &&
+            props.user.lastGames[gameIndex] && (
+              <div
+                css={css`
+                  position: absolute;
+                  left: 900px;
+                  top: 0px;
+                `}
+              >
+                <GameDetail participants={props.user.lastGames[gameIndex]!.participants} />
+              </div>
+            )}
         </div>
       )}
     </>
