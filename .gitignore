@@ -7,3 +7,4 @@ front/package-lock.json
 back/venv
 !.gitkeep
 package-lock.json
+__pycache__/
