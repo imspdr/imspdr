@@ -1,4 +1,4 @@
-type twod = {
+export type twod = {
   x: number;
   y: number;
 };

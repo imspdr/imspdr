@@ -7,6 +7,7 @@ function SuikaBoard() {
   const suikaStore = useSuikaStore();
   return (
     <svg viewBox="0 0 500 700">
+      <circle cx={suikaStore.posX} cy={0} r={suikaStore.nowRadius} />
       {suikaStore.fruits.map((fruit: fruit) => {
         return <circle cx={fruit.pos.x} cy={fruit.pos.y} r={fruit.radius} />;
       })}

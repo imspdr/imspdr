@@ -4,6 +4,7 @@ import SuikaBoard from "./SuikaBoard";
 import { useSuikaStore } from "../store/SuikaStoreProvider";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
+import { useEffect } from "react";
 
 function SuikaTemplate() {
   const suikaStore = useSuikaStore();
@@ -47,6 +48,8 @@ function SuikaTemplate() {
           <StopIcon fontSize="large" />
         )}
       </div>
+      <div onClick={() => (suikaStore.posX -= 10)}>{"<<"}</div>
+      <div onClick={() => (suikaStore.posX += 10)}>{">>"}</div>
       <div
         onClick={() => {
           suikaStore.addFruit();
