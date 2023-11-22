@@ -8,6 +8,27 @@ import { useEffect } from "react";
 
 function SuikaTemplate() {
   const suikaStore = useSuikaStore();
+  const keyDownEvent = (ev: KeyboardEvent) => {
+    if (ev.key === "ArrowRight") {
+      suikaStore.posX += 5;
+    } else if (ev.key === "ArrowLeft") {
+      suikaStore.posX -= 5;
+    } else if (ev.key === "Enter") {
+      suikaStore.addFruit();
+    } else if (ev.key === " ") {
+      if (suikaStore.stopFlag) {
+        suikaStore.start();
+      } else {
+        suikaStore.stop();
+      }
+    } else if (ev.key === "r") {
+      suikaStore.reset();
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("keydown", keyDownEvent);
+    return () => window.removeEventListener("keydown", keyDownEvent);
+  }, []);
   return (
     <div
       css={css`
