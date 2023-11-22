@@ -62,33 +62,29 @@ export const circleCollision = (
     const m2 = fruit2.radius * fruit2.radius;
 
     const dist = fruit1.radius + fruit2.radius;
-    const sum = v1 + v2;
+    const sum = 10;
 
     const collisionRate = 0.9;
 
     const newVelo1 = {
       x:
-        ((m1 / (m1 + m2)) * fruit1.velocity.x + (((m2 / (m1 + m2)) * fruit12.x) / dist) * sum) *
+        ((m1 / (m1 + m2)) * fruit1.velocity.x + (((m2 / (m1 + m2)) * fruit12.x) / nowSize) * sum) *
         collisionRate,
       y:
-        ((m1 / (m1 + m2)) * fruit1.velocity.y + (((m2 / (m1 + m2)) * fruit12.y) / dist) * sum) *
+        ((m1 / (m1 + m2)) * fruit1.velocity.y + (((m2 / (m1 + m2)) * fruit12.y) / nowSize) * sum) *
         collisionRate,
     };
     const newVelo2 = {
       x:
-        ((m2 / (m1 + m2)) * fruit2.velocity.x + (((m1 / (m1 + m2)) * fruit21.x) / dist) * sum) *
+        ((m2 / (m1 + m2)) * fruit2.velocity.x + (((m1 / (m1 + m2)) * fruit21.x) / nowSize) * sum) *
         collisionRate,
       y:
-        ((m2 / (m1 + m2)) * fruit2.velocity.y + (((m1 / (m1 + m2)) * fruit21.y) / dist) * sum) *
+        ((m2 / (m1 + m2)) * fruit2.velocity.y + (((m1 / (m1 + m2)) * fruit21.y) / nowSize) * sum) *
         collisionRate,
     };
     return {
       fruit1: {
         ...fruit1,
-        pos: {
-          x: fruit2.pos.x + (fruit12.x / nowSize) * dist,
-          y: fruit2.pos.y + (fruit12.y / nowSize) * dist,
-        },
         velocity: newVelo1,
       },
       fruit2: {
