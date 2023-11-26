@@ -18,21 +18,33 @@ function SuikaBoard() {
     "#c62828",
   ];
   return (
-    <svg viewBox="0 0 500 700">
-      <circle cx={suikaStore.posX} cy={0} r={suikaStore.nowRadius} fill={fillIndex[0]} />
-      {suikaStore.fruits.map((fruit: fruit | undefined) => {
-        if (fruit)
-          return (
-            <circle
-              cx={fruit.pos.x}
-              cy={fruit.pos.y}
-              r={fruit.radius}
-              fill={fillIndex[fruit.fillIndex >= fillIndex.length ? 0 : fruit.fillIndex]}
-            />
-          );
-        else return <></>;
-      })}
-    </svg>
+    <div
+      css={css`
+        width: ${suikaStore.width}px;
+        height: ${suikaStore.height}px;
+      `}
+    >
+      <svg viewBox={`0 0 ${suikaStore.width} ${suikaStore.height}`}>
+        <circle
+          cx={suikaStore.posX}
+          cy={0}
+          r={suikaStore.nowRadius}
+          fill={fillIndex[suikaStore.nowFill]}
+        />
+        {suikaStore.renderFruits.map((fruit: fruit | undefined) => {
+          if (fruit)
+            return (
+              <circle
+                cx={fruit.pos.x}
+                cy={fruit.pos.y}
+                r={fruit.radius}
+                fill={fillIndex[fruit.fillIndex >= fillIndex.length ? 0 : fruit.fillIndex]}
+              />
+            );
+          else return <></>;
+        })}
+      </svg>
+    </div>
   );
 }
 

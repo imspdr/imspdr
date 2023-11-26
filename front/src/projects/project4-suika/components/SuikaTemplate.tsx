@@ -32,8 +32,6 @@ function SuikaTemplate() {
   return (
     <div
       css={css`
-        width: 500px;
-        height: 700px;
         display: flex;
         flex-direction: row;
       `}
@@ -41,42 +39,56 @@ function SuikaTemplate() {
       <SuikaBoard />
       <div
         css={css`
-          margin-left: 50px;
-          border: 3px solid;
-          border-radius: 10px;
-          width: 70px;
-          height: 70px;
           display: flex;
+          flex-direction: column;
           align-items: center;
           justify-content: center;
+          width: 400px;
+          margin-left: 30px;
         `}
-        onClick={() => {
-          if (suikaStore.stopFlag) {
-            suikaStore.start();
-          } else {
-            suikaStore.stop();
-          }
-        }}
       >
-        {suikaStore.stopFlag ? (
-          <PlayArrowIcon
-            css={css`
-              color: var(--darkorange);
-            `}
-            fontSize="large"
-          />
-        ) : (
-          <StopIcon fontSize="large" />
-        )}
-      </div>
-      <div onClick={() => (suikaStore.posX -= 10)}>{"<<"}</div>
-      <div onClick={() => (suikaStore.posX += 10)}>{">>"}</div>
-      <div
-        onClick={() => {
-          suikaStore.addFruit();
-        }}
-      >
-        생성기
+        <div
+          css={css`
+            margin: 30px;
+            border: 3px solid;
+            border-radius: 10px;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          `}
+          onClick={() => {
+            if (suikaStore.stopFlag) {
+              suikaStore.start();
+            } else {
+              suikaStore.stop();
+            }
+          }}
+        >
+          {suikaStore.stopFlag ? (
+            <PlayArrowIcon
+              css={css`
+                color: var(--darkorange);
+              `}
+              fontSize="large"
+            />
+          ) : (
+            <StopIcon fontSize="large" />
+          )}
+        </div>
+        <div
+          css={css`
+            display: flex;
+            flex-direction: column;
+          `}
+        >
+          <span>{"조작법 : "}</span>
+          <span>{"Space (멈춤 / 시작)"}</span>
+          <span>{"방향키 <- -> (좌우 이동)"}</span>
+          <span>{"Enter (과일 드랍)"}</span>
+          <span>{" R (리셋)"}</span>
+        </div>
       </div>
     </div>
   );

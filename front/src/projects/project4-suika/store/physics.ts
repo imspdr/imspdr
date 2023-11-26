@@ -17,9 +17,9 @@ const getVectorCal = (v1: twod, v2: twod, cal: string): twod => {
   } else return v1;
 };
 
-const getCosTheta = (v1: twod, v2: twod) => {
+const getCosThetaV2 = (v1: twod, v2: twod) => {
   const innerProduct = v1.x * v2.x + v1.y * v2.y;
-  return innerProduct / getNorm(v1) / getNorm(v2);
+  return innerProduct / getNorm(v1);
 };
 
 const nearby = (fruit1: fruit, fruit2: fruit) => {
@@ -27,7 +27,8 @@ const nearby = (fruit1: fruit, fruit2: fruit) => {
 };
 export const circleCollision = (
   fruit1: fruit,
-  fruit2: fruit
+  fruit2: fruit,
+  messOption: boolean
 ): {
   fruit1: fruit;
   fruit2: fruit | undefined;
@@ -39,28 +40,46 @@ export const circleCollision = (
     };
   } else {
     if (fruit1.radius === fruit2.radius) {
-      return {
-        fruit1: {
-          ...fruit1,
-          pos: {
-            x: (fruit1.pos.x + fruit2.pos.x) / 2,
-            y: (fruit1.pos.y + fruit2.pos.y) / 2,
+      if (fruit1.radius > 200) {
+        return {
+          fruit1: {
+            ...fruit1,
+            pos: {
+              x: (fruit1.pos.x + fruit2.pos.x) / 2,
+              y: (fruit1.pos.y + fruit2.pos.y) / 2,
+            },
+            radius: 10,
+            fillIndex: 0,
           },
-          radius: fruit1.radius * 1.4,
-          fillIndex: fruit1.fillIndex + 1,
-        },
-        fruit2: undefined,
-      };
+          fruit2: undefined,
+        };
+      } else {
+        return {
+          fruit1: {
+            ...fruit1,
+            pos: {
+              x: (fruit1.pos.x + fruit2.pos.x) / 2,
+              y: (fruit1.pos.y + fruit2.pos.y) / 2,
+            },
+            radius: fruit1.radius * 1.4,
+            fillIndex: fruit1.fillIndex + 1,
+          },
+          fruit2: undefined,
+        };
+      }
     }
     const fruit12 = getVectorCal(fruit1.pos, fruit2.pos, "-");
     const fruit21 = getVectorCal(fruit2.pos, fruit1.pos, "-");
 
-    const v1 = getNorm(fruit1.velocity);
-    const v2 = getNorm(fruit2.velocity);
-    const m1 = fruit1.radius * fruit1.radius;
-    const m2 = fruit2.radius * fruit2.radius;
+    const v1 = getCosThetaV2(fruit21, fruit1.velocity);
+    const v2 = getCosThetaV2(fruit12, fruit2.velocity);
+    const m1 = messOption ? fruit1.radius * fruit1.radius : 500;
+    const m2 = messOption ? fruit2.radius * fruit2.radius : 500;
 
-    const sum = (v1 + v2) * 10 + 50;
+    const sum = v1 + v2 + 30;
+
+    const dist = fruit1.radius + fruit2.radius;
+    const nowDist = getNorm(fruit12);
 
     const collisionRate = 0.9;
 
@@ -79,6 +98,10 @@ export const circleCollision = (
       },
       fruit2: {
         ...fruit2,
+        pos: {
+          x: fruit1.pos.x + fruit21.x * (dist / nowDist),
+          y: fruit1.pos.y + fruit21.y * (dist / nowDist),
+        },
         velocity: newVelo2,
       },
     };
