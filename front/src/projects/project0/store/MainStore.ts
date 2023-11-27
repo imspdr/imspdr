@@ -13,20 +13,43 @@ class MainStore {
     makeAutoObservable(this);
   }
 
+  rearrange = () => {
+    const radius = Math.min(...this.badges.map((badge: badge) => badge.radius));
+    const maxIndex = Math.round((this.windowWidth - radius - 20) / (radius * 2 + 20));
+    console.log(maxIndex);
+    this.badges = this.badges.map((badge: badge, index: number) => {
+      const yIndex = Math.floor(index / maxIndex);
+      const xIndex = index % maxIndex;
+      console.log(`${badge.title} : ${xIndex} ${yIndex}`);
+      return {
+        ...badge,
+        pos: {
+          x: badge.radius + 20 + xIndex * (badge.radius * 2 + 20),
+          y: badge.radius + 20 + 64 + yIndex * (badge.radius * 2 + 20),
+        },
+      };
+    });
+  };
+
+  setRadius = (id: number, radius: number) => {
+    this.badges = this.badges.map((badge: badge) => {
+      if (badge.id === id) {
+        return {
+          ...badge,
+          radius: radius,
+        };
+      } else return badge;
+    });
+  };
+
   setPos = (id: number, x: number, y: number, ids: number[]) => {
     const movingBadge = this.badges.find((badge: badge) => badge.id === id);
     if (!movingBadge) return;
-    const newX = Math.max(
-      movingBadge.radius + 20,
-      Math.min(x, this.windowWidth - movingBadge.radius - 20)
-    );
-    const newY = Math.max(
-      movingBadge.radius + 20,
-      Math.min(y, this.windowHeight - movingBadge.radius - 20)
-    );
-    if (ids.length > 0) {
-      console.log(movingBadge.pos);
-    }
+    const maxX = this.windowWidth - movingBadge.radius - 20;
+    const maxY = this.windowHeight - movingBadge.radius - 20;
+    const newX = Math.max(movingBadge.radius + 20, Math.min(x, maxX));
+    const newY = Math.max(movingBadge.radius + 20, Math.min(y, maxY));
+
     this.badges = this.badges.map((badge: badge) => {
       if (badge.id === id) {
         return {

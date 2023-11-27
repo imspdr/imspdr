@@ -34,7 +34,7 @@ const iconMap = [
     comp: (
       <div
         css={css`
-          font-size: 50px;
+          font-size: 25px;
         `}
       >
         수박
@@ -52,12 +52,6 @@ function DraggableBadge(props: { badgeId: number }) {
     (badge: badge) => badge.id === props.badgeId
   );
 
-  useEffect(() => {
-    addEventListener("resize", () => {
-      mainStore.windowHeight = window.innerHeight;
-      mainStore.windowWidth = window.innerWidth;
-    });
-  }, []);
   return (
     <>
       {badge && (
@@ -120,18 +114,18 @@ function DraggableBadge(props: { badgeId: number }) {
             <div
               css={css`
                 position: absolute;
-                left: ${badge.pos.x > mainStore.windowWidth - badge.radius - 350
-                  ? badge.pos.x - badge.radius - 350
+                left: ${badge.pos.x > mainStore.windowWidth - badge.radius - 220
+                  ? badge.pos.x - badge.radius - 220
                   : badge.pos.x + badge.radius + 20}px;
                 ${badge.pos.y < mainStore.windowHeight / 2
                   ? `top: ${badge.pos.y - badge.radius - 10}px;`
                   : `bottom: ${mainStore.windowHeight - badge.pos.y - badge.radius - 10}px;`}
-                width: 330px;
+                width: 200px;
                 z-index: 10;
                 ${unselectable}
               `}
             >
-              <div>{"아이콘을 드래그 해보세요 / 더블 클릭 시 이동"}</div>
+              <div>{"아이콘을 드래그 해보세요"}</div>
               <div
                 css={css`
                   border: 3px solid;
@@ -159,11 +153,20 @@ function DraggableBadge(props: { badgeId: number }) {
                 <div
                   css={css`
                     margin-top: 30px;
+                    margin-bottom: 10px;
                   `}
                 >
                   {badge.tag.map((tag: string) => {
                     return <div>{"#" + tag}</div>;
                   })}
+                </div>
+                <div
+                  css={css`
+                    font-size: 12px;
+                    align-self: flex-end;
+                  `}
+                >
+                  {"더블 클릭 시 이동"}
                 </div>
               </div>
             </div>
