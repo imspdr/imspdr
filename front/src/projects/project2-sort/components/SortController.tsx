@@ -32,49 +32,52 @@ function SortController(props: { width: number }) {
         }}
         width={200}
       />
-      <div
-        css={css`
-          margin-left: 50px;
-        `}
-      >
+      {props.width > 550 && (
         <div
           css={css`
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: flex-end;
+            margin-left: 50px;
+            font-size: 12px;
           `}
         >
-          <div>{"숫자"}</div>
-          <CommonNumberField
-            value={sortStore.arrayLength}
-            onChange={(v: number) => (sortStore.arrayLength = v)}
-            min={10}
-            max={1000}
-            unit={"개"}
-            width={100}
-            customCss={"margin-left: 20px;"}
-          />
+          <div
+            css={css`
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: flex-end;
+            `}
+          >
+            {props.width > 720 && <div>{"숫자"}</div>}
+            <CommonNumberField
+              value={sortStore.arrayLength}
+              onChange={(v: number) => (sortStore.arrayLength = v)}
+              min={10}
+              max={1000}
+              unit={"개"}
+              width={50}
+              customCss={"margin-left: 20px;"}
+            />
+          </div>
+          <div
+            css={css`
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+            `}
+          >
+            {props.width > 720 && <div>{"애니메이션 시간"}</div>}
+            <CommonNumberField
+              value={sortStore.animateTime}
+              onChange={(v: number) => (sortStore.animateTime = v)}
+              min={10}
+              max={1000}
+              unit={"ms"}
+              width={50}
+              customCss={"margin-left: 20px;"}
+            />
+          </div>
         </div>
-        <div
-          css={css`
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-          `}
-        >
-          <div>{"애니메이션 시간"}</div>
-          <CommonNumberField
-            value={sortStore.animateTime}
-            onChange={(v: number) => (sortStore.animateTime = v)}
-            min={10}
-            max={1000}
-            unit={"ms"}
-            width={100}
-            customCss={"margin-left: 20px;"}
-          />
-        </div>
-      </div>
+      )}
 
       <div
         css={css`
@@ -108,7 +111,7 @@ function SortController(props: { width: number }) {
       </div>
       <div
         css={css`
-          margin-left: 100px;
+          margin-left: 50px;
         `}
         onClick={() => {
           sortStore.reset();

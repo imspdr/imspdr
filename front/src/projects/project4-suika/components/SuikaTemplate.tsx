@@ -4,10 +4,12 @@ import SuikaBoard from "./SuikaBoard";
 import { useSuikaStore } from "../store/SuikaStoreProvider";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function SuikaTemplate() {
   const suikaStore = useSuikaStore();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const keyDownEvent = (ev: KeyboardEvent) => {
     if (ev.key === "ArrowRight") {
       suikaStore.posX += 5;
@@ -25,6 +27,17 @@ function SuikaTemplate() {
       suikaStore.reset();
     }
   };
+  const handleSizeChange = () => {
+    setWindowWidth(window.innerWidth);
+    setWindowHeight(window.innerHeight);
+  };
+
+  useEffect(() => {
+    addEventListener("resize", handleSizeChange);
+    return () => {
+      removeEventListener("resize", handleSizeChange);
+    };
+  }, []);
   useEffect(() => {
     window.addEventListener("keydown", keyDownEvent);
     return () => window.removeEventListener("keydown", keyDownEvent);
@@ -33,7 +46,7 @@ function SuikaTemplate() {
     <div
       css={css`
         display: flex;
-        flex-direction: row;
+        flex-direction: ${windowWidth > 900 ? "row" : "column"};
       `}
     >
       <SuikaBoard />
@@ -81,13 +94,15 @@ function SuikaTemplate() {
           css={css`
             display: flex;
             flex-direction: column;
+            height: 180px;
+            justify-content: space-evenly;
           `}
         >
           <span>{"조작법 : "}</span>
-          <span>{"Space (멈춤 / 시작)"}</span>
-          <span>{"방향키 <- -> (좌우 이동)"}</span>
-          <span>{"Enter (과일 드랍)"}</span>
-          <span>{" R (리셋)"}</span>
+          <span>{"\tSpace (멈춤 / 시작)"}</span>
+          <span>{"\t방향키 <- -> (좌우 이동)"}</span>
+          <span>{"\tEnter (과일 드랍)"}</span>
+          <span>{"\tR (리셋)"}</span>
         </div>
       </div>
     </div>

@@ -22,6 +22,7 @@ function SuikaBoard() {
       css={css`
         width: ${suikaStore.width}px;
         height: ${suikaStore.height}px;
+        border: 1px solid;
       `}
     >
       <svg viewBox={`0 0 ${suikaStore.width} ${suikaStore.height}`}>

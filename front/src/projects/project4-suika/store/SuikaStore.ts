@@ -28,7 +28,7 @@ class SuikaStore {
     this.__nowRadius = 10;
     this.__nowFill = 0;
 
-    this.width = 400;
+    this.width = 330;
     this.height = 600;
     this.lossrate = 0.9;
     this.t = 0.1;

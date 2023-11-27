@@ -10,13 +10,23 @@ class MainStore {
     this.windowWidth = width;
     this.windowHeight = height;
     this.badges = projectInfos;
+    this.badges = this.badges.map((badge: badge) => {
+      const savedBadge = sessionStorage.getItem(badge.title);
+      if (savedBadge) {
+        return {
+          ...badge,
+          pos: JSON.parse(savedBadge),
+        };
+      } else {
+        return badge;
+      }
+    });
     makeAutoObservable(this);
   }
 
   rearrange = () => {
     const radius = Math.min(...this.badges.map((badge: badge) => badge.radius));
     const maxIndex = Math.round((this.windowWidth - radius - 20) / (radius * 2 + 20));
-    console.log(maxIndex);
     this.badges = this.badges.map((badge: badge, index: number) => {
       const yIndex = Math.floor(index / maxIndex);
       const xIndex = index % maxIndex;
@@ -28,6 +38,17 @@ class MainStore {
           y: badge.radius + 20 + 64 + yIndex * (badge.radius * 2 + 20),
         },
       };
+    });
+    this.badges = this.badges.map((badge: badge) => {
+      const savedBadge = sessionStorage.getItem(badge.title);
+      if (savedBadge) {
+        return {
+          ...badge,
+          pos: JSON.parse(savedBadge),
+        };
+      } else {
+        return badge;
+      }
     });
   };
 
@@ -49,6 +70,7 @@ class MainStore {
     const maxY = this.windowHeight - movingBadge.radius - 20;
     const newX = Math.max(movingBadge.radius + 20, Math.min(x, maxX));
     const newY = Math.max(movingBadge.radius + 20, Math.min(y, maxY));
+    sessionStorage.setItem(movingBadge.title, JSON.stringify(movingBadge.pos));
 
     this.badges = this.badges.map((badge: badge) => {
       if (badge.id === id) {

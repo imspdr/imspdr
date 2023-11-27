@@ -30,11 +30,25 @@ function SortBar(props: { width: number; height: number }) {
         flex-direction: row;
         align-items: flex-end;
         height: ${props.height}px;
+        width: ${props.width}px;
       `}
     >
-      {sortStore.numberArray.map((bar: bar) => {
-        return <Bar state={bar.state} value={bar.value} height={props.height} width={width} />;
-      })}
+      <svg viewBox={`0 0 ${props.width} ${props.height}`}>
+        {sortStore.numberArray.map((bar: bar, index: number) => {
+          const height = (props.height * bar.value) / 1000;
+          return (
+            <rect
+              width={width}
+              height={height}
+              fill={
+                bar.state === "compare" ? "#00ff00" : bar.state === "moving" ? "#0000ff" : "#dddddd"
+              }
+              x={index * width}
+              y={props.height - height}
+            />
+          );
+        })}
+      </svg>
     </div>
   );
 }

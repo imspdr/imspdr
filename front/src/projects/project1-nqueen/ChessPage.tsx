@@ -24,14 +24,16 @@ function ChessPage() {
             justify-content: space-between;
           `}
         >
-          <div
-            css={css`
-              margin-right: 20px;
-            `}
-          >
-            <ExplainBlog width={chessWidth / 2} height={chessHeight - 200} />
-          </div>
-          <ChessBoard boardSize={chessWidth / 3} />
+          {chessWidth > 900 && (
+            <div
+              css={css`
+                margin-right: 20px;
+              `}
+            >
+              <ExplainBlog width={(chessWidth * 2) / 3 - 200} height={chessHeight - 200} />
+            </div>
+          )}
+          <ChessBoard boardSize={chessWidth > 900 ? chessWidth / 3 : chessWidth - 300} />
         </div>
       </CommonTemplate>
     </ChessStoreProvider>
