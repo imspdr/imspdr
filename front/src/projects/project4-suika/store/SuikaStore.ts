@@ -26,12 +26,12 @@ class SuikaStore {
     this.fruits = [];
     this.renderFruits = [];
     this.__posX = 125;
-    this.__nowRadius = 10;
+    this.__nowRadius = 6;
     this.__nowFill = 0;
     this.__lossFlag = false;
 
     this.width = 250;
-    this.height = 500;
+    this.height = 400;
     this.lossrate = 0.9;
     this.t = 0.3;
 
@@ -108,21 +108,23 @@ class SuikaStore {
           y: this.nowRadius * 2,
         },
         velocity: { x: 0, y: 5 },
-        accel: { x: 0, y: 5 },
+        accel: { x: 0, y: 7 },
         fillIndex: this.nowFill,
       },
     ];
     runInAction(() => {
       const rand = Math.random();
       if (rand < 0.4) {
-        this.nowRadius = 14;
+        this.nowRadius = 6 * 1.4;
         this.nowFill = 1;
+        this.posX += 1;
       } else if (rand < 0.8) {
-        this.nowRadius = 10;
+        this.nowRadius = 6;
         this.nowFill = 0;
       } else {
-        this.nowRadius = 14 * 1.4;
+        this.nowRadius = 6 * 1.4 * 1.4;
         this.nowFill = 2;
+        this.posX -= 1;
       }
       this.createFlag = false;
     });

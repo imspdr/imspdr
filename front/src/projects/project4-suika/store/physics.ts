@@ -74,7 +74,8 @@ export const circleCollision = (
     const m1 = messOption ? fruit1.radius * fruit1.radius : 500;
     const m2 = messOption ? fruit2.radius * fruit2.radius : 500;
 
-    const sum = 30;
+    const v1 = getCosThetaV2(fruit21, fruit1.velocity);
+    const v2 = getCosThetaV2(fruit12, fruit2.velocity);
 
     const dist = fruit1.radius + fruit2.radius;
     const nowDist = getNorm(fruit12);
@@ -82,12 +83,12 @@ export const circleCollision = (
     const collisionRate = 0.9;
 
     const newVelo1 = {
-      x: (fruit1.velocity.x + (sum / m1) * fruit12.x) * collisionRate,
-      y: (fruit1.velocity.y + (sum / m1) * fruit12.y) * collisionRate,
+      x: (fruit1.velocity.x + (v1 / m1) * fruit12.x) * collisionRate,
+      y: (fruit1.velocity.y + (v1 / m1) * fruit12.y) * collisionRate,
     };
     const newVelo2 = {
-      x: (fruit2.velocity.x + (sum / m2) * fruit21.x) * collisionRate,
-      y: (fruit2.velocity.y + (sum / m2) * fruit21.y) * collisionRate,
+      x: (fruit2.velocity.x + (v2 / m2) * fruit21.x) * collisionRate,
+      y: (fruit2.velocity.y + (v2 / m2) * fruit21.y) * collisionRate,
     };
     return {
       fruit1: {

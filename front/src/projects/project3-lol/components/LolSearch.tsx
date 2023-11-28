@@ -18,8 +18,8 @@ function LolSearch() {
     >
       <div
         css={css`
-          font-size: 70px;
-          margin-bottom: 50px;
+          font-size: ${lolStore.windowWidth > 700 ? 70 : 30}px;
+          margin-bottom: ${lolStore.windowWidth > 700 ? 50 : 30}px;
         `}
       >
         {"IM.SPDR"}
@@ -31,8 +31,8 @@ function LolSearch() {
         onClick={(v) => {
           lolStore.onSearch(v);
         }}
-        width={700}
-        height={100}
+        width={Math.min(lolStore.windowWidth - 150, 700)}
+        height={lolStore.windowWidth > 700 ? 100 : 50}
       />
     </div>
   );

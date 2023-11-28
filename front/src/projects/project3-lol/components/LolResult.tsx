@@ -1,21 +1,25 @@
 import { css } from "@emotion/react";
 import { observer } from "mobx-react";
 import { useLolMainStore } from "../store/LolMainStoreProvider";
-import ProfileCard from "./ProfileCard";
 import CommonLoading from "@src/common/CommonLoading";
 import CommonSearchBar from "@src/common/CommonSearchBar";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import { unselectable } from "@src/common/util";
+import { useState } from "react";
+import GameDetail from "./result/LolGameDetail";
+import GameCard from "./result/LolGameCard";
+import ProfileCard from "./result/ProfileCard";
 
 function LolResult() {
   const lolStore = useLolMainStore();
+  const [gameIndex, setGameIndex] = useState(-1);
+  const user = lolStore.nowUsers[lolStore.nowIndex];
   return (
     <div
       css={css`
         display: flex;
         padding: 20px;
-        width: 100%;
-        height: 100%;
         flex-direction: column;
         justify-content: space-between;
         align-items: flex-start;
@@ -43,7 +47,7 @@ function LolResult() {
           onClick={(v) => {
             lolStore.onSearch(v);
           }}
-          width={400}
+          width={Math.min(lolStore.windowWidth - 200, 400)}
           height={50}
         />
         <div
@@ -74,8 +78,6 @@ function LolResult() {
         css={css`
           display: flex;
           flex-direction: column;
-          width: 100%;
-          height: 100%;
           margin-top: 50px;
         `}
       >
@@ -84,7 +86,40 @@ function LolResult() {
         ) : lolStore.nowIndex === -1 ? (
           <div>{"뭔가... 잘못됐습니다... API 토큰 문제일 가능성이 높습니다..."}</div>
         ) : (
-          <ProfileCard user={lolStore.nowUsers[lolStore.nowIndex]} />
+          user && (
+            <>
+              <ProfileCard user={user} />
+              <div>
+                {user.lastGames.map((game, index) => {
+                  return (
+                    <div
+                      css={css`
+                        margin-bottom: 5px;
+                      `}
+                      onClick={() => setGameIndex((v) => (v === index ? -1 : index))}
+                    >
+                      <GameCard game={game} width={300} />
+                    </div>
+                  );
+                })}
+                {user.lastGames.length >= 10 && (
+                  <div
+                    css={css`
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                    `}
+                    onClick={() => lolStore.getMoreMatch()}
+                  >
+                    <KeyboardDoubleArrowDownIcon />
+                  </div>
+                )}
+              </div>
+              {gameIndex >= 0 && gameIndex < user.lastGames.length && user.lastGames[gameIndex] && (
+                <GameDetail width={760} participants={user.lastGames[gameIndex]!.participants} />
+              )}
+            </>
+          )
         )}
       </div>
     </div>

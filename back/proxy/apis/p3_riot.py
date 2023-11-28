@@ -17,6 +17,7 @@ def update_key(key, password):
         summoner_response = requests.get(
             url_kr + summoner + "imspdr", headers=header
         ).json()
+        print(summoner_response)
         puuid = summoner_response["puuid"]
         userid = summoner_response["id"]
         RIOTKEY = key

@@ -33,7 +33,7 @@ export default function SortPage() {
         >
           <SortController width={(windowWidth * 4) / 5} />
           <SortScore width={(windowWidth * 4) / 5} />
-          <SortBar width={(windowWidth * 4) / 5} height={windowHeight - 450} />
+          <SortBar width={(windowWidth * 4) / 5} height={Math.max(windowHeight - 450, 200)} />
         </div>
       </CommonTemplate>
     </SortStoreProvider>

@@ -16,6 +16,7 @@ export default function CommonTemplate(props: {
         border: 5px solid;
         margin: ${props.width && props.width < 600 ? "10px" : "20px"};
         height: calc(100% - 64px);
+        min-height: 500px;
       `}
     >
       <div
@@ -43,7 +44,7 @@ export default function CommonTemplate(props: {
       </div>
       <div
         css={css`
-          padding: 10px 0px 0px 0px;
+          margin-top: 10px;
           overflow: auto;
           height: calc(100% - 50px);
           display: flex;

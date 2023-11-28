@@ -33,7 +33,7 @@ function ChessPage() {
               <ExplainBlog width={(chessWidth * 2) / 3 - 200} height={chessHeight - 200} />
             </div>
           )}
-          <ChessBoard boardSize={chessWidth > 900 ? chessWidth / 3 : chessWidth - 300} />
+          <ChessBoard boardSize={chessWidth > 500 ? chessWidth / 3 : chessWidth - 200} />
         </div>
       </CommonTemplate>
     </ChessStoreProvider>
