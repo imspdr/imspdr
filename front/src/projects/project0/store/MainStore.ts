@@ -1,15 +1,16 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { badge } from "./types";
 import projectInfos from "./projects.json";
 
 class MainStore {
   public badges: badge[];
-  public windowWidth: number;
-  public windowHeight: number;
+  private __windowWidth: number;
+  private __windowHeight: number;
   constructor(width: number, height: number) {
-    this.windowWidth = width;
-    this.windowHeight = height;
+    this.__windowWidth = width;
+    this.__windowHeight = height;
     this.badges = projectInfos;
+    this.rearrange();
     this.badges = this.badges.map((badge: badge) => {
       const savedBadge = sessionStorage.getItem(badge.title);
       if (savedBadge) {
@@ -22,6 +23,26 @@ class MainStore {
       }
     });
     makeAutoObservable(this);
+  }
+  get windowWidth() {
+    return this.__windowWidth;
+  }
+  get windowHeight() {
+    return this.__windowHeight;
+  }
+  set windowWidth(num: number) {
+    this.__windowWidth = num;
+    runInAction(() => {
+      this.badges.forEach((badge: badge) => sessionStorage.removeItem(badge.title));
+      this.rearrange();
+    });
+  }
+  set windowHeight(num: number) {
+    this.__windowHeight = num;
+    runInAction(() => {
+      this.badges.forEach((badge: badge) => sessionStorage.removeItem(badge.title));
+      this.rearrange();
+    });
   }
 
   rearrange = () => {
@@ -38,17 +59,6 @@ class MainStore {
           y: badge.radius + 20 + 64 + yIndex * (badge.radius * 2 + 20),
         },
       };
-    });
-    this.badges = this.badges.map((badge: badge) => {
-      const savedBadge = sessionStorage.getItem(badge.title);
-      if (savedBadge) {
-        return {
-          ...badge,
-          pos: JSON.parse(savedBadge),
-        };
-      } else {
-        return badge;
-      }
     });
   };
 

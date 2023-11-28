@@ -1,47 +1,11 @@
 import { observer } from "mobx-react";
 import { css } from "@emotion/react";
 import { useMainStore } from "../store/MainStoreProvider";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { badge } from "../store/types";
 import { unselectable } from "@src/common/util";
-import { ReactComponent as QueenIcon } from "@src/images/queenIcon.svg";
-import { ReactComponent as SortIcon } from "@src/images/sortIcon.svg";
-
-const iconMap = [
-  {
-    label: "queen",
-    comp: <QueenIcon width={"100px"} height={"100px"} />,
-  },
-  {
-    label: "sort",
-    comp: <SortIcon width={"100px"} height={"100px"} />,
-  },
-  {
-    label: "lol",
-    comp: (
-      <div
-        css={css`
-          font-size: 50px;
-        `}
-      >
-        LOL
-      </div>
-    ),
-  },
-  {
-    label: "suika",
-    comp: (
-      <div
-        css={css`
-          font-size: 25px;
-        `}
-      >
-        수박
-      </div>
-    ),
-  },
-];
+import iconMap from "./IconMap";
 
 function DraggableBadge(props: { badgeId: number }) {
   const mainStore = useMainStore();

@@ -1,6 +1,5 @@
 import { observer } from "mobx-react";
 import { useEffect } from "react";
-import { css } from "@emotion/react";
 import { useMainStore } from "../store/MainStoreProvider";
 import DraggableBadge from "./DraggableBadge";
 import { badge } from "../store/types";
@@ -18,10 +17,6 @@ function MainPageTemplate() {
       removeEventListener("resize", handleSizeChange);
     };
   }, []);
-
-  useEffect(() => {
-    mainStore.rearrange();
-  }, [mainStore.windowWidth, mainStore.windowHeight]);
 
   return (
     <>

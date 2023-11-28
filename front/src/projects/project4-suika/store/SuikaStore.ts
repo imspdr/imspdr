@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction, autorun } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { sleep } from "@src/common/util";
 import { fruit } from "./types";
 import { circleCollision } from "./physics";
