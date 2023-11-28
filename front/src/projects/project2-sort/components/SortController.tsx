@@ -10,13 +10,14 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 
 function SortController(props: { width: number }) {
   const sortStore = useSortStore();
+  const mobileMode = props.width < 500;
   return (
     <div
       css={css`
         display: flex;
         width: ${props.width}px;
         height: 100px;
-        flex-direction: row;
+        flex-direction: "row";
         margin-bottom: 30px;
         align-items: center;
         justify-content: flex-start;
@@ -30,9 +31,9 @@ function SortController(props: { width: number }) {
         onSelect={(v: string) => {
           sortStore.selectedAlgo = v;
         }}
-        width={200}
+        width={mobileMode ? 150 : 200}
       />
-      {props.width > 550 && (
+      {!mobileMode && (
         <div
           css={css`
             margin-left: 50px;
@@ -79,46 +80,102 @@ function SortController(props: { width: number }) {
         </div>
       )}
 
-      <div
-        css={css`
-          margin-left: 50px;
-          border: 3px solid;
-          border-radius: 10px;
-          width: 70px;
-          height: 70px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        `}
-        onClick={() => {
-          if (sortStore.stopFlag) {
-            sortStore.runSort();
-          } else {
-            sortStore.stopFlag = true;
-          }
-        }}
-      >
-        {sortStore.stopFlag ? (
-          <PlayArrowIcon
+      {!mobileMode ? (
+        <>
+          <div
             css={css`
-              color: var(--darkorange);
+              margin-left: 50px;
+              border: 3px solid;
+              border-radius: 10px;
+              width: 70px;
+              height: 70px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
             `}
-            fontSize="large"
-          />
-        ) : (
-          <StopIcon fontSize="large" />
-        )}
-      </div>
-      <div
-        css={css`
-          margin-left: 50px;
-        `}
-        onClick={() => {
-          sortStore.reset();
-        }}
-      >
-        <RefreshIcon fontSize="large" />
-      </div>
+            onClick={() => {
+              if (sortStore.stopFlag) {
+                sortStore.runSort();
+              } else {
+                sortStore.stopFlag = true;
+              }
+            }}
+          >
+            {sortStore.stopFlag ? (
+              <PlayArrowIcon
+                css={css`
+                  color: var(--darkorange);
+                `}
+                fontSize="large"
+              />
+            ) : (
+              <StopIcon fontSize="large" />
+            )}
+          </div>
+          <div
+            css={css`
+              margin-left: 50px;
+            `}
+            onClick={() => {
+              sortStore.reset();
+            }}
+          >
+            <RefreshIcon fontSize="large" />
+          </div>
+        </>
+      ) : (
+        <div
+          css={css`
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin-left: 30px;
+            border: 3px solid;
+            border-radius: 5px;
+            width: 64px;
+            height: 32px;
+          `}
+        >
+          <div
+            css={css`
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            `}
+            onClick={() => {
+              if (sortStore.stopFlag) {
+                sortStore.runSort();
+              } else {
+                sortStore.stopFlag = true;
+              }
+            }}
+          >
+            {sortStore.stopFlag ? (
+              <PlayArrowIcon
+                css={css`
+                  color: var(--darkorange);
+                `}
+              />
+            ) : (
+              <StopIcon />
+            )}
+          </div>
+          <div
+            css={css`
+              margin-left: 10px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            `}
+            onClick={() => {
+              sortStore.reset();
+            }}
+          >
+            <RefreshIcon />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -3,14 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { unselectable } from "@src/common/util";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function CommonTemplate(props: { title: string; children: JSX.Element }) {
+export default function CommonTemplate(props: {
+  title: string;
+  children: JSX.Element;
+  width?: number;
+}) {
   const navigate = useNavigate();
   return (
     <div
       css={css`
-        padding: 20px;
+        padding: ${props.width && props.width < 600 ? "10px" : "20px"};
         border: 5px solid;
-        margin: 20px;
+        margin: ${props.width && props.width < 600 ? "10px" : "20px"};
         height: calc(100% - 64px);
       `}
     >
@@ -20,7 +24,7 @@ export default function CommonTemplate(props: { title: string; children: JSX.Ele
           flex-direction: row;
           justify-content: space-between;
           height: 30px;
-          font-size: 30px;
+          font-size: ${props.width && props.width < 500 ? 20 : 30}px;
           ${unselectable}
         `}
       >
@@ -39,9 +43,13 @@ export default function CommonTemplate(props: { title: string; children: JSX.Ele
       </div>
       <div
         css={css`
-          padding: 30px 30px 0px 30px;
+          padding: 10px 0px 0px 0px;
           overflow: auto;
           height: calc(100% - 50px);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
         `}
       >
         {props.children}

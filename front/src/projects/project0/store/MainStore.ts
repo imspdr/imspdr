@@ -30,7 +30,7 @@ class MainStore {
     this.badges = this.badges.map((badge: badge, index: number) => {
       const yIndex = Math.floor(index / maxIndex);
       const xIndex = index % maxIndex;
-      console.log(`${badge.title} : ${xIndex} ${yIndex}`);
+      //console.log(`${badge.title} : ${xIndex} ${yIndex}`);
       return {
         ...badge,
         pos: {

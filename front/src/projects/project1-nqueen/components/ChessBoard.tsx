@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { useChessStore } from "../store/ChessStoreProvider";
 import { unselectable } from "@src/common/util";
 import { ReactComponent as QueenIcon } from "@src/images/queenIcon.svg";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 function ChessBlock(props: {
   color: number; // 0 for black 1 for white
@@ -47,7 +48,7 @@ function ChessBlock(props: {
 
 function ChessBoard(props: { boardSize: number }) {
   const chessStore = useChessStore();
-  const givenSize = props.boardSize < 320 ? 320 : props.boardSize;
+  const givenSize = props.boardSize < 240 ? 240 : props.boardSize;
   const boardSize = Math.round(givenSize / chessStore.nQueen) * chessStore.nQueen;
   return (
     <div>
@@ -121,19 +122,7 @@ function ChessBoard(props: { boardSize: number }) {
             {"+"}
           </div>
         </div>
-        <div
-          onClick={() => chessStore.clear()}
-          css={css`
-            width: 25%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            ${chessStore.solving ? "color : #AAAAAA;" : ""}
-            ${unselectable}
-          `}
-        >
-          {chessStore.poses.split(",").length - 1 === chessStore.nQueen ? "CLEAR !!" : "새로고침"}
-        </div>
+
         <div
           onClick={() => {
             if (chessStore.solving) {
@@ -143,7 +132,7 @@ function ChessBoard(props: { boardSize: number }) {
             }
           }}
           css={css`
-            width: 20%;
+            width: 25%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -151,6 +140,23 @@ function ChessBoard(props: { boardSize: number }) {
           `}
         >
           {chessStore.solving ? "그만해!" : "풀어줘!"}
+        </div>
+        <div
+          onClick={() => chessStore.clear()}
+          css={css`
+            width: 20%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            ${chessStore.solving ? "color : #AAAAAA;" : ""}
+            ${unselectable}
+          `}
+        >
+          {chessStore.poses.split(",").length - 1 === chessStore.nQueen ? (
+            "CLEAR !!"
+          ) : (
+            <RefreshIcon />
+          )}
         </div>
         <div
           css={css`

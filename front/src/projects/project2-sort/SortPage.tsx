@@ -22,7 +22,7 @@ export default function SortPage() {
   }, []);
   return (
     <SortStoreProvider>
-      <CommonTemplate title="정렬 시각화">
+      <CommonTemplate title="정렬 시각화" width={windowWidth}>
         <div
           css={css`
             display: flex;

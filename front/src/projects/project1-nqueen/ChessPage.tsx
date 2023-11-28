@@ -16,7 +16,7 @@ function ChessPage() {
   }, []);
   return (
     <ChessStoreProvider>
-      <CommonTemplate title="P=NP와 n-퀸 문제">
+      <CommonTemplate title="P=NP와 n-퀸 문제" width={chessWidth}>
         <div
           css={css`
             display: flex;

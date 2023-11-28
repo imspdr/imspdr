@@ -1,9 +1,9 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, runInAction, autorun } from "mobx";
 import { sleep } from "@src/common/util";
 import { fruit } from "./types";
 import { circleCollision } from "./physics";
 
-const EPSILON = 0.00001;
+const EPSILON = 0.0001;
 
 class SuikaStore {
   public fruits: (fruit | undefined)[];
@@ -18,20 +18,22 @@ class SuikaStore {
   public lossrate: number;
   public t: number;
 
+  private __lossFlag: boolean;
   private __posX: number;
   private __nowRadius: number;
   private __nowFill: number;
   constructor() {
     this.fruits = [];
     this.renderFruits = [];
-    this.__posX = 250;
+    this.__posX = 125;
     this.__nowRadius = 10;
     this.__nowFill = 0;
+    this.__lossFlag = false;
 
-    this.width = 330;
-    this.height = 600;
+    this.width = 250;
+    this.height = 500;
     this.lossrate = 0.9;
-    this.t = 0.1;
+    this.t = 0.3;
 
     this.stopFlag = true;
     this.createFlag = false;
@@ -62,7 +64,20 @@ class SuikaStore {
   set nowFill(num: number) {
     this.__nowFill = num;
   }
+
+  get lossFlag() {
+    return this.__lossFlag;
+  }
+  set lossFlag(bool: boolean) {
+    this.__lossFlag = bool;
+    if (bool) {
+      this.stop();
+    }
+  }
+
   start = () => {
+    if (this.lossFlag) this.reset();
+    this.lossFlag = false;
     this.stopFlag = false;
     this.interval = setInterval(() => {
       this.unitAction(this.t);
@@ -75,12 +90,13 @@ class SuikaStore {
     this.stopFlag = true;
     if (this.interval) clearInterval(this.interval);
   };
+
   reset = () => {
     this.fruits = [];
     this.renderFruits = [];
   };
   addFruit = async () => {
-    if (this.createFlag) return;
+    if (this.createFlag || this.stopFlag) return;
     this.createFlag = true;
     await sleep(500);
     this.fruits = [
@@ -92,7 +108,7 @@ class SuikaStore {
           y: this.nowRadius * 2,
         },
         velocity: { x: 0, y: 5 },
-        accel: { x: 0, y: 9.8 },
+        accel: { x: 0, y: 5 },
         fillIndex: this.nowFill,
       },
     ];
@@ -114,57 +130,59 @@ class SuikaStore {
   unitAction = (t: number) => {
     runInAction(() => {
       // unit move
-      for (let i = 0; i < this.fruits.length; i++) {
-        let fruit = this.fruits[i];
-        if (!fruit) continue;
-        let newX = fruit.pos.x + fruit.velocity.x * t;
-        let newY = fruit.pos.y + fruit.velocity.y * t;
-        let newVeloX = fruit.velocity.x + fruit.accel.x * t;
-        let newVeloY = fruit.velocity.y + fruit.accel.y * t;
-        if (newY > this.height - fruit.radius) {
-          newY = this.height - fruit.radius;
-          newVeloY = -(1 - this.lossrate) * newVeloY;
-        }
-        if (newY < fruit.radius) {
-          newY = fruit.radius;
-          newVeloY = 0;
-        }
-        if (newX > this.width - fruit.radius) {
-          newX = this.width - fruit.radius;
-          newVeloX = -(1 - this.lossrate) * newVeloX;
-        }
-        if (newX < fruit.radius) {
-          newX = fruit.radius;
-          newVeloX = -(1 - this.lossrate) * newVeloX;
-        }
-        if (Math.abs(newVeloX) < EPSILON) newVeloX = 0;
-        if (Math.abs(newVeloY) < EPSILON) newVeloY = 0;
-        this.fruits = this.fruits.map((fruit, index) => {
-          if (index === i && fruit) {
-            return {
-              ...fruit,
-              velocity: {
-                x: newVeloX,
-                y: newVeloY,
-              },
-              pos: {
-                x: newX,
-                y: newY,
-              },
-            };
-          } else return fruit;
-        });
-        for (let j = i + 1; j < this.fruits.length; j++) {
-          if (!this.fruits[i] || !this.fruits[j]) continue;
-
-          let newFruits = circleCollision(this.fruits[i]!, this.fruits[j]!, false);
+      for (let n = 0; n < 2; n++) {
+        for (let i = 0; i < this.fruits.length; i++) {
+          let fruit = this.fruits[i];
+          if (!fruit) continue;
+          let newX = fruit.pos.x + fruit.velocity.x * t * 0.5;
+          let newY = fruit.pos.y + fruit.velocity.y * t * 0.5;
+          let newVeloX = fruit.velocity.x + fruit.accel.x * t * 0.5;
+          let newVeloY = fruit.velocity.y + fruit.accel.y * t * 0.5;
+          if (newY > this.height - fruit.radius) {
+            newY = this.height - fruit.radius;
+            newVeloY = -(1 - this.lossrate) * newVeloY;
+          }
+          if (newY < fruit.radius) {
+            this.lossFlag = true;
+            newVeloY = 0;
+          }
+          if (newX > this.width - fruit.radius) {
+            newX = this.width - fruit.radius;
+            newVeloX = -(1 - this.lossrate) * newVeloX;
+          }
+          if (newX < fruit.radius) {
+            newX = fruit.radius;
+            newVeloX = -(1 - this.lossrate) * newVeloX;
+          }
+          if (Math.abs(newVeloX) < EPSILON) newVeloX = 0;
+          if (Math.abs(newVeloY) < EPSILON) newVeloY = 0;
           this.fruits = this.fruits.map((fruit, index) => {
-            if (index === i) {
-              return newFruits.fruit1;
-            } else if (index === j) {
-              return newFruits.fruit2;
+            if (index === i && fruit) {
+              return {
+                ...fruit,
+                velocity: {
+                  x: newVeloX,
+                  y: newVeloY,
+                },
+                pos: {
+                  x: newX,
+                  y: newY,
+                },
+              };
             } else return fruit;
           });
+          for (let j = 0; j < this.fruits.length; j++) {
+            if (!this.fruits[i] || !this.fruits[j] || i === j) continue;
+
+            let newFruits = circleCollision(this.fruits[i]!, this.fruits[j]!, false);
+            this.fruits = this.fruits.map((fruit, index) => {
+              if (index === i) {
+                return newFruits.fruit1;
+              } else if (index === j) {
+                return newFruits.fruit2;
+              } else return fruit;
+            });
+          }
         }
       }
     });
