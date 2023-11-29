@@ -47,7 +47,7 @@ function GameDetail(props: { width: number; participants: participant[] }) {
                   css={css`
                     background-color: #22cccc;
                     transition: 0s;
-                    width: ${((props.width / 4) * part.deal) / maxDeal}px;
+                    width: ${((props.width / 4) * part.deal) / maxDeal - 30}px;
                     height: 30px;
                   `}
                 ></div>
@@ -77,7 +77,7 @@ function GameDetail(props: { width: number; participants: participant[] }) {
                   css={css`
                     background-color: #009999;
                     transition: 0s;
-                    width: ${((props.width / 4) * part.deal) / maxDeal}px;
+                    width: ${((props.width / 4) * part.deal) / maxDeal - 30}px;
                     height: 30px;
                   `}
                 ></div>

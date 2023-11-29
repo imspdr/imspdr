@@ -95,7 +95,7 @@ class LolMainStore {
           this.loading = false;
         });
 
-        if (matchList) {
+        if (mostInfo && tierList && matchList) {
           for (let i = 0; i < matchList.length; i++) {
             if (matchList[i]) {
               const participants = await RiotAPI.getMatchInfo(matchList[i]!);

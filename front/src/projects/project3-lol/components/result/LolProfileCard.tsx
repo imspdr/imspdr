@@ -56,7 +56,7 @@ function MostCard(props: { most: most; width: number }) {
   );
 }
 
-function ProfileCard(props: { user: lolUser | undefined }) {
+function ProfileCard(props: { user: lolUser | undefined; width: number }) {
   return (
     <>
       {props.user && (
@@ -65,7 +65,8 @@ function ProfileCard(props: { user: lolUser | undefined }) {
             padding: 20px;
             border: 2px solid;
             border-radius: 20px;
-            width: 250px;
+            width: ${props.width}px;
+            height: 450px;
             ${unselectable}
           `}
         >
@@ -77,14 +78,18 @@ function ProfileCard(props: { user: lolUser | undefined }) {
           >
             {props.user.name}
           </div>
-          <div>
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+            `}
+          >
             {props.user.tierList.map((tier: tierInfo) => (
-              <TierCard tier={tier} width={200} />
+              <TierCard tier={tier} width={props.width - 50} />
             ))}
-          </div>
-          <div>
             {props.user.mosts.map((mo: most) => (
-              <MostCard most={mo} width={200} />
+              <MostCard most={mo} width={props.width - 50} />
             ))}
           </div>
         </div>

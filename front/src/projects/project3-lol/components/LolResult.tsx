@@ -20,8 +20,9 @@ function LolResult() {
       css={css`
         display: flex;
         padding: 20px;
+        width: 1550px;
+        height: 700px;
         flex-direction: column;
-        justify-content: space-between;
         align-items: flex-start;
       `}
     >
@@ -77,8 +78,10 @@ function LolResult() {
       <div
         css={css`
           display: flex;
-          flex-direction: column;
-          margin-top: 50px;
+          flex-direction: row;
+          align-items: flex-start;
+          justify-content: center;
+          margin-top: 20px;
         `}
       >
         {lolStore.loading ? (
@@ -88,8 +91,14 @@ function LolResult() {
         ) : (
           user && (
             <>
-              <ProfileCard user={user} />
-              <div>
+              <ProfileCard user={user} width={400} />
+              <div
+                css={css`
+                  margin-left: 10px;
+                  height: 600px;
+                  overflow: auto;
+                `}
+              >
                 {user.lastGames.map((game, index) => {
                   return (
                     <div
