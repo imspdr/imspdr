@@ -9,7 +9,7 @@ import { unselectable } from "@src/common/util";
 import { useState } from "react";
 import GameDetail from "./result/LolGameDetail";
 import GameCard from "./result/LolGameCard";
-import ProfileCard from "./result/ProfileCard";
+import ProfileCard from "./result/LolProfileCard";
 
 function LolResult() {
   const lolStore = useLolMainStore();
