@@ -24,7 +24,7 @@ export default function CommonTemplate(props: {
           display: flex;
           flex-direction: row;
           justify-content: space-between;
-          height: 30px;
+          height: 40px;
           font-size: ${props.width && props.width < 500 ? 20 : 30}px;
           ${unselectable}
         `}
@@ -44,13 +44,9 @@ export default function CommonTemplate(props: {
       </div>
       <div
         css={css`
-          margin-top: 10px;
           overflow: auto;
+          margin-top: 10px;
           height: calc(100% - 50px);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
         `}
       >
         {props.children}

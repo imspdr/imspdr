@@ -6,6 +6,7 @@ import LolResult from "./LolResult";
 import LolSearch from "./LolSearch";
 import LolHiddenButton from "./LolHiddenButton";
 import CommonTemplate from "@src/common/CommonTemplate";
+import LolMobileResult from "./LolMobileResult";
 
 function LolMainTemplate() {
   const lolStore = useLolMainStore();
@@ -24,16 +25,17 @@ function LolMainTemplate() {
     <CommonTemplate title="LOL 전적 검색" width={lolStore.windowWidth}>
       <div
         css={css`
-          position: relative;
-          display: flex;
-          width: 100%;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
+          margin-top: 20px;
         `}
       >
-        <LolHiddenButton />
-        {lolStore.showResult ? <LolResult /> : <LolSearch />}
+        {lolStore.windowWidth > 1400 && <LolHiddenButton />}
+        {!lolStore.showResult ? (
+          <LolSearch />
+        ) : lolStore.windowWidth > 1400 ? (
+          <LolResult />
+        ) : (
+          <LolMobileResult />
+        )}
       </div>
     </CommonTemplate>
   );

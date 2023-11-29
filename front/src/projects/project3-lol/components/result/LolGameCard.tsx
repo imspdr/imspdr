@@ -14,11 +14,12 @@ export default function GameCard(props: { game: game; width: number }) {
         justify-content: space-between;
         align-items: center;
         transition: 0s;
-        width: ${props.width}px;
+        width: ${props.width - 20}px;
         height: 30px;
         border-radius: 10px;
         padding: ${hover ? "8px" : "10px"};
         ${hover ? "border: 2px solid;" : `background-color: ${bgcolor};`}
+        ${props.width < 400 && "font-size: 12px;"}
       `}
       onMouseOver={() => setHover(true)}
       onMouseOut={() => setHover(false)}

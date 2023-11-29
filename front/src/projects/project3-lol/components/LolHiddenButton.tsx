@@ -17,8 +17,8 @@ export default function LolHiddenButton() {
     <div
       css={css`
         position: absolute;
-        top: 0px;
-        right: 0px;
+        top: 100px;
+        right: 100px;
         z-index: 10;
         ${open && "border: 1px solid; padding: 10px;"}
       `}

@@ -65,8 +65,8 @@ function ProfileCard(props: { user: lolUser | undefined; width: number }) {
             padding: 20px;
             border: 2px solid;
             border-radius: 20px;
-            width: ${props.width}px;
-            height: 450px;
+            width: ${props.width - 40}px;
+            ${props.width < 400 && "font-size: 12px;"}
             ${unselectable}
           `}
         >

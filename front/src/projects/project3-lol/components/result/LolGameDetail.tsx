@@ -9,6 +9,7 @@ function GameDetail(props: { width: number; participants: participant[] }) {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        ${props.width <= 680 && "font-size: 10px"}
       `}
     >
       <div
