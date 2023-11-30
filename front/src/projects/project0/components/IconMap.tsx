@@ -1,5 +1,6 @@
 import { ReactComponent as QueenIcon } from "@src/images/queenIcon.svg";
 import { ReactComponent as SortIcon } from "@src/images/sortIcon.svg";
+import { ReactComponent as SuikaIcon } from "@src/images/watermelon.svg";
 import { css } from "@emotion/react";
 
 const iconMap = [
@@ -25,15 +26,7 @@ const iconMap = [
   },
   {
     label: "suika",
-    comp: (
-      <div
-        css={css`
-          font-size: 25px;
-        `}
-      >
-        수박
-      </div>
-    ),
+    comp: <SuikaIcon width={"100px"} height={"100px"} />,
   },
 ];
 
