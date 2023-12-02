@@ -15,7 +15,7 @@ COPY ./back/requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY ./back .
-RUN python wsgi.py
+RUN python proxy/run.py
 
 # nginx on
 FROM nginx:latest
