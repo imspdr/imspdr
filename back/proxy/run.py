@@ -8,5 +8,3 @@ app.register_blueprint(p3_riot)
 def index():
     return "hello imspdr"
 
-if __name__ == "__main__":
-    app.run(port=5000, debug=True)
