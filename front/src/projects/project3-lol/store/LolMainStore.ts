@@ -62,9 +62,11 @@ class LolMainStore {
 
       const ind = this.nowUsers.findIndex((user: lolUser) => user.name === name);
       if (ind >= 0) {
-        this.nowIndex = ind;
-        this.loading = false;
-        return;
+        runInAction(() => {
+          this.nowUsers = this.nowUsers.filter((user: lolUser) => {
+            return user.name !== name;
+          });
+        });
       }
 
       const userInfo = await RiotAPI.getPuuid(name);

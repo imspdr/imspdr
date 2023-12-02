@@ -1,13 +1,21 @@
 import requests
+from flask import Blueprint, request
+
+
+p3_riot = Blueprint('riot', __name__, url_prefix='/riot')
 
 RIOTKEY = "RGAPI-72e763f4-0992-4114-baf6-69ca40311016"
 
 url_kr = "https://kr.api.riotgames.com/"
 url_asia = "https://asia.api.riotgames.com/"
 
+############ DEFINE API #######################################
 
-def update_key(key, password):
+@p3_riot.route("/updateKey", methods=["POST"])
+def update_key():
     global RIOTKEY
+    key = request.args.get("token")
+    password = request.args.get("password")
     print(key)
     print(password)
 
@@ -29,7 +37,7 @@ def update_key(key, password):
             "status": "error",
         }
 
-
+@p3_riot.route("/puuid/<name>", methods=["GET"])
 def get_puuid(name):
     summoner = "lol/summoner/v4/summoners/by-name/"
     header = {"X-Riot-Token": RIOTKEY}
@@ -57,6 +65,7 @@ def get_puuid(name):
         }
 
 
+@p3_riot.route("/matchIds/<puuid>/<start>/<count>", methods=["GET"])
 def get_match_ids(puuid, start, count):
     matchs = "lol/match/v5/matches/by-puuid/"
     header = {"X-Riot-Token": RIOTKEY}
@@ -77,6 +86,7 @@ def get_match_ids(puuid, start, count):
         }
 
 
+@p3_riot.route("/tier/<userid>", methods=["GET"])
 def get_user_tier(userid):
     find_tier = "lol/league/v4/entries/by-summoner/"
     header = {"X-Riot-Token": RIOTKEY}
@@ -94,6 +104,7 @@ def get_user_tier(userid):
         }
 
 
+@p3_riot.route("/match/<match_id>", methods=["GET"])
 def get_match_info(match_id):
     header = {"X-Riot-Token": RIOTKEY}
     match_info = "lol/match/v5/matches/"
@@ -127,7 +138,7 @@ def get_match_info(match_id):
 
     # 모스트 찾기
 
-
+@p3_riot.route("/most/<puuid>", methods=["GET"])
 def get_most(puuid):
     header = {"X-Riot-Token": RIOTKEY}
     champ_top = "lol/champion-mastery/v4/champion-masteries/by-puuid/"
@@ -148,3 +159,4 @@ def get_most(puuid):
         return {
             "status": "error",
         }
+

@@ -35,7 +35,7 @@ function LolMobileResult() {
           lolStore.onSearch(v);
         }}
         width={Math.min(lolStore.windowWidth - 150, 500)}
-        height={lolStore.windowWidth >= 650 ? 50 : 30}
+        height={50}
       />
       <div
         css={css`

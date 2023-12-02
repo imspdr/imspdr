@@ -34,7 +34,7 @@ function LolResult() {
           display: flex;
           flex-direction: row;
           align-items: center;
-          height: 100px;
+          height: 80px;
         `}
       >
         <div
@@ -53,7 +53,7 @@ function LolResult() {
             lolStore.onSearch(v);
           }}
           width={Math.min(lolStore.windowWidth - 200, 400)}
-          height={50}
+          height={80}
         />
         <div
           css={css`
