@@ -20,9 +20,9 @@ RUN python proxy/run.py
 # nginx on
 
 FROM nginx:latest
-RUN rm -rf /etc/nginx/conf.d/*
-COPY ./nginx.conf /etc/nginx/conf.d/
+RUN rm -rf /etc/nginx/conf.d
+COPY ./nginx.conf /etc/nginx/nginx.conf
 
-COPY --from=builder front/build /usr/share/nginx/html
+COPY --from=builder /front/build /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
