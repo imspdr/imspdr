@@ -5,17 +5,6 @@ COPY ./front .
 RUN npm install
 RUN npm run build
 
-# build backend
-FROM python:3.7.8-slim-buster
-WORKDIR /imspdr/back
-
-# install dependencies
-RUN pip install --upgrade pip
-COPY ./back/requirements.txt .
-RUN pip install -r requirements.txt
-
-COPY ./back .
-RUN python proxy/run.py
 
 # nginx on
 
