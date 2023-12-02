@@ -3,6 +3,8 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const path = require("path");
 
+const isDevelopment = process.env.NODE_ENV !== "production";
+
 module.exports = {
   entry: path.join(__dirname, "src/index.tsx"),
   output: {
@@ -23,7 +25,7 @@ module.exports = {
       filename: "index.html",
     }),
     new CleanWebpackPlugin(),
-    new ReactRefreshWebpackPlugin(),
+    isDevelopment && new ReactRefreshWebpackPlugin(),
   ],
   devtool: "eval-source-map",
   module: {
@@ -35,7 +37,7 @@ module.exports = {
           {
             loader: "babel-loader",
             options: {
-              plugins: [require.resolve("react-refresh/babel")],
+              plugins: [isDevelopment && require.resolve("react-refresh/babel")],
             },
           },
           "ts-loader",
