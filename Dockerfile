@@ -21,7 +21,7 @@ RUN python proxy/run.py
 
 FROM nginx:latest
 RUN rm -rf /etc/nginx/conf.d
-COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/conf.d/
 
 COPY --from=builder /front/build /usr/share/nginx/html
 EXPOSE 80
