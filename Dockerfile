@@ -7,8 +7,6 @@ RUN npm run build
 
 # build backend
 FROM python:3.7-slim
-RUN apt-get update && apt-get install -y nginx
-
 WORKDIR /back
 
 # install dependencies
@@ -17,10 +15,12 @@ COPY ./back/requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY ./back .
+EXPOSE 5000
 CMD ["python", "proxy/run.py"]
 
-# nginx install & setting
 
+# nginx on
+FROM nginx:latest
 RUN rm -rf /etc/nginx/conf.d
 COPY ./nginx.conf /etc/nginx/conf.d/
 
