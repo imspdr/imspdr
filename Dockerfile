@@ -6,7 +6,9 @@ RUN npm install
 RUN npm run build
 
 # build backend
-FROM python:3.7.8-slim-buster
+FROM python:3.7-slim
+RUN apt-get update && apt-get install -y nginx
+
 WORKDIR /back
 
 # install dependencies
@@ -17,9 +19,8 @@ RUN pip install -r requirements.txt
 COPY ./back .
 RUN python proxy/run.py
 
-# nginx on
+# nginx install & setting
 
-FROM nginx:latest
 RUN rm -rf /etc/nginx/conf.d
 COPY ./nginx.conf /etc/nginx/conf.d/
 

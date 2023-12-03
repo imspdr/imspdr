@@ -108,7 +108,7 @@ class SuikaStore {
           y: this.nowRadius * 2,
         },
         velocity: { x: 0, y: 5 },
-        accel: { x: 0, y: 7 },
+        accel: { x: 0, y: 5 },
         fillIndex: this.nowFill,
       },
     ];

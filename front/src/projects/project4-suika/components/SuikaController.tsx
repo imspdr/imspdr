@@ -4,6 +4,7 @@ import { useSuikaStore } from "../store/SuikaStoreProvider";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import { unselectable } from "@src/common/util";
 
 function SuikaController() {
   const suikaStore = useSuikaStore();
@@ -17,8 +18,9 @@ function SuikaController() {
         border: 3px solid;
         border-radius: 5px;
         margin-top: 10px;
-        width: 160px;
+        width: 200px;
         height: 32px;
+        ${unselectable}
       `}
     >
       <div
@@ -26,6 +28,7 @@ function SuikaController() {
           display: flex;
           align-items: center;
           justify-content: center;
+          width: 30px;
         `}
         onClick={() => {
           suikaStore.posX -= 5;
@@ -38,6 +41,7 @@ function SuikaController() {
           display: flex;
           align-items: center;
           justify-content: center;
+          width: 30px;
         `}
         onClick={() => {
           suikaStore.posX += 5;
@@ -86,6 +90,7 @@ function SuikaController() {
           display: flex;
           align-items: center;
           justify-content: center;
+          width: 30px;
         `}
         onClick={() => {
           suikaStore.addFruit();

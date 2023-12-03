@@ -89,7 +89,6 @@ function DraggableBadge(props: { badgeId: number }) {
                 ${unselectable}
               `}
             >
-              <div>{"아이콘을 드래그 해보세요"}</div>
               <div
                 css={css`
                   border: 3px solid;
@@ -127,10 +126,17 @@ function DraggableBadge(props: { badgeId: number }) {
                 <div
                   css={css`
                     font-size: 12px;
-                    align-self: flex-end;
                   `}
                 >
                   {"더블 클릭 시 이동"}
+                </div>
+
+                <div
+                  css={css`
+                    font-size: 12px;
+                  `}
+                >
+                  {"아이콘을 드래그 해보세요"}
                 </div>
               </div>
             </div>

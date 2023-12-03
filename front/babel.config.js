@@ -5,5 +5,5 @@ module.exports = {
     ["@babel/preset-react", { runtime: "automatic", importSource: "@emotion/react" }],
     "@babel/preset-typescript",
   ],
-  plugins: ["@babel/plugin-transform-optional-chaining"],
+  plugins: ["@babel/plugin-transform-optional-chaining", "@emotion/babel-plugin"],
 };
