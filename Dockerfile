@@ -17,7 +17,7 @@ COPY ./back/requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY ./back .
-RUN python proxy/run.py
+CMD ["python", "proxy/run.py"]
 
 # nginx install & setting
 
