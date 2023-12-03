@@ -3,10 +3,10 @@ import { RiotAPI } from "./api";
 import { lolUser, participant } from "./types";
 
 class LolMainStore {
-  public windowWidth: number;
-
   public nowUsers: lolUser[];
-  public nowIndex: number;
+
+  private __windowWidth: number;
+  private __nowIndex: number;
 
   private __nowName: string;
   private __loading: boolean;
@@ -16,9 +16,10 @@ class LolMainStore {
     this.__nowName = "";
     this.__showResult = false;
     this.__loading = false;
+    this.__nowIndex = 0;
+    this.__windowWidth = width;
+
     this.nowUsers = [];
-    this.nowIndex = 0;
-    this.windowWidth = width;
 
     makeAutoObservable(this);
   }
@@ -30,6 +31,18 @@ class LolMainStore {
   }
   get loading() {
     return this.__loading;
+  }
+  get nowIndex() {
+    return this.__nowIndex;
+  }
+  get windowWidth() {
+    return this.__windowWidth;
+  }
+  set nowIndex(num: number) {
+    this.__nowIndex = num;
+  }
+  set windowWidth(num: number) {
+    this.__windowWidth = num;
   }
   set nowName(name: string) {
     this.__nowName = name;

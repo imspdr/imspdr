@@ -5,6 +5,7 @@ import SuikaHelp from "./SuikaHelp";
 import SuikaController from "./SuikaController";
 import { useSuikaStore } from "../store/SuikaStoreProvider";
 import { useEffect, useState } from "react";
+import SuikaOption from "./SuikaOption";
 
 function SuikaTemplate(props: { width: number }) {
   const suikaStore = useSuikaStore();
@@ -49,7 +50,12 @@ function SuikaTemplate(props: { width: number }) {
         <SuikaBoard />
         <SuikaController />
       </div>
-      {props.width > 500 && <SuikaHelp />}
+      {props.width > 800 && (
+        <>
+          <SuikaHelp />
+          <SuikaOption />
+        </>
+      )}
     </div>
   );
 }

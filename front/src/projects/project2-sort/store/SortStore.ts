@@ -18,18 +18,19 @@ const generateArray = (length: number) => {
 };
 
 class SortStore {
-  public compareCount: number;
   public sortAlgos: {
     label: string;
     value: string;
   }[];
+
+  private __compareCount: number;
   private __selectedAlgo: string;
   private __animateTime: number;
   private __arrayLength: number;
   private __stopFlag: boolean;
   private __numberArray: bar[];
   constructor() {
-    this.compareCount = 0;
+    this.__compareCount = 0;
     this.__animateTime = 10;
     this.__arrayLength = 300;
     this.__numberArray = generateArray(this.arrayLength);
@@ -52,6 +53,12 @@ class SortStore {
     this.__selectedAlgo = "merge";
 
     makeAutoObservable(this);
+  }
+  get compareCount() {
+    return this.__compareCount;
+  }
+  set compareCount(num: number) {
+    this.__compareCount = num;
   }
   get numberArray() {
     return this.__numberArray;

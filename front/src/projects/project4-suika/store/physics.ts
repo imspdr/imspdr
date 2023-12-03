@@ -28,7 +28,8 @@ const nearby = (fruit1: fruit, fruit2: fruit) => {
 export const circleCollision = (
   fruit1: fruit,
   fruit2: fruit,
-  messOption: boolean
+  messOption: boolean,
+  colPower: number
 ): {
   fruit1: fruit;
   fruit2: fruit | undefined;
@@ -71,24 +72,27 @@ export const circleCollision = (
     const fruit12 = getVectorCal(fruit1.pos, fruit2.pos, "-");
     const fruit21 = getVectorCal(fruit2.pos, fruit1.pos, "-");
 
-    const m1 = messOption ? fruit1.radius * fruit1.radius : 500;
-    const m2 = messOption ? fruit2.radius * fruit2.radius : 500;
+    const m1 = messOption ? fruit1.radius * 30 : 500;
+    const m2 = messOption ? fruit2.radius * 30 : 500;
 
-    const v1 = getCosThetaV2(fruit21, fruit1.velocity);
-    const v2 = getCosThetaV2(fruit12, fruit2.velocity);
+    const v21 = getVectorCal(fruit1.velocity, fruit2.velocity, "-");
+
+    // const v1 = getCosThetaV2(fruit21, fruit1.velocity);
+    // const v2 = getCosThetaV2(fruit12, fruit2.velocity);
 
     const dist = fruit1.radius + fruit2.radius;
     const nowDist = getNorm(fruit12);
 
+    const collisionPower = colPower * getNorm(v21);
     const collisionRate = 0.9;
 
     const newVelo1 = {
-      x: (fruit1.velocity.x + (v1 / m1) * fruit12.x) * collisionRate,
-      y: (fruit1.velocity.y + (v1 / m1) * fruit12.y) * collisionRate,
+      x: (fruit1.velocity.x + (collisionPower / m1) * fruit12.x) * collisionRate,
+      y: (fruit1.velocity.y + (collisionPower / m1) * fruit12.y) * collisionRate,
     };
     const newVelo2 = {
-      x: (fruit2.velocity.x + (v2 / m2) * fruit21.x) * collisionRate,
-      y: (fruit2.velocity.y + (v2 / m2) * fruit21.y) * collisionRate,
+      x: (fruit2.velocity.x + (collisionPower / m2) * fruit21.x) * collisionRate,
+      y: (fruit2.velocity.y + (collisionPower / m2) * fruit21.y) * collisionRate,
     };
     return {
       fruit1: {
