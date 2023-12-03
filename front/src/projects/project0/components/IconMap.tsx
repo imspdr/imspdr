@@ -17,7 +17,12 @@ const iconMap = [
     comp: (
       <div
         css={css`
+          display: flex;
+          align-items: center;
+          justify-content: center;
           font-size: 50px;
+          width: 100px;
+          height: 100px;
         `}
       >
         LOL

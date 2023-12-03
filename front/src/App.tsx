@@ -33,7 +33,7 @@ function App() {
             ${unselectable}
           `}
         >
-          IMSPDR
+          IMSPDR - 개발 연습장
         </div>
         <ThemeToggle />
       </div>
