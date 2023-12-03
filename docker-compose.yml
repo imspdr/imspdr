@@ -5,6 +5,7 @@ services:
     ports:
       - 4545:80
   back:
+    image: myback
     build: ./back
     ports:
       - 5000:5000
