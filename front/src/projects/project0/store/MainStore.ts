@@ -5,12 +5,14 @@ import nonStaticProjects from "./nonStaticProjects.json";
 
 class MainStore {
   public badges: badge[];
+  public badgeRadius: number;
   private __windowWidth: number;
   private __windowHeight: number;
   constructor(width: number, height: number) {
     this.__windowWidth = width;
     this.__windowHeight = height;
     this.badges = staticProjects;
+    this.badgeRadius = 100;
     //this.badges = [...staticProjects, ...nonStaticProjects];
     this.rearrange();
     this.badges = this.badges.map((badge: badge) => {
@@ -19,9 +21,13 @@ class MainStore {
         return {
           ...badge,
           pos: JSON.parse(savedBadge),
+          radius: this.badgeRadius,
         };
       } else {
-        return badge;
+        return {
+          ...badge,
+          radius: this.badgeRadius,
+        };
       }
     });
     makeAutoObservable(this);
@@ -82,7 +88,10 @@ class MainStore {
     const maxY = this.windowHeight - movingBadge.radius - 20;
     const newX = Math.max(movingBadge.radius + 20, Math.min(x, maxX));
     const newY = Math.max(movingBadge.radius + 20, Math.min(y, maxY));
-    sessionStorage.setItem(movingBadge.title, JSON.stringify(movingBadge.pos));
+    sessionStorage.setItem(
+      `${movingBadge.title}-${movingBadge.id}`,
+      JSON.stringify(movingBadge.pos)
+    );
 
     this.badges = this.badges.map((badge: badge) => {
       if (badge.id === id) {

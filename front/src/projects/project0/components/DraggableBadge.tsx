@@ -31,6 +31,7 @@ function DraggableBadge(props: { badgeId: number }) {
               align-items: center;
               justify-content: center;
               border-radius: ${badge.radius}px;
+              background-color: transparent;
               border: ${hover ? "5px solid" : ""};
               z-index: ${hover ? 10 : 1};
               ${unselectable}
