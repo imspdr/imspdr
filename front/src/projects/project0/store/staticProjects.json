@@ -37,5 +37,18 @@
     "route": "suika",
     "tag": ["웹 게임"],
     "icon": "suika"
+  },
+  {
+    "id": 5,
+    "pos": {
+      "x": 1500,
+      "y": 200
+    },
+    "radius": 100,
+    "title": "유니온 배치기",
+    "description": "메이플스토리 유니온 자동 배치기",
+    "route": "union",
+    "tag": ["알고리즘 시각화"],
+    "icon": "union"
   }
 ]
