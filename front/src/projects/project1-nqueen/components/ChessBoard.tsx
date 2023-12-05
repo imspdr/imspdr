@@ -48,7 +48,7 @@ function ChessBlock(props: {
 
 function ChessBoard(props: { boardSize: number }) {
   const chessStore = useChessStore();
-  const givenSize = props.boardSize < 240 ? 240 : props.boardSize;
+  const givenSize = props.boardSize < 280 ? 280 : props.boardSize;
   const boardSize = Math.round(givenSize / chessStore.nQueen) * chessStore.nQueen;
   return (
     <div>
@@ -152,11 +152,7 @@ function ChessBoard(props: { boardSize: number }) {
             ${unselectable}
           `}
         >
-          {chessStore.poses.split(",").length - 1 === chessStore.nQueen ? (
-            "CLEAR !!"
-          ) : (
-            <RefreshIcon />
-          )}
+          {chessStore.poses.split(",").length - 1 === chessStore.nQueen ? "CLEAR" : <RefreshIcon />}
         </div>
         <div
           css={css`

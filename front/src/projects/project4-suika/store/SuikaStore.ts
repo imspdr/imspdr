@@ -36,7 +36,7 @@ class SuikaStore {
     this.height = 400;
 
     this.lossrate = 0.9;
-    this.t = 2;
+    this.t = 1;
 
     this.__messOption = true;
     this.__gravity = 5;
