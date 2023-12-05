@@ -17,8 +17,8 @@
     "react-router-dom": "^6.20.1"
   },
   "scripts": {
-    "build": "webpack --mode production",
-    "start": "webpack-dev-server --mode development"
+    "build": "webpack --env production",
+    "start": "webpack-dev-server --env development"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",

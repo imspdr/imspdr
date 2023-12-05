@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { badge } from "./types";
-import projectInfos from "./projects.json";
+import staticProjects from "./staticProjects.json";
+import nonStaticProjects from "./nonStaticProjects.json";
 
 class MainStore {
   public badges: badge[];
@@ -9,7 +10,8 @@ class MainStore {
   constructor(width: number, height: number) {
     this.__windowWidth = width;
     this.__windowHeight = height;
-    this.badges = projectInfos;
+    this.badges = staticProjects;
+    //this.badges = [...staticProjects, ...nonStaticProjects];
     this.rearrange();
     this.badges = this.badges.map((badge: badge) => {
       const savedBadge = sessionStorage.getItem(badge.title);
