@@ -1,10 +1,9 @@
 import { css } from "@emotion/react";
 import { observer } from "mobx-react";
 import { useUnionStore } from "../store/UnionStoreProvider";
-import UnionInput from "./UnionInput";
 import { useEffect, useState } from "react";
 
-function UnionTemplate(props: { width: number }) {
+function UnionInput() {
   const UnionStore = useUnionStore();
   return (
     <div
@@ -14,10 +13,8 @@ function UnionTemplate(props: { width: number }) {
         justify-content: center;
         flex-direction: "row";
       `}
-    >
-      <UnionInput />
-    </div>
+    ></div>
   );
 }
 
-export default observer(UnionTemplate);
+export default observer(UnionInput);
