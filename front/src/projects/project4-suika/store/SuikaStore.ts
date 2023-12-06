@@ -33,9 +33,9 @@ class SuikaStore {
     this.__lossFlag = false;
 
     this.width = 250;
-    this.height = 400;
+    this.height = 350;
 
-    this.lossrate = 0.9;
+    this.lossrate = 0.9; 
     this.t = 1;
 
     this.__messOption = true;
@@ -109,7 +109,7 @@ class SuikaStore {
       runInAction(() => {
         this.renderFruits = this.fruits;
       });
-    }, 10);
+    }, 16);
   };
   stop = () => {
     this.stopFlag = true;
@@ -161,10 +161,10 @@ class SuikaStore {
         for (let i = 0; i < this.fruits.length; i++) {
           let fruit = this.fruits[i];
           if (!fruit) continue;
-          let newX = fruit.pos.x + fruit.velocity.x * 0.1;
-          let newY = fruit.pos.y + fruit.velocity.y * 0.1;
-          let newVeloX = fruit.velocity.x + fruit.accel.x * 0.1;
-          let newVeloY = fruit.velocity.y + fruit.accel.y * 0.1;
+          let newX = fruit.pos.x + fruit.velocity.x * 0.2;
+          let newY = fruit.pos.y + fruit.velocity.y * 0.2;
+          let newVeloX = fruit.velocity.x + fruit.accel.x * 0.2;
+          let newVeloY = fruit.velocity.y + fruit.accel.y * 0.2;
           if (newY > this.height - fruit.radius) {
             newY = this.height - fruit.radius;
             newVeloY = -(1 - this.lossrate) * newVeloY;

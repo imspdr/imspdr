@@ -41,7 +41,7 @@ export const circleCollision = (
     };
   } else {
     if (fruit1.radius === fruit2.radius) {
-      if (fruit1.radius > 200) {
+      if (fruit1.radius > 120) {
         return {
           fruit1: {
             ...fruit1,
@@ -49,7 +49,7 @@ export const circleCollision = (
               x: (fruit1.pos.x + fruit2.pos.x) / 2,
               y: (fruit1.pos.y + fruit2.pos.y) / 2,
             },
-            radius: 10,
+            radius: 6,
             fillIndex: 0,
           },
           fruit2: undefined,

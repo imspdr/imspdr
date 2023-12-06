@@ -47,6 +47,13 @@ function SuikaTemplate(props: { width: number }) {
           align-items: center;
         `}
       >
+        <div
+          css={css`
+            width: 240px;
+          `}
+        >
+          {"주의) 과일이 많아지면 브라우저가 힘겨워할 수 있습니다"}
+        </div>
         <SuikaBoard />
         <SuikaController />
       </div>
