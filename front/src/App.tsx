@@ -11,6 +11,7 @@ function App() {
   const SortPage = lazy(() => import("./projects/project2-sort/SortPage"));
   const LolPage = lazy(() => import("./projects/project3-lol/LolMainPage"));
   const SuikaPage = lazy(() => import("./projects/project4-suika/SuikaPage"));
+  const UnionPage = lazy(() => import("./projects/project5-union/UnionPage"));
   return (
     <div>
       <div
@@ -51,6 +52,7 @@ function App() {
             <Route path="/sort" element={<SortPage />} />
             <Route path="/lol" element={<LolPage />} />
             <Route path="/suika" element={<SuikaPage />} />
+            <Route path="/union" element={<UnionPage />} />
           </Routes>
         </Suspense>
       </div>

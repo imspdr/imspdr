@@ -1,19 +1,10 @@
 import { makeAutoObservable, runInAction } from "mobx";
+import { unionVal, jobUnion, RANK, JOBS } from "./types";
 import { sleep } from "@src/common/util";
 
 
-const JOBS = ["warrior", "magician", "arrow", "thief", "pirate", "xenon"];
-const RANK = ["b", "a", "s", "ss", "sss"];
 
-type unionVal = {
-  rank: string;
-  num: number;
-};
 
-type jobUnion = {
-  job: string;
-  values: unionVal[];
-};
 
 class UnionStore {
   private __unionState: jobUnion[];

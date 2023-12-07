@@ -5,14 +5,14 @@ import UnionInput from "./UnionInput";
 import { useEffect, useState } from "react";
 
 function UnionTemplate(props: { width: number }) {
-  const UnionStore = useUnionStore();
+  const unionStore = useUnionStore();
   return (
     <div
       css={css`
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-direction: "row";
+        flex-direction: row;
       `}
     >
       <UnionInput />

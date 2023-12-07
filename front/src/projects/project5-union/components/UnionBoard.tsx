@@ -11,7 +11,7 @@ function UnionBoard(props: { width: number }) {
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-direction: "row";
+        flex-direction: row;
       `}
     ></div>
   );

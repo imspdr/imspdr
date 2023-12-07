@@ -7,7 +7,7 @@ export default function CommonNumberField(props: {
   onChange: (v: number) => void;
   min: number;
   max: number;
-  unit: string;
+  unit?: string;
   height?: number;
   width?: number;
   customCss?: string;
@@ -24,22 +24,26 @@ export default function CommonNumberField(props: {
         min-width: 50px;
         min-height: 40px;
         ${props.customCss && props.customCss}
-        ${props.height && `height: ${props.height}px;`}
-        ${props.width && `width: ${props.width}px;`}
+        ${props.height && `height: ${props.height - 10}px;`}
+        ${props.width && `width: ${props.width - 10}px;`}
         ${unselectable}
       `}
     >
       <input
         value={tempVal}
         onChange={(e) => {
-          if (Number(e.target.value)) {
+          if (Number(e.target.value) == 0 || Number(e.target.value)) {
             setTempVal(Number(e.target.value));
           } else {
-            setTempVal(props.value);
+            if (!e.target.value) {
+              setTempVal(0);
+            } else {
+              setTempVal(props.value);
+            }
           }
         }}
         onBlur={(e) => {
-          if (tempVal) {
+          if (tempVal == 0 || tempVal) {
             if (tempVal > props.max) {
               setTempVal(props.max);
               props.onChange(props.max);
@@ -54,16 +58,18 @@ export default function CommonNumberField(props: {
           }
         }}
         css={css`
-          width: 50px;
-          height: 40px;
-          ${props.height && `height: ${props.height}px;`}
-          ${props.width && `width: ${props.width}px;`}
+          width: 40px;
+          height: 30px;
+          min-width: 40px;
+          min-height: 30px;
+          ${props.height && `height: ${props.height - 10}px;`}
+          ${props.width && `width: ${props.width - 10}px;`}
           border: 0px;
           font-size: ${props.height ? props.height * 0.3 + "px" : "15px"};
           margin-right: 5px;
         `}
       />
-      {props.unit}
+      {props.unit ? props.unit : ""}
     </div>
   );
 }
