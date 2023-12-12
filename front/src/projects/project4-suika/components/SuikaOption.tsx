@@ -17,7 +17,7 @@ function SuikaOption() {
         ${unselectable}
       `}
     >
-      <div
+      {/* <div
         css={css`
           display: flex;
           flex-direction: column;
@@ -30,7 +30,7 @@ function SuikaOption() {
             suikaStore.messOption = !suikaStore.messOption;
           }}
         >{` ${suikaStore.messOption ? "on" : "off"}`}</span>
-      </div>
+      </div> */}
       <div
         css={css`
           margin-top: 20px;
