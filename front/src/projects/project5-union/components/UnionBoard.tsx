@@ -11,9 +11,22 @@ function UnionBoard(props: { width: number }) {
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-direction: row;
       `}
-    ></div>
+    >
+      {[...new Array(20)].map((_, index) => {
+        return [...new Array(22)].map((_, index) => {
+          return (
+            <div
+              css={css`
+                width: 5px;
+                height: 5px;
+                background-color: #dddddd;
+              `}
+            ></div>
+          );
+        });
+      })}
+    </div>
   );
 }
 
