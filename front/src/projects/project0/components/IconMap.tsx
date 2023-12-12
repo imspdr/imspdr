@@ -33,7 +33,7 @@ const iconMap = [
     label: "suika",
     comp: <SuikaIcon width={"100px"} height={"100px"} />,
   },
-  { label: "union", comp: <div>유니온</div> },
+  { label: "pokedam", comp: <div>포케뎀</div> },
 ];
 
 export default iconMap;

@@ -45,10 +45,10 @@
       "y": 200
     },
     "radius": 100,
-    "title": "유니온 배치기",
-    "description": "메이플스토리 유니온 자동 배치기",
-    "route": "union",
-    "tag": ["알고리즘 시각화"],
-    "icon": "union"
+    "title": "포켓몬 데미지 계산기",
+    "description": "포켓몬 데미지 계산기",
+    "route": "pokedam",
+    "tag": ["상태 관리"],
+    "icon": "pokedam"
   }
 ]

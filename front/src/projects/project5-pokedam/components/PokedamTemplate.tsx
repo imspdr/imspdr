@@ -1,11 +1,10 @@
 import { css } from "@emotion/react";
 import { observer } from "mobx-react";
-import { useUnionStore } from "../store/UnionStoreProvider";
-import UnionInput from "./UnionInput";
+import { usePokedamStore } from "../store/PokedamStoreProvider";
 import { useEffect, useState } from "react";
 
-function UnionTemplate(props: { width: number }) {
-  const unionStore = useUnionStore();
+function PokedamTemplate(props: { width: number }) {
+  const pokedamStore = usePokedamStore();
   return (
     <div
       css={css`
@@ -14,10 +13,8 @@ function UnionTemplate(props: { width: number }) {
         justify-content: center;
         flex-direction: row;
       `}
-    >
-      <UnionInput />
-    </div>
+    ></div>
   );
 }
 
-export default observer(UnionTemplate);
+export default observer(PokedamTemplate);

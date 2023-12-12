@@ -1,9 +1,9 @@
 import CommonTemplate from "@src/common/CommonTemplate";
-import { UnionStoreProvider } from "./store/UnionStoreProvider";
-import UnionTemplate from "./components/UnionTemplate";
+import { PokedamStoreProvider } from "./store/PokedamStoreProvider";
+import PokedamTemplate from "./components/PokedamTemplate";
 import { useEffect, useState } from "react";
 
-function UnionPage() {
+function PokedamPage() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const handleSizeChange = () => {
     setWindowWidth(window.innerWidth);
@@ -16,12 +16,12 @@ function UnionPage() {
     };
   }, []);
   return (
-    <UnionStoreProvider>
-      <CommonTemplate title="유니온 배치기" width={windowWidth}>
-        <UnionTemplate width={windowWidth} />
+    <PokedamStoreProvider>
+      <CommonTemplate title="포켓몬 데미지 계산기" width={windowWidth}>
+        <PokedamTemplate width={windowWidth} />
       </CommonTemplate>
-    </UnionStoreProvider>
+    </PokedamStoreProvider>
   );
 }
 
-export default UnionPage;
+export default PokedamPage;
