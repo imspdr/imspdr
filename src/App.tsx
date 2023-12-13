@@ -9,9 +9,8 @@ function App() {
   const navigate = useNavigate();
   const ChessPage = lazy(() => import("./projects/project1-nqueen/ChessPage"));
   const SortPage = lazy(() => import("./projects/project2-sort/SortPage"));
-  const LolPage = lazy(() => import("./projects/project3-lol/LolMainPage"));
-  const SuikaPage = lazy(() => import("./projects/project4-suika/SuikaPage"));
-  const PokedamPage = lazy(() => import("./projects/project5-pokedam/PokedamPage"));
+  const SuikaPage = lazy(() => import("./projects/project3-suika/SuikaPage"));
+  const PokedamPage = lazy(() => import("./projects/project4-pokedam/PokedamPage"));
   return (
     <div>
       <div
@@ -50,7 +49,6 @@ function App() {
             <Route path="/" element={<MainPage />} />
             <Route path="/chess" element={<ChessPage />} />
             <Route path="/sort" element={<SortPage />} />
-            <Route path="/lol" element={<LolPage />} />
             <Route path="/suika" element={<SuikaPage />} />
             <Route path="/pokedam" element={<PokedamPage />} />
           </Routes>

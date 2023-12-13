@@ -1,7 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { badge } from "./types";
 import staticProjects from "./staticProjects.json";
-import nonStaticProjects from "./nonStaticProjects.json";
 
 class MainStore {
   public badges: badge[];
@@ -16,7 +15,7 @@ class MainStore {
     //this.badges = [...staticProjects, ...nonStaticProjects];
     this.rearrange();
     this.badges = this.badges.map((badge: badge) => {
-      const savedBadge = sessionStorage.getItem(badge.title);
+      const savedBadge = sessionStorage.getItem(`${badge.title}-${badge.id}`);
       if (savedBadge) {
         return {
           ...badge,
