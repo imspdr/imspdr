@@ -72,8 +72,8 @@ export const circleCollision = (
     const fruit12 = getVectorCal(fruit1.pos, fruit2.pos, "-");
     const fruit21 = getVectorCal(fruit2.pos, fruit1.pos, "-");
 
-    const m1 = messOption ? fruit1.radius * 30 : 500;
-    const m2 = messOption ? fruit2.radius * 30 : 500;
+    const m1 = messOption ? fruit1.radius * 30 : 200;
+    const m2 = messOption ? fruit2.radius * 30 : 200;
 
     const v21 = getVectorCal(fruit1.velocity, fruit2.velocity, "-");
 
