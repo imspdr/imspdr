@@ -26,7 +26,7 @@
     "icon": "sort"
   },
   {
-    "id": 4,
+    "id": 3,
     "pos": {
       "x": 1300,
       "y": 200
@@ -37,18 +37,5 @@
     "route": "suika",
     "tag": ["웹 게임"],
     "icon": "suika"
-  },
-  {
-    "id": 5,
-    "pos": {
-      "x": 1500,
-      "y": 200
-    },
-    "radius": 100,
-    "title": "포켓몬 데미지 계산기",
-    "description": "포켓몬 데미지 계산기",
-    "route": "pokedam",
-    "tag": ["상태 관리"],
-    "icon": "pokedam"
   }
 ]

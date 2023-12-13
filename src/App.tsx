@@ -30,10 +30,12 @@ function App() {
             navigate("/");
           }}
           css={css`
+            display: flex;
+            flex-direction: row;
             ${unselectable}
           `}
         >
-          IMSPDR - 개발 연습장
+          IMSPDR - 연습장
         </div>
         <ThemeToggle />
       </div>
