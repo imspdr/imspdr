@@ -82,12 +82,17 @@ class ChessStore {
     this.solving = false;
   };
   solver = async (i: number) => {
+    // i는 행 index j는 열 index로 사용
+    // i가 n(배치할 퀸 개수)보다 클 경우 리턴
     if (i >= this.nQueen) {
       return true;
     }
+    // 각 열에 대해서 brute force check 진행
     for (let j = 0; j <= this.nQueen; j++) {
       const pos = `${alphabet[i]}${j},`;
       if (j === this.nQueen) {
+        // 마지막 열에서도 해결되지않은 경우
+        // 배치한 말 + 직전에 배치한 말 제거하고 return false
         const nPos = this.poses.split(",").length - 1;
         this.poses = this.poses.split(",").reduce((a, c, i) => {
           if (i < nPos - 1) {
@@ -98,15 +103,19 @@ class ChessStore {
         }, "");
         return false;
       } else if (!this.isCovered(i, j)) {
+        // 배치할 수 있는 영역에 대해 배치하고 다음 행으로 넘기기
         await sleep(10);
         this.poses = this.poses + pos;
         let ret = await this.solver(i + 1);
         if (ret) return true;
       }
+
       if (!this.solving) {
+        // 인터룹트를 통해 종료
         return true;
       }
     }
+    return true;
   };
 }
 
