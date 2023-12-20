@@ -9,9 +9,11 @@ export type bar = {
 const generateArray = (length: number) => {
   let ret: bar[] = [];
   for (let i = 0; i < length; i++) {
+    let randomVal = Math.round(Math.random() * 1000);
+    if (!randomVal) randomVal = 0.1;
     ret.push({
       state: "normal",
-      value: Math.round(Math.random() * 1000),
+      value: randomVal,
     });
   }
   return ret;
@@ -260,9 +262,7 @@ class SortStore {
           }
           await this.swap(smallerIndex, biggerIndex);
         }
-
-        let smallerVal = this.numberArray[smallerIndex]?.value;
-        if (smallerVal) this.setValues([left, smallerIndex], [smallerVal, pivot]);
+        await this.swap(smallerIndex, left);
         await this.innerQuickSort(left, smallerIndex - 1);
         await this.innerQuickSort(smallerIndex + 1, right);
       }
