@@ -30,7 +30,7 @@ class PokedamStore {
     this.__history = pokes;
   }
 
-  setOption = (option1: string, option2: string, option3: string, value: number) => {};
+  setOption = (isAttacker: boolean, option: string, option2: string, value: number) => {};
 }
 
 export default PokedamStore;
