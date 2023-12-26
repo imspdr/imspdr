@@ -2,6 +2,9 @@ import { css } from "@emotion/react";
 import { observer } from "mobx-react";
 import { usePokedamStore } from "../store/PokedamStoreProvider";
 import { useEffect, useState } from "react";
+import PokeHistory from "./PokeHistory";
+import PokePlayers from "./PokePlayers";
+import PokeResult from "./PokeResult";
 
 function PokedamTemplate(props: { width: number }) {
   const pokedamStore = usePokedamStore();
@@ -13,7 +16,13 @@ function PokedamTemplate(props: { width: number }) {
         justify-content: center;
         flex-direction: row;
       `}
-    ></div>
+    >
+      <div>
+        <PokePlayers width={800} />
+        <PokeResult />
+      </div>
+      <PokeHistory />
+    </div>
   );
 }
 

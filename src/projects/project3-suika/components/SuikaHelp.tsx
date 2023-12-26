@@ -1,8 +1,6 @@
 import { css } from "@emotion/react";
 import { observer } from "mobx-react";
 import { useSuikaStore } from "../store/SuikaStoreProvider";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import StopIcon from "@mui/icons-material/Stop";
 
 function SuikaHelp() {
   const suikaStore = useSuikaStore();

@@ -80,64 +80,45 @@ function DraggableBadge(props: { badgeId: number }) {
               css={css`
                 position: absolute;
                 left: ${badge.pos.x > mainStore.windowWidth - badge.radius - 220
-                  ? badge.pos.x - badge.radius - 220
+                  ? badge.pos.x - badge.radius - 220 - 20
                   : badge.pos.x + badge.radius + 20}px;
                 ${badge.pos.y < mainStore.windowHeight / 2
                   ? `top: ${badge.pos.y - badge.radius - 10}px;`
                   : `bottom: ${mainStore.windowHeight - badge.pos.y - badge.radius - 10}px;`}
                 width: 200px;
                 z-index: 10;
+                border: 3px solid;
+                padding: 10px;
                 ${unselectable}
               `}
             >
               <div
                 css={css`
-                  border: 3px solid;
-                  padding: 10px;
-                  min-height: ${badge.radius}px;
-                  z-index: 10;
-                  ${unselectable}
+                  font-size: 20px;
                 `}
               >
+                {badge.title}
+              </div>
+              <div
+                css={css`
+                  font-size: 15px;
+                  margin-top: 10px;
+                  display: flex;
+                  min-height: 150px;
+                  flex-direction: column;
+                  justify-content: space-between;
+                `}
+              >
+                <span>{badge.description}</span>
                 <div
                   css={css`
-                    font-size: 20px;
-                  `}
-                >
-                  {badge.title}
-                </div>
-                <div
-                  css={css`
-                    font-size: 15px;
-                    margin-top: 10px;
-                  `}
-                >
-                  {badge.description}
-                </div>
-                <div
-                  css={css`
-                    margin-top: 30px;
-                    margin-bottom: 10px;
-                  `}
-                >
-                  {badge.tag.map((tag: string) => {
-                    return <div>{"#" + tag}</div>;
-                  })}
-                </div>
-                <div
-                  css={css`
+                    display: flex;
+                    flex-direction: column;
                     font-size: 12px;
                   `}
                 >
-                  {"더블 클릭 시 이동"}
-                </div>
-
-                <div
-                  css={css`
-                    font-size: 12px;
-                  `}
-                >
-                  {"아이콘을 드래그 해보세요"}
+                  <span>{"더블 클릭 시 이동"}</span>
+                  <span>{"아이콘을 드래그 해보세요"}</span>
                 </div>
               </div>
             </div>
