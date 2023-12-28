@@ -15,6 +15,7 @@ function PokePlayers(props: { width: number }) {
       <div
         css={css`
           border: 2px solid;
+          width: 200px;
         `}
       >
         공격자
@@ -22,6 +23,7 @@ function PokePlayers(props: { width: number }) {
       <div
         css={css`
           border: 2px solid;
+          width: 200px;
         `}
       >
         수비자
