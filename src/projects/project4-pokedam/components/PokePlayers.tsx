@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { usePokedamStore } from "../store/PokedamStoreProvider";
 
 function PokePlayers(props: { width: number }) {
+  const damStore = usePokedamStore();
   return (
     <div
       css={css`
@@ -16,10 +17,9 @@ function PokePlayers(props: { width: number }) {
         css={css`
           border: 2px solid;
           width: 200px;
+          border-radius: 5px;
         `}
-      >
-        공격자
-      </div>
+      ></div>
       <div
         css={css`
           border: 2px solid;

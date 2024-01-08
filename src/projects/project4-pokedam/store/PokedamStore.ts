@@ -1,5 +1,8 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { pokemon, habcds } from "./types";
+import { pokemon, habcds, pokemonSpecies } from "./types";
+import pokemons from "./pokemons.json";
+
+const pokemonList: pokemonSpecies[] = pokemons;
 
 class PokedamStore {
   private __attacker: pokemon | undefined;
@@ -22,13 +25,13 @@ class PokedamStore {
   }
   set attacker(poke: pokemon | undefined) {
     if (this.attacker) {
-      this.history = [this.attacker, ...this.history.filter((_, i) => i < 9)];
+      this.history = [this.attacker, ...this.history.filter((_, i) => i < 99)];
     }
     this.__attacker = poke;
   }
   set opponent(poke: pokemon | undefined) {
     if (this.opponent) {
-      this.history = [this.opponent, ...this.history.filter((_, i) => i < 9)];
+      this.history = [this.opponent, ...this.history.filter((_, i) => i < 99)];
     }
     this.__opponent = poke;
   }
@@ -42,7 +45,7 @@ class PokedamStore {
     option2: keyof habcds,
     value: number
   ) => {
-    if (option === "pokemonType") {
+    if (option === "pokemonType" || option === "title" || option === "name") {
       return;
     }
     if (isAttacker && this.attacker) {
