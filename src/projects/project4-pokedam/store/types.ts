@@ -7,10 +7,14 @@ export type habcds = {
   s: number;
 };
 
-export type pokemon = {
+export type pokemonSpecies = {
+  pokemonName: string;
   species: habcds;
+  pokemonType: number;
+};
+export type pokemon = {
+  title: string;
   individual: habcds;
   effort: habcds;
   rank: habcds;
-  pokemonType: number;
-};
+} & pokemonSpecies;
