@@ -45,7 +45,7 @@ class PokedamStore {
     option2: keyof habcds,
     value: number
   ) => {
-    if (option === "pokemonType" || option === "title" || option === "name") {
+    if (option === "pokemonType" || option === "title" || option === "pokemonName") {
       return;
     }
     if (isAttacker && this.attacker) {
