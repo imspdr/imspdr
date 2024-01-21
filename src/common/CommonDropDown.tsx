@@ -57,14 +57,17 @@ export default function CommonDropDown(props: {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            justify-content: center;
             font-size: 15px;
+            max-height: 500px;
+            overflow: auto;
+            z-index: 9999;
           `}
         >
           {props.nodes.map((node) => {
             if (node.value !== props.selected) {
               return (
                 <div
+                  key={`${node.label}-${node.value}`}
                   css={css`
                     display: flex;
                     flex-direction: row;
