@@ -1,7 +1,8 @@
 import { css } from "@emotion/react";
 import { unselectable } from "@src/common/util";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import CommonTextField from "./CommonTextField";
 
 export default function CommonDropDown(props: {
   nodes: {
@@ -12,9 +13,55 @@ export default function CommonDropDown(props: {
   onSelect: (v: string) => void;
   height?: number;
   width?: number;
+  search?: boolean;
   customCss?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+
+  useEffect(() => {
+    setSearchText("");
+  }, [open]);
+
+  const RenderNodes = useCallback(() => {
+    return (
+      <>
+        {props.nodes
+          .filter((node) => node.label.includes(searchText))
+          .map((node) => {
+            if (node.value !== props.selected) {
+              return (
+                <div
+                  key={`${node.label}-${node.value}`}
+                  css={css`
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    min-width: 120px;
+                    min-height: 30px;
+                    ${props.height && `height: ${props.height}px;`}
+                    ${props.width && `width: ${props.width}px;`}
+                      padding: 5px 5px 5px 10px;
+                    border: 1px solid;
+                    border-top: 0px;
+                    margin-left: 1px;
+                  `}
+                  onClick={() => {
+                    props.onSelect(node.value);
+                    setOpen(false);
+                  }}
+                >
+                  {node.label}
+                </div>
+              );
+            } else {
+              return <></>;
+            }
+          })}
+      </>
+    );
+  }, [searchText]);
+
   return (
     <div
       css={css`
@@ -58,41 +105,39 @@ export default function CommonDropDown(props: {
             flex-direction: column;
             align-items: flex-start;
             font-size: 15px;
-            max-height: 500px;
-            overflow: auto;
-            z-index: 9999;
+            z-index: 9998;
           `}
         >
-          {props.nodes.map((node) => {
-            if (node.value !== props.selected) {
-              return (
-                <div
-                  key={`${node.label}-${node.value}`}
-                  css={css`
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    min-width: 120px;
-                    min-height: 30px;
-                    ${props.height && `height: ${props.height}px;`}
-                    ${props.width && `width: ${props.width}px;`}
-                    padding: 5px 5px 5px 10px;
-                    border: 1px solid;
-                    border-top: 0px;
-                    margin-left: 1px;
-                  `}
-                  onClick={() => {
-                    setOpen(false);
-                    props.onSelect(node.value);
-                  }}
-                >
-                  {node.label}
-                </div>
-              );
-            } else {
-              return <></>;
-            }
-          })}
+          {props.search && (
+            <input
+              css={css`
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                min-width: 120px;
+                min-height: 30px;
+                ${props.height && `height: ${props.height}px;`}
+                ${props.width && `width: ${props.width}px;`}
+                padding: 5px 5px 5px 10px;
+                border: 1px solid;
+                border-top: 0px;
+                margin-left: 1px;
+              `}
+              value={searchText}
+              onChange={(e) => {
+                setSearchText(e.target.value);
+              }}
+              placeholder="검색"
+            />
+          )}
+          <div
+            css={css`
+              max-height: 500px;
+              overflow: auto;
+            `}
+          >
+            <RenderNodes />
+          </div>
         </div>
       )}
     </div>

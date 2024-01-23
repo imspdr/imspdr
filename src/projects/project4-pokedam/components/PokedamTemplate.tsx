@@ -12,9 +12,8 @@ function PokedamTemplate(props: { width: number }) {
     <div
       css={css`
         display: flex;
-        align-items: center;
-        justify-content: center;
         flex-direction: row;
+        padding: 50px;
       `}
     >
       <div>

@@ -4,6 +4,7 @@ import { pokemon, habcds } from "../store/types";
 import { observer } from "mobx-react";
 import CommonNumberField from "@src/common/CommonNumberField";
 import { usePokedamStore } from "../store/PokedamStoreProvider";
+import { unselectable } from "@src/common/util";
 
 function PokeEditor(props: { isAttacker: boolean }) {
   const damStore = usePokedamStore();
@@ -96,7 +97,7 @@ function PokeEditor(props: { isAttacker: boolean }) {
         </div>
       </>
     );
-  }, [props.isAttacker ? damStore.attacker.index : damStore.opponent.index]);
+  }, [props.isAttacker ? damStore.attacker : damStore.opponent]);
 
   return (
     <div
@@ -106,6 +107,7 @@ function PokeEditor(props: { isAttacker: boolean }) {
         border: 1px solid;
         border-radius: 5px;
         padding: 10px;
+        margin-top: 10px;
       `}
     >
       <div
@@ -119,15 +121,32 @@ function PokeEditor(props: { isAttacker: boolean }) {
           css={css`
             width: 70px;
           `}
-        ></div>
+        >
+          성격
+        </div>
         {habcdsList.map((key: string) => {
+          const keyreal = key as keyof habcds;
+          const val = props.isAttacker
+            ? damStore.attacker.feature[keyreal]
+            : damStore.opponent.feature[keyreal];
           return (
             <div
               key={key}
               css={css`
-                margin-left: 10px;
+                margin-left: 5px;
+                margin-right: 5px;
                 width: 50px;
+                border-radius: 3px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: ${val === 1.1 ? "#ee4444" : val === 0.9 ? "#4444ee" : "#bbbbbb"};
+                transition: 0s;
+                ${unselectable}
               `}
+              onClick={() => {
+                damStore.setFeature(props.isAttacker, keyreal);
+              }}
             >
               {key}
             </div>

@@ -17,8 +17,8 @@ export type pokemonSpecies = {
   pokemonType: string[];
 };
 export type pokemon = {
-  index: number;
   title: string;
+  feature: habcds;
   individual: habcds;
   effort: habcds;
   rank: habcds;
