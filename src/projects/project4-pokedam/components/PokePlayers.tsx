@@ -37,6 +37,7 @@ function PokePlayers(props: { width: number }) {
         >
           <CommonDropDown
             width={180}
+            height={30}
             nodes={damStore.pokemonList.map((poke: pokemonSpecies) => {
               return {
                 label: poke.pokemonName.korean ? poke.pokemonName.korean : poke.pokemonName.english,
@@ -98,6 +99,7 @@ function PokePlayers(props: { width: number }) {
                 value: poke.pokemonName.english,
               };
             })}
+            height={30}
             selected={damStore.opponent.pokemonName.english}
             onSelect={(v: string) => {
               const selectedPoke = damStore.pokemonList.find(

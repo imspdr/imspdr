@@ -12,13 +12,15 @@ export default function CommonDropDown(props: {
   selected: string;
   onSelect: (v: string) => void;
   height?: number;
+  maxHeight?: number;
   width?: number;
   search?: boolean;
   customCss?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
-
+  const MINHEIGHT = 20;
+  const MINWIDTH = 50;
   useEffect(() => {
     setSearchText("");
   }, [open]);
@@ -37,11 +39,11 @@ export default function CommonDropDown(props: {
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    min-width: 120px;
-                    min-height: 30px;
+                    min-width: ${MINWIDTH}px;
+                    min-height: ${MINHEIGHT}px;
                     ${props.height && `height: ${props.height}px;`}
                     ${props.width && `width: ${props.width}px;`}
-                      padding: 5px 5px 5px 10px;
+                    padding: 5px 5px 5px 10px;
                     border: 1px solid;
                     border-top: 0px;
                     margin-left: 1px;
@@ -60,7 +62,7 @@ export default function CommonDropDown(props: {
           })}
       </>
     );
-  }, [searchText]);
+  }, [searchText, props.selected]);
 
   return (
     <div
@@ -69,8 +71,6 @@ export default function CommonDropDown(props: {
         display: flex;
         flex-direction: column;
         position: relative;
-        ${props.height && `height: ${props.height}px;`}
-        ${props.width && `width: ${props.width}px;`}
         ${unselectable}
       `}
     >
@@ -83,11 +83,11 @@ export default function CommonDropDown(props: {
           justify-content: space-between;
           align-items: center;
           font-size: 15px;
-          min-width: 120px;
-          min-height: 30px;
+          min-width: ${MINWIDTH}px;
+          min-height: ${MINHEIGHT}px;
           ${props.height && `height: ${props.height}px;`}
           ${props.width && `width: ${props.width}px;`}
-        ${unselectable}
+          ${unselectable}
         `}
         onClick={() => {
           setOpen((v) => !v);
@@ -100,7 +100,7 @@ export default function CommonDropDown(props: {
         <div
           css={css`
             position: absolute;
-            top: ${props.height ? `${props.height + 14}px` : "44px"};
+            top: ${props.height ? `${props.height + 14}px` : "38px"};
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -114,8 +114,8 @@ export default function CommonDropDown(props: {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                min-width: 120px;
-                min-height: 30px;
+                min-width: ${MINWIDTH}px;
+                min-height: ${MINHEIGHT}px;
                 ${props.height && `height: ${props.height}px;`}
                 ${props.width && `width: ${props.width}px;`}
                 padding: 5px 5px 5px 10px;
@@ -132,7 +132,7 @@ export default function CommonDropDown(props: {
           )}
           <div
             css={css`
-              max-height: 500px;
+              max-height: ${props.maxHeight ? `${props.maxHeight}px` : "500px"};
               overflow: auto;
             `}
           >

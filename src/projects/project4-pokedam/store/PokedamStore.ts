@@ -1,6 +1,8 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { pokemon, habcds, pokemonSpecies } from "./types";
 import pokemons from "./pokedex.json";
+import { typeMap } from "./pokeInfo";
+
 
 const zeros: habcds = {
   h: 0,

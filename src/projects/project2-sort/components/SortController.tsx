@@ -32,6 +32,7 @@ function SortController(props: { width: number }) {
           sortStore.selectedAlgo = v;
         }}
         width={mobileMode ? 150 : 200}
+        height={30}
       />
       {!mobileMode && (
         <div
