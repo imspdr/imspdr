@@ -310,7 +310,7 @@ function PokeResult() {
                   ${unselectable}
                 `}
                 onClick={() => {
-                  setBaeyoul((v) => v.filter((n, i) => i !== index));
+                  setDefBaeyoul((v) => v.filter((n, i) => i !== index));
                 }}
               >
                 {`x${num}`}
