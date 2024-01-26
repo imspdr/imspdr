@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 import { unselectable } from "@src/common/util";
-import CloseIcon from "@mui/icons-material/Close";
+import { ReactComponent as CloseIcon } from "@src/images/close.svg";
 
 export default function CommonTemplate(props: {
   title: string;
@@ -39,7 +39,7 @@ export default function CommonTemplate(props: {
             height: 20px;
           `}
         >
-          <CloseIcon />
+          <CloseIcon width="20px" height="20px" />
         </div>
       </div>
       <div

@@ -1,8 +1,7 @@
 import { css } from "@emotion/react";
 import { unselectable } from "@src/common/util";
 import { useState, useEffect, useCallback } from "react";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import CommonTextField from "./CommonTextField";
+import { ReactComponent as DropIcon } from "@src/images/dropdown.svg";
 
 export default function CommonDropDown(props: {
   nodes: {
@@ -43,7 +42,7 @@ export default function CommonDropDown(props: {
                     min-height: ${MINHEIGHT}px;
                     ${props.height && `height: ${props.height}px;`}
                     ${props.width && `width: ${props.width}px;`}
-                    padding: 5px 5px 5px 10px;
+                    padding: 5px 10px;
                     border: 1px solid;
                     border-top: 0px;
                     margin-left: 1px;
@@ -77,7 +76,7 @@ export default function CommonDropDown(props: {
       <div
         css={css`
           border: 2px solid;
-          padding: 5px 5px 5px 10px;
+          padding: 5px 10px;
           display: flex;
           flex-direction: row;
           justify-content: space-between;
@@ -94,7 +93,7 @@ export default function CommonDropDown(props: {
         }}
       >
         {props.nodes.find((node) => node.value === props.selected)?.label}
-        <ArrowDropDownIcon />
+        <DropIcon width="15px" height="15px" />
       </div>
       {open && (
         <div
@@ -118,7 +117,7 @@ export default function CommonDropDown(props: {
                 min-height: ${MINHEIGHT}px;
                 ${props.height && `height: ${props.height}px;`}
                 ${props.width && `width: ${props.width}px;`}
-                padding: 5px 5px 5px 10px;
+                padding: 5px 10px;
                 border: 1px solid;
                 border-top: 0px;
                 margin-left: 1px;

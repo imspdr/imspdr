@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { unselectable } from "@src/common/util";
 import { useState, useEffect } from "react";
-import SearchIcon from "@mui/icons-material/Search";
+import { ReactComponent as SearchIcon } from "@src/images/search.svg";
 
 export default function CommonSearchBar(props: {
   onEnter: (v: string) => void;

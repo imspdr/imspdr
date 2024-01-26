@@ -1,9 +1,10 @@
 import { css } from "@emotion/react";
 import { observer } from "mobx-react";
 import { useSuikaStore } from "../store/SuikaStoreProvider";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import StopIcon from "@mui/icons-material/Stop";
-import RefreshIcon from "@mui/icons-material/Refresh";
+
+import { ReactComponent as PlayIcon } from "@src/images/play.svg";
+import { ReactComponent as StopIcon } from "@src/images/stop.svg";
+import { ReactComponent as RefreshIcon } from "@src/images/refresh.svg";
 import { unselectable } from "@src/common/util";
 
 function SuikaController() {
@@ -59,7 +60,7 @@ function SuikaController() {
           suikaStore.reset();
         }}
       >
-        <RefreshIcon />
+        <RefreshIcon height="15px" width="15px" />
       </div>
       <div
         css={css`
@@ -76,13 +77,9 @@ function SuikaController() {
         }}
       >
         {suikaStore.stopFlag ? (
-          <PlayArrowIcon
-            css={css`
-              color: var(--darkorange);
-            `}
-          />
+          <PlayIcon width="20px" height="20px" />
         ) : (
-          <StopIcon />
+          <StopIcon width="20px" height="20px" />
         )}
       </div>
       <div

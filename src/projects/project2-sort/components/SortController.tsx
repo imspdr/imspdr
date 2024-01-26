@@ -4,9 +4,9 @@ import { useSortStore } from "../store/SortStoreProvider";
 import { unselectable } from "@src/common/util";
 import CommonDropDown from "@src/common/CommonDropDown";
 import CommonNumberField from "@src/common/CommonNumberField";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import StopIcon from "@mui/icons-material/Stop";
-import RefreshIcon from "@mui/icons-material/Refresh";
+import { ReactComponent as RefreshIcon } from "@src/images/refresh.svg";
+import { ReactComponent as PlayIcon } from "@src/images/play.svg";
+import { ReactComponent as StopIcon } from "@src/images/stop.svg";
 
 function SortController(props: { width: number }) {
   const sortStore = useSortStore();
@@ -103,7 +103,7 @@ function SortController(props: { width: number }) {
             }}
           >
             {sortStore.stopFlag ? (
-              <PlayArrowIcon
+              <PlayIcon
                 css={css`
                   color: var(--darkorange);
                 `}
@@ -153,7 +153,7 @@ function SortController(props: { width: number }) {
             }}
           >
             {sortStore.stopFlag ? (
-              <PlayArrowIcon
+              <PlayIcon
                 css={css`
                   color: var(--darkorange);
                 `}

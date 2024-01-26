@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { useChessStore } from "../store/ChessStoreProvider";
 import { unselectable } from "@src/common/util";
 import { ReactComponent as QueenIcon } from "@src/images/queenIcon.svg";
-import RefreshIcon from "@mui/icons-material/Refresh";
+import { ReactComponent as RefreshIcon } from "@src/images/refresh.svg";
 
 function ChessBlock(props: {
   color: number; // 0 for black 1 for white

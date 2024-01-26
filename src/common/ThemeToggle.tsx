@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { css, keyframes } from "@emotion/react";
-import NightsStayIcon from "@mui/icons-material/NightsStay";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
+
+import { ReactComponent as SunIcon } from "@src/images/sun.svg";
+import { ReactComponent as MoonIcon } from "@src/images/moon.svg";
 
 export default function ThemeToggle() {
   const [isDark, setIsDark] = useState<boolean>(false);
@@ -69,7 +70,7 @@ export default function ThemeToggle() {
         z-index: 10;
       `}
     >
-      <NightsStayIcon
+      <MoonIcon
         css={css`
           position: absolute;
           opacity: ${isDark ? 1 : 0};
@@ -78,7 +79,7 @@ export default function ThemeToggle() {
           animation: ${isDark ? raise : down} 1s;
         `}
       />
-      <WbSunnyIcon
+      <SunIcon
         css={css`
           position: absolute;
           opacity: ${isDark ? 0 : 1};

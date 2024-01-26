@@ -6,8 +6,6 @@
   },
   "dependencies": {
     "@emotion/styled": "^11.10.5",
-    "@mui/icons-material": "^5.10.14",
-    "@mui/material": "5.14.18",
     "axios": "^1.2.1",
     "mobx": "^6.6.2",
     "mobx-react": "^7.5.3",
