@@ -5,6 +5,9 @@ import { observer } from "mobx-react";
 import CommonNumberField from "@src/common/CommonNumberField";
 import { usePokedamStore } from "../store/PokedamStoreProvider";
 import { unselectable } from "@src/common/util";
+import { pokemonSpecies } from "../store/types";
+import CommonDropDown from "@src/common/CommonDropDown";
+import PokeType from "./PokeType";
 
 function PokeEditor(props: { isAttacker: boolean }) {
   const damStore = usePokedamStore();
@@ -97,17 +100,17 @@ function PokeEditor(props: { isAttacker: boolean }) {
         </div>
       </>
     );
-  }, [props.isAttacker ? damStore.attacker : damStore.opponent]);
+  }, [poke]);
 
   return (
     <div
       css={css`
+        border: 2px solid;
+        width: 450px;
+        border-radius: 5px;
         display: flex;
         flex-direction: column;
-        border: 1px solid;
-        border-radius: 5px;
-        padding: 10px;
-        margin-top: 10px;
+        padding: 5px;
       `}
     >
       <div
@@ -117,43 +120,134 @@ function PokeEditor(props: { isAttacker: boolean }) {
           align-items: center;
         `}
       >
+        <CommonDropDown
+          width={180}
+          height={30}
+          nodes={damStore.pokemonList.map((poke: pokemonSpecies) => {
+            return {
+              label: poke.pokemonName.korean ? poke.pokemonName.korean : poke.pokemonName.english,
+              value: poke.pokemonName.english,
+            };
+          })}
+          selected={String(poke.pokemonName.english)}
+          onSelect={(v: string) => {
+            const selectedPoke = damStore.pokemonList.find(
+              (poke) => poke.pokemonName.english === v
+            );
+            if (selectedPoke) {
+              if (props.isAttacker) {
+                damStore.attacker = {
+                  ...damStore.attacker,
+                  pokemonName: selectedPoke.pokemonName,
+                  pokemonStat: selectedPoke.pokemonStat,
+                  pokemonType: selectedPoke.pokemonType,
+                };
+              } else {
+                damStore.opponent = {
+                  ...damStore.opponent,
+                  pokemonName: selectedPoke.pokemonName,
+                  pokemonStat: selectedPoke.pokemonStat,
+                  pokemonType: selectedPoke.pokemonType,
+                };
+              }
+            }
+          }}
+          search
+        />
         <div
           css={css`
-            width: 70px;
+            display: flex;
+            flex-direction: row;
           `}
         >
-          성격
+          {poke.pokemonType.map((tt) => {
+            return <PokeType types={tt} />;
+          })}
         </div>
-        {habcdsList.map((key: string) => {
-          const keyreal = key as keyof habcds;
-          const val = props.isAttacker
-            ? damStore.attacker.feature[keyreal]
-            : damStore.opponent.feature[keyreal];
-          return (
-            <div
-              key={key}
-              css={css`
-                margin-left: 5px;
-                margin-right: 5px;
-                width: 50px;
-                border-radius: 3px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                background-color: ${val === 1.1 ? "#ee4444" : val === 0.9 ? "#4444ee" : "#bbbbbb"};
-                transition: 0s;
-                ${unselectable}
-              `}
-              onClick={() => {
-                damStore.setFeature(props.isAttacker, keyreal);
-              }}
-            >
-              {key}
-            </div>
-          );
-        })}
+        <div
+          css={css`
+            padding: 5px;
+            border: 1px solid;
+            border-radius: 3px;
+            margin: 3px;
+            ${unselectable}
+          `}
+          onClick={() => damStore.savePoke(props.isAttacker)}
+        >
+          저장
+        </div>
+        <div
+          css={css`
+            padding: 5px;
+            border: 1px solid;
+            border-radius: 3px;
+            margin: 3px;
+            ${unselectable}
+          `}
+          onClick={() => damStore.switchPoke()}
+        >
+          일본어
+        </div>
       </div>
-      <RenderValues />
+      <div
+        css={css`
+          display: flex;
+          flex-direction: column;
+          border: 1px solid;
+          border-radius: 5px;
+          padding: 10px;
+          margin-top: 10px;
+        `}
+      >
+        <div
+          css={css`
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+          `}
+        >
+          <div
+            css={css`
+              width: 70px;
+            `}
+          >
+            성격
+          </div>
+          {habcdsList.map((key: string) => {
+            const keyreal = key as keyof habcds;
+            const val = props.isAttacker
+              ? damStore.attacker.feature[keyreal]
+              : damStore.opponent.feature[keyreal];
+            return (
+              <div
+                key={key}
+                css={css`
+                  margin-left: 5px;
+                  margin-right: 5px;
+                  width: 50px;
+                  border-radius: 3px;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  background-color: ${val === 1.1
+                    ? "#ee4444"
+                    : val === 0.9
+                    ? "#4444ee"
+                    : "#bbbbbb"};
+                  transition: 0s;
+                  ${unselectable}
+                `}
+                onClick={() => {
+                  damStore.setFeature(props.isAttacker, keyreal);
+                }}
+              >
+                {key}
+              </div>
+            );
+          })}
+        </div>
+        <RenderValues />
+      </div>
     </div>
   );
 }

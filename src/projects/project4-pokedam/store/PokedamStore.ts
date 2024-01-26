@@ -44,7 +44,11 @@ class PokedamStore {
   public pokemonList: pokemonSpecies[];
   constructor() {
     this.pokemonList = pokemons;
-    this.__history = [];
+    if (localStorage.getItem("pokedam-history")) {
+      this.__history = JSON.parse(localStorage.getItem("pokedam-history")!);
+    } else {
+      this.__history = [];
+    }
     this.__attacker = {
       title: "",
       individual: indi31,
@@ -86,8 +90,39 @@ class PokedamStore {
   }
   set history(pokes: pokemon[]) {
     this.__history = pokes;
+    localStorage.setItem("pokedam-history", JSON.stringify(pokes));
   }
-
+  switchPoke = () => {
+    let temp: pokemon = this.opponent;
+    this.opponent = this.attacker;
+    this.attacker = temp;
+  };
+  setPoke = (isAttacker: boolean, poke: pokemon) => {
+    if (isAttacker) {
+      this.attacker = poke;
+    } else {
+      this.opponent = poke;
+    }
+  };
+  savePoke = (isAttacker: boolean) => {
+    const genTitle = (poke: pokemon) => {
+      let pokename = poke.pokemonName.korean ? poke.pokemonName.korean : poke.pokemonName.english;
+      pokename += " ";
+      Object.keys(poke.effort).forEach((key) => {
+        const ke = poke.effort[key as keyof habcds];
+        if (ke) {
+          pokename += key;
+        }
+      });
+      return pokename.slice(0, 10);
+    };
+    this.history = [
+      isAttacker
+        ? { ...this.attacker, title: genTitle(this.attacker) }
+        : { ...this.opponent, title: genTitle(this.opponent) },
+      ...this.history,
+    ];
+  };
   calcReal = (poke: pokemon): pokemon => {
     return {
       ...poke,

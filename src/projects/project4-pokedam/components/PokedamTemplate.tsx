@@ -17,7 +17,7 @@ function PokedamTemplate(props: { width: number }) {
       `}
     >
       <div>
-        <PokePlayers width={800} />
+        <PokePlayers width={1000} />
         <PokeResult />
       </div>
       <PokeHistory />
