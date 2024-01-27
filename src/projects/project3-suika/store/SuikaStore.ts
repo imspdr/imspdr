@@ -40,7 +40,7 @@ class SuikaStore {
 
     this.__messOption = false;
     this.__gravity = 5;
-    this.__collisionPower = 1;
+    this.__collisionPower = 3;
 
     this.stopFlag = true;
     this.createFlag = false;
