@@ -17,6 +17,7 @@ function PokeHistory() {
         flex-direction: column;
         align-items: center;
         width: 200px;
+        min-width: 200px;
         height: 605px;
         overflow: auto;
       `}

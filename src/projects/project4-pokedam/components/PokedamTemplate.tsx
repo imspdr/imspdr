@@ -6,8 +6,7 @@ import PokeHistory from "./PokeHistory";
 import PokePlayers from "./PokePlayers";
 import PokeResult from "./PokeResult";
 
-function PokedamTemplate(props: { width: number }) {
-  const pokedamStore = usePokedamStore();
+function PokedamTemplate() {
   return (
     <div
       css={css`
@@ -17,7 +16,7 @@ function PokedamTemplate(props: { width: number }) {
       `}
     >
       <div>
-        <PokePlayers width={1000} />
+        <PokePlayers />
         <PokeResult />
       </div>
       <PokeHistory />

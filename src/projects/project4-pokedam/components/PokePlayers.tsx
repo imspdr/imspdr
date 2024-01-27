@@ -5,15 +5,13 @@ import PokeEditor from "./PokeEditor";
 import { ReactComponent as SwitchIcon } from "@src/images/switch.svg";
 import { unselectable } from "@src/common/util";
 
-function PokePlayers(props: { width: number }) {
+function PokePlayers() {
   const damStore = usePokedamStore();
   return (
     <div
       css={css`
         display: flex;
         flex-direction: row;
-        width: ${props.width}px;
-        min-width: 1000px;
         justify-content: space-between;
         align-items: center;
       `}
