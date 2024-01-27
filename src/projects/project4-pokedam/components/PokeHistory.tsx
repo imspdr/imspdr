@@ -29,7 +29,7 @@ function PokeHistory() {
               border-radius: 3px;
               width: 170px;
               height: 70px;
-              min-height: 50px;
+              min-height: 80px;
               margin: 5px;
               padding: 5px;
               display: flex;

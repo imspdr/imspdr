@@ -45,7 +45,6 @@ export default function CommonDropDown(props: {
                     padding: 5px 10px;
                     border: 1px solid;
                     border-top: 0px;
-                    margin-left: 1px;
                   `}
                   onClick={() => {
                     props.onSelect(node.value);
@@ -133,6 +132,7 @@ export default function CommonDropDown(props: {
             css={css`
               max-height: ${props.maxHeight ? `${props.maxHeight}px` : "500px"};
               overflow: auto;
+              border: 1px solid;
             `}
           >
             <RenderNodes />

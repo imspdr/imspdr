@@ -1,6 +1,7 @@
 import { ReactComponent as QueenIcon } from "@src/images/queenIcon.svg";
 import { ReactComponent as SortIcon } from "@src/images/sortIcon.svg";
 import { ReactComponent as SuikaIcon } from "@src/images/watermelon.svg";
+import { ReactComponent as PokeballIcon } from "@src/images/pokeball.svg";
 import { css } from "@emotion/react";
 
 const iconMap = [
@@ -33,7 +34,7 @@ const iconMap = [
     label: "suika",
     comp: <SuikaIcon width={"100px"} height={"100px"} />,
   },
-  { label: "pokedam", comp: <div>포케뎀</div> },
+  { label: "pokedam", comp: <PokeballIcon width={"100px"} height={"100px"} /> },
 ];
 
 export default iconMap;

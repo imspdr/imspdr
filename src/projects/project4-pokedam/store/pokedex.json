@@ -5064,71 +5064,71 @@
   {
     "pokemonType": ["Grass", "Dragon"],
     "pokemonStat": { "h": 80, "a": 80, "b": 110, "c": 95, "d": 80, "s": 40 },
-    "pokemonName": { "english": "dipplin" }
+    "pokemonName": { "english": "dipplin", "japanese": "カミッチュ", "korean": "과미르" }
   },
   {
     "pokemonType": ["Grass", "Ghost"],
     "pokemonStat": { "h": 40, "a": 45, "b": 45, "c": 74, "d": 54, "s": 50 },
-    "pokemonName": { "english": "poltchageist" }
+    "pokemonName": { "english": "poltchageist", "japanese": "チャデス", "korean": "차데스" }
   },
   {
     "pokemonType": ["Grass", "Ghost"],
     "pokemonStat": { "h": 71, "a": 60, "b": 106, "c": 121, "d": 80, "s": 70 },
-    "pokemonName": { "english": "sinistcha" }
+    "pokemonName": { "english": "sinistcha", "japanese": "ヤバソチャ", "korean": "그우린차" }
   },
   {
     "pokemonType": ["Poison", "Fighting"],
     "pokemonStat": { "h": 88, "a": 128, "b": 115, "c": 58, "d": 86, "s": 80 },
-    "pokemonName": { "english": "okidogi" }
+    "pokemonName": { "english": "okidogi", "japanese": "イイネイヌ", "korean": "조타구" }
   },
   {
     "pokemonType": ["Poison", "Psychic"],
     "pokemonStat": { "h": 88, "a": 75, "b": 66, "c": 130, "d": 90, "s": 106 },
-    "pokemonName": { "english": "munkidori" }
+    "pokemonName": { "english": "munkidori", "japanese": "マシマシラ", "korean": "이야후" }
   },
   {
     "pokemonType": ["Poison", "Fairy"],
     "pokemonStat": { "h": 88, "a": 91, "b": 82, "c": 70, "d": 125, "s": 99 },
-    "pokemonName": { "english": "fezandipiti" }
+    "pokemonName": { "english": "fezandipiti", "japanese": "キチキギス", "korean": "기로치" }
   },
   {
     "pokemonType": ["Grass"],
     "pokemonStat": { "h": 80, "a": 120, "b": 84, "c": 60, "d": 96, "s": 110 },
-    "pokemonName": { "english": "ogerpon" }
+    "pokemonName": { "english": "ogerpon", "japanese": "オーガポン", "korean": "오거폰" }
   },
   {
     "pokemonType": ["Steel", "Dragon"],
     "pokemonStat": { "h": 90, "a": 105, "b": 130, "c": 125, "d": 65, "s": 85 },
-    "pokemonName": { "english": "archaludon" }
+    "pokemonName": { "english": "archaludon", "japanese": "ブリジュラス", "korean": "브리두라스" }
   },
   {
     "pokemonType": ["Grass", "Dragon"],
     "pokemonStat": { "h": 106, "a": 80, "b": 110, "c": 120, "d": 80, "s": 44 },
-    "pokemonName": { "english": "hydrapple" }
+    "pokemonName": { "english": "hydrapple", "japanese": "カミツオロチ", "korean": "과미드라" }
   },
   {
     "pokemonType": ["Fire", "Dragon"],
     "pokemonStat": { "h": 105, "a": 115, "b": 121, "c": 65, "d": 93, "s": 91 },
-    "pokemonName": { "english": "gouging-fire" }
+    "pokemonName": { "english": "gouging-fire", "japanese": "ウガツホムラ", "korean": "꿰뚫는화염" }
   },
   {
     "pokemonType": ["Electric", "Dragon"],
     "pokemonStat": { "h": 125, "a": 73, "b": 91, "c": 137, "d": 89, "s": 75 },
-    "pokemonName": { "english": "raging-bolt" }
+    "pokemonName": { "english": "raging-bolt", "japanese": "タケルライコ", "korean": "날뛰는우레" }
   },
   {
     "pokemonType": ["Rock", "Psychic"],
     "pokemonStat": { "h": 90, "a": 120, "b": 80, "c": 68, "d": 108, "s": 124 },
-    "pokemonName": { "english": "iron-boulder" }
+    "pokemonName": { "english": "iron-boulder", "japanese": "テツノイワオ", "korean": "무쇠암석" }
   },
   {
     "pokemonType": ["Steel", "Psychic"],
     "pokemonStat": { "h": 90, "a": 72, "b": 100, "c": 122, "d": 108, "s": 98 },
-    "pokemonName": { "english": "iron-crown" }
+    "pokemonName": { "english": "iron-crown", "japanese": "テツノカシラ", "korean": "무쇠감투" }
   },
   {
     "pokemonType": ["Normal"],
     "pokemonStat": { "h": 90, "a": 65, "b": 85, "c": 65, "d": 85, "s": 60 },
-    "pokemonName": { "english": "terapagos" }
+    "pokemonName": { "english": "terapagos", "japanese": "テラパゴス", "korean": "테라파고스" }
   }
 ]

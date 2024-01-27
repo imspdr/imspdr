@@ -8,6 +8,7 @@ import { unselectable } from "@src/common/util";
 import { pokemonSpecies } from "../store/types";
 import CommonDropDown from "@src/common/CommonDropDown";
 import PokeType from "./PokeType";
+import JapSearch from "./JapSearch";
 
 function PokeEditor(props: { isAttacker: boolean }) {
   const damStore = usePokedamStore();
@@ -118,52 +119,89 @@ function PokeEditor(props: { isAttacker: boolean }) {
           display: flex;
           flex-direction: row;
           align-items: center;
+          justify-content: space-between;
         `}
       >
-        <CommonDropDown
-          width={180}
-          height={30}
-          nodes={damStore.pokemonList.map((poke: pokemonSpecies) => {
-            return {
-              label: poke.pokemonName.korean ? poke.pokemonName.korean : poke.pokemonName.english,
-              value: poke.pokemonName.english,
-            };
-          })}
-          selected={String(poke.pokemonName.english)}
-          onSelect={(v: string) => {
-            const selectedPoke = damStore.pokemonList.find(
-              (poke) => poke.pokemonName.english === v
-            );
-            if (selectedPoke) {
-              if (props.isAttacker) {
-                damStore.attacker = {
-                  ...damStore.attacker,
-                  pokemonName: selectedPoke.pokemonName,
-                  pokemonStat: selectedPoke.pokemonStat,
-                  pokemonType: selectedPoke.pokemonType,
-                };
-              } else {
-                damStore.opponent = {
-                  ...damStore.opponent,
-                  pokemonName: selectedPoke.pokemonName,
-                  pokemonStat: selectedPoke.pokemonStat,
-                  pokemonType: selectedPoke.pokemonType,
-                };
-              }
-            }
-          }}
-          search
-        />
         <div
           css={css`
             display: flex;
             flex-direction: row;
+            align-items: center;
           `}
         >
-          {poke.pokemonType.map((tt) => {
-            return <PokeType types={tt} />;
-          })}
+          <CommonDropDown
+            width={120}
+            height={30}
+            customCss={"margin-right: 5px;"}
+            nodes={damStore.pokemonList.map((poke: pokemonSpecies) => {
+              return {
+                label: poke.pokemonName.korean ? poke.pokemonName.korean : poke.pokemonName.english,
+                value: poke.pokemonName.english,
+              };
+            })}
+            selected={String(poke.pokemonName.english)}
+            onSelect={(v: string) => {
+              const selectedPoke = damStore.pokemonList.find(
+                (poke) => poke.pokemonName.english === v
+              );
+              if (selectedPoke) {
+                if (props.isAttacker) {
+                  damStore.attacker = {
+                    ...damStore.attacker,
+                    pokemonName: selectedPoke.pokemonName,
+                    pokemonStat: selectedPoke.pokemonStat,
+                    pokemonType: selectedPoke.pokemonType,
+                  };
+                } else {
+                  damStore.opponent = {
+                    ...damStore.opponent,
+                    pokemonName: selectedPoke.pokemonName,
+                    pokemonStat: selectedPoke.pokemonStat,
+                    pokemonType: selectedPoke.pokemonType,
+                  };
+                }
+              }
+            }}
+            search
+          />
+          <JapSearch
+            nodes={damStore.pokemonList}
+            selected={String(poke.pokemonName.english)}
+            onSelect={(v: string) => {
+              const selectedPoke = damStore.pokemonList.find(
+                (poke) => poke.pokemonName.english === v
+              );
+              if (selectedPoke) {
+                if (props.isAttacker) {
+                  damStore.attacker = {
+                    ...damStore.attacker,
+                    pokemonName: selectedPoke.pokemonName,
+                    pokemonStat: selectedPoke.pokemonStat,
+                    pokemonType: selectedPoke.pokemonType,
+                  };
+                } else {
+                  damStore.opponent = {
+                    ...damStore.opponent,
+                    pokemonName: selectedPoke.pokemonName,
+                    pokemonStat: selectedPoke.pokemonStat,
+                    pokemonType: selectedPoke.pokemonType,
+                  };
+                }
+              }
+            }}
+          />
+          <div
+            css={css`
+              display: flex;
+              flex-direction: row;
+            `}
+          >
+            {poke.pokemonType.map((tt) => {
+              return <PokeType types={tt} />;
+            })}
+          </div>
         </div>
+
         <div
           css={css`
             padding: 5px;
@@ -175,18 +213,6 @@ function PokeEditor(props: { isAttacker: boolean }) {
           onClick={() => damStore.savePoke(props.isAttacker)}
         >
           저장
-        </div>
-        <div
-          css={css`
-            padding: 5px;
-            border: 1px solid;
-            border-radius: 3px;
-            margin: 3px;
-            ${unselectable}
-          `}
-          onClick={() => damStore.switchPoke()}
-        >
-          일본어
         </div>
       </div>
       <div

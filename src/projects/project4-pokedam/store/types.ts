@@ -8,8 +8,8 @@ export type habcds = {
 };
 export type lang = {
   english: string;
-  japanese?: string;
-  korean?: string;
+  japanese: string;
+  korean: string;
 };
 export type pokemonSpecies = {
   pokemonName: lang;
