@@ -113,7 +113,7 @@ class PokedamStore {
           pokename += key;
         }
       });
-      return pokename.slice(0, 10);
+      return pokename.slice(0, 20);
     };
     this.history = [
       isAttacker

@@ -108,7 +108,7 @@ function PokeEditor(props: { isAttacker: boolean }) {
     <div
       css={css`
         border: 2px solid;
-        width: 500px;
+        width: 510px;
         border-radius: 5px;
         display: flex;
         flex-direction: column;
@@ -131,7 +131,7 @@ function PokeEditor(props: { isAttacker: boolean }) {
           `}
         >
           <CommonDropDown
-            width={180}
+            width={190}
             height={30}
             customCss={"margin-right: 5px;"}
             nodes={damStore.pokemonList.map((poke: pokemonSpecies) => {
