@@ -41,7 +41,7 @@ function PokeEditor(props: { isAttacker: boolean }) {
             >
               <div
                 css={css`
-                  width: 70px;
+                  width: 100px;
                 `}
               >
                 {dt.title}
@@ -75,15 +75,16 @@ function PokeEditor(props: { isAttacker: boolean }) {
             flex-direction: row;
             align-items: center;
             margin-top: 5px;
+            height: 30px;
           `}
         >
-          <div
+          <span
             css={css`
-              width: 70px;
+              width: 100px;
             `}
           >
             {"실능(Lv50)"}
-          </div>
+          </span>
           {habcdsList.map((key: string) => {
             const keyreal = key as keyof habcds;
             return (
@@ -234,7 +235,7 @@ function PokeEditor(props: { isAttacker: boolean }) {
         >
           <div
             css={css`
-              width: 70px;
+              width: 100px;
             `}
           >
             성격
