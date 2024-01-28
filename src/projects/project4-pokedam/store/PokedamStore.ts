@@ -1,8 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { pokemon, habcds, pokemonSpecies } from "./types";
-import pokemons from "./pokedex.json";
-import { typeMap } from "./pokeInfo";
-
+import pokemons from "./pokedex2.json";
 
 const zeros: habcds = {
   h: 0,
@@ -44,6 +42,7 @@ class PokedamStore {
   public pokemonList: pokemonSpecies[];
   constructor() {
     this.pokemonList = pokemons;
+
     if (localStorage.getItem("pokedam-history")) {
       this.__history = JSON.parse(localStorage.getItem("pokedam-history")!);
     } else {
