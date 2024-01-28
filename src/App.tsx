@@ -42,7 +42,6 @@ function App() {
       <div
         css={css`
           margin-top: 64px;
-          width: calc(99vw);
           height: calc(99vh - 64px);
         `}
       >

@@ -173,7 +173,7 @@ function SortController(props: { width: number }) {
               sortStore.reset();
             }}
           >
-            <RefreshIcon />
+            <RefreshIcon width="15px" height="15px" />
           </div>
         </div>
       )}

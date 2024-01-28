@@ -56,7 +56,7 @@ function MobileTemplate() {
     mainStore.windowWidth = window.innerWidth;
   };
 
-  const xGridN = Math.floor(mainStore.windowWidth / (mainStore.badgeRadius * 2 + 10));
+  const xGridN = Math.floor(mainStore.windowWidth / 180);
   const xWidth = Math.floor(mainStore.windowWidth / xGridN) - 10;
   const gtc = [...new Array(xGridN)].reduce((a, c) => {
     return a + `${xWidth}px `;

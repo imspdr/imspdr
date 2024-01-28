@@ -12,9 +12,9 @@ export default function CommonTemplate(props: {
   return (
     <div
       css={css`
-        padding: ${props.width && props.width < 600 ? "10px" : "20px"};
-        border: 5px solid;
-        margin: ${props.width && props.width < 600 ? "10px" : "20px"};
+        padding: 10px;
+        margin: 2px;
+        border: 3px solid;
         height: calc(100% - 64px);
         min-height: 500px;
       `}
@@ -24,8 +24,8 @@ export default function CommonTemplate(props: {
           display: flex;
           flex-direction: row;
           justify-content: space-between;
-          height: 40px;
-          font-size: ${props.width && props.width < 500 ? 20 : 30}px;
+          height: 30px;
+          font-size: 20px;
           ${unselectable}
         `}
       >

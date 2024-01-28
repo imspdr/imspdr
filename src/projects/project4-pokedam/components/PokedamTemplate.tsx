@@ -12,7 +12,7 @@ function PokedamTemplate() {
       css={css`
         display: flex;
         flex-direction: row;
-        padding: 50px;
+        padding: 10px;
       `}
     >
       <div>
