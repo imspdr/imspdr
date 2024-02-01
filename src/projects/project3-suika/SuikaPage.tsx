@@ -17,9 +17,7 @@ function SuikaPage() {
   }, []);
   return (
     <SuikaStoreProvider>
-      <CommonTemplate title="수박 게임" width={windowWidth}>
-        <SuikaTemplate width={windowWidth} />
-      </CommonTemplate>
+      <SuikaTemplate width={windowWidth} />
     </SuikaStoreProvider>
   );
 }

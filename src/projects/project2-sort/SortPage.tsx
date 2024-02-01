@@ -22,20 +22,18 @@ export default function SortPage() {
   }, []);
   return (
     <SortStoreProvider>
-      <CommonTemplate title="정렬 시각화" width={windowWidth}>
-        <div
-          css={css`
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-          `}
-        >
-          <SortController width={(windowWidth * 4) / 5} />
-          <SortScore width={(windowWidth * 4) / 5} />
-          <SortBar width={(windowWidth * 4) / 5} height={Math.max(windowHeight - 450, 200)} />
-        </div>
-      </CommonTemplate>
+      <div
+        css={css`
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        `}
+      >
+        <SortController width={(windowWidth * 4) / 5} />
+        <SortScore width={(windowWidth * 4) / 5} />
+        <SortBar width={(windowWidth * 4) / 5} height={Math.max(windowHeight - 450, 200)} />
+      </div>
     </SortStoreProvider>
   );
 }

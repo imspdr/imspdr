@@ -12,41 +12,23 @@ export default function CommonTemplate(props: {
   return (
     <div
       css={css`
-        padding: 10px;
         margin: 2px;
-        border: 3px solid;
-        height: calc(100% - 64px);
         min-height: 500px;
+        display: flex;
+        flex-direction: column;
       `}
     >
       <div
         css={css`
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          height: 30px;
           font-size: 20px;
           ${unselectable}
         `}
       >
-        <div>{props.title}</div>
-        <div
-          onClick={() => {
-            navigate("/");
-          }}
-          css={css`
-            width: 20px;
-            height: 20px;
-          `}
-        >
-          <CloseIcon width="20px" height="20px" />
-        </div>
+        {props.title}
       </div>
       <div
         css={css`
-          overflow: auto;
           margin-top: 10px;
-          height: calc(100% - 50px);
         `}
       >
         {props.children}

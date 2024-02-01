@@ -17,9 +17,7 @@ function PokedamPage() {
   }, []);
   return (
     <PokedamStoreProvider>
-      <CommonTemplate title="포켓몬 데미지 계산기" width={windowWidth}>
-        <PokedamTemplate />
-      </CommonTemplate>
+      <PokedamTemplate />
     </PokedamStoreProvider>
   );
 }

@@ -5,12 +5,33 @@ import { css } from "@emotion/react";
 import MainPage from "./projects/project0/MainPage";
 import { unselectable } from "./common/util";
 
+const urlMap = [
+  {
+    url: "chess",
+    label: "N-queen 문제",
+  },
+  {
+    url: "sort",
+    label: "정렬 시각화",
+  },
+  {
+    url: "suika",
+    label: "수박 게임",
+  },
+  {
+    url: "pokedam",
+    label: "포켓몬 데미지 계산기",
+  },
+];
+
 function App() {
   const navigate = useNavigate();
   const ChessPage = lazy(() => import("./projects/project1-nqueen/ChessPage"));
   const SortPage = lazy(() => import("./projects/project2-sort/SortPage"));
   const SuikaPage = lazy(() => import("./projects/project3-suika/SuikaPage"));
   const PokedamPage = lazy(() => import("./projects/project4-pokedam/PokedamPage"));
+  const url = window.location.href.split("/");
+  const label = urlMap.find((val) => val.url === url[url.length - 1]);
   return (
     <div>
       <div
@@ -35,7 +56,7 @@ function App() {
             ${unselectable}
           `}
         >
-          IMSPDR - 연습장
+          {`IMSPDR - ${label ? label.label : "연습장"}`}
         </div>
         <ThemeToggle />
       </div>
