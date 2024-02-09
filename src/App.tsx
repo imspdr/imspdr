@@ -22,6 +22,10 @@ const urlMap = [
     url: "pokedam",
     label: "포켓몬 데미지 계산기",
   },
+  {
+    url: "cell",
+    label: "데이터 셀 분석",
+  },
 ];
 
 function App() {
@@ -30,6 +34,7 @@ function App() {
   const SortPage = lazy(() => import("./projects/project2-sort/SortPage"));
   const SuikaPage = lazy(() => import("./projects/project3-suika/SuikaPage"));
   const PokedamPage = lazy(() => import("./projects/project4-pokedam/PokedamPage"));
+  const CellPage = lazy(() => import("./projects/project5-datacell/CellPage"));
   const url = window.location.href.split("/");
   const label = urlMap.find((val) => val.url === url[url.length - 1]);
   return (
@@ -73,6 +78,7 @@ function App() {
             <Route path="/sort" element={<SortPage />} />
             <Route path="/suika" element={<SuikaPage />} />
             <Route path="/pokedam" element={<PokedamPage />} />
+            <Route path="/cell" element={<CellPage />} />
           </Routes>
         </Suspense>
       </div>
