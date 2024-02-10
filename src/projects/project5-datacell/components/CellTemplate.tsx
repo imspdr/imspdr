@@ -11,7 +11,7 @@ function CellTemplate() {
         padding: 10px;
       `}
     >
-      <DataReader />
+      <DataReader width={800} height={600} />
     </div>
   );
 }
