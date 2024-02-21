@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { observer } from "mobx-react";
 import { useState, useEffect } from "react";
 import CellTable from "./CellTable";
+import { unselectable } from "@src/common/util";
 import { useCellStore } from "../store/CellStoreProvider";
 
 function DataReader(props: { width: number; height: number }) {
@@ -13,38 +14,58 @@ function DataReader(props: { width: number; height: number }) {
         flex-direction: column;
       `}
     >
-      <label htmlFor="fileinput">
+      <div
+        css={css`
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          margin-bottom: 5px;
+          ${unselectable}
+        `}
+      >
+        <label htmlFor="fileinput">
+          <div
+            css={css`
+              border: 1px solid;
+              padding: 3px;
+              width: 90px;
+            `}
+          >
+            파일 업로드
+          </div>
+        </label>
+        <input
+          id="fileinput"
+          type="file"
+          css={css`
+            display: none;
+          `}
+          onChange={(e) => {
+            e.preventDefault();
+            let isData = e.target.files?.item(0);
+            if (isData) {
+              isData.text().then((data) => {
+                const rows = data.split("\n");
+                const cols = rows.map((row) => row.split(",").map((v) => v.replaceAll('"', "")));
+                cellStore.givenData = cols;
+              });
+            } else {
+              cellStore.givenData = [["no Data"]];
+            }
+          }}
+        />
         <div
           css={css`
             border: 1px solid;
             padding: 3px;
             width: 90px;
-            margin-bottom: 5px;
           `}
+          onClick={cellStore.generateData}
         >
-          파일 업로드
+          데이터 등록
         </div>
-      </label>
-      <input
-        id="fileinput"
-        type="file"
-        css={css`
-          display: none;
-        `}
-        onChange={(e) => {
-          e.preventDefault();
-          let isData = e.target.files?.item(0);
-          if (isData) {
-            isData.text().then((data) => {
-              const rows = data.split("\n");
-              const cols = rows.map((row) => row.split(","));
-              cellStore.givenData = cols;
-            });
-          } else {
-            cellStore.givenData = [["no Data"]];
-          }
-        }}
-      />
+      </div>
+
       <div
         css={css`
           display: flex;
