@@ -41,6 +41,13 @@ svg {
   fill: var(--foreground);
   background-color: transparent;
 }
+text {
+  font-family: "GmarketSansMedium";
+}
+.with-stroke {
+  stroke: var(--foreground);
+  stroke-width: 1px;
+}
 path {
   stroke: var(--foreground);
 }

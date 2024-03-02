@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { observer } from "mobx-react";
 import { unselectable } from "@src/common/util";
 import { useCellStore } from "../store/CellStoreProvider";
+import Histogram from "./Histogram";
 
 function CellTable() {
   const cellStore = useCellStore();
@@ -15,24 +16,12 @@ function CellTable() {
         ${unselectable}
       `}
     >
-      {cellStore.numericData.map((num) => {
-        return (
-          <div>
-            num
-            {num.name}
-            {num.value.length}
-          </div>
-        );
-      })}
-      {cellStore.categoricalData.map((num) => {
-        return (
-          <div>
-            cat
-            {num.name}
-            {num.value.length}
-          </div>
-        );
-      })}
+      <Histogram
+        width={600}
+        height={300}
+        counts={[2, 3, 5, 8, 13, 5, 2]}
+        bins={[10, 20, 30, 40, 50, 60, 70, 80]}
+      />
     </div>
   );
 }
