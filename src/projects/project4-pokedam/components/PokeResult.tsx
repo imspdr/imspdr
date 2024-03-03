@@ -125,6 +125,7 @@ function PokeResult() {
               타입
             </div>
             <CommonDropDown
+              id={"pokeresult"}
               width={80}
               height={20}
               nodes={typeMap.map((tt) => {

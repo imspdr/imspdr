@@ -131,6 +131,7 @@ function PokeEditor(props: { isAttacker: boolean }) {
           `}
         >
           <CommonDropDown
+            id={`pokemon-editor-${props.isAttacker ? "attack" : "offense"}`}
             width={190}
             height={30}
             customCss={"margin-right: 5px;"}
@@ -166,6 +167,7 @@ function PokeEditor(props: { isAttacker: boolean }) {
             search
           />
           <JapSearch
+            id={props.isAttacker ? "attacker" : "offense"}
             nodes={damStore.pokemonList}
             selected={String(poke.pokemonName.english)}
             onSelect={(v: string) => {

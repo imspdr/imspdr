@@ -26,6 +26,7 @@ function SortController(props: { width: number }) {
       `}
     >
       <CommonDropDown
+        id={"sort-control"}
         nodes={sortStore.sortAlgos}
         selected={sortStore.selectedAlgo}
         onSelect={(v: string) => {

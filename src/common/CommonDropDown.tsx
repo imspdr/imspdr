@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { unselectable } from "@src/common/util";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { ReactComponent as DropIcon } from "@src/images/dropdown.svg";
 
 export default function CommonDropDown(props: {
@@ -10,6 +10,7 @@ export default function CommonDropDown(props: {
   }[];
   selected: string;
   onSelect: (v: string) => void;
+  id: string;
   height?: number;
   maxHeight?: number;
   width?: number;
@@ -20,9 +21,24 @@ export default function CommonDropDown(props: {
   const [searchText, setSearchText] = useState("");
   const MINHEIGHT = 20;
   const MINWIDTH = 50;
+
   useEffect(() => {
     setSearchText("");
   }, [open]);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      const thisElement = document.getElementById(`common-dropdown-${props.id}`);
+      const clickedElement = event.target as HTMLDivElement;
+      if (!thisElement?.contains(clickedElement)) setOpen(false);
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
   const RenderNodes = useCallback(() => {
     return (
@@ -33,7 +49,7 @@ export default function CommonDropDown(props: {
             if (node.value !== props.selected) {
               return (
                 <div
-                  key={`${node.label}-${node.value}`}
+                  key={`common-dropdown-${props.id}-${node.label}-${node.value}`}
                   css={css`
                     display: flex;
                     flex-direction: row;
@@ -64,6 +80,7 @@ export default function CommonDropDown(props: {
 
   return (
     <div
+      id={`common-dropdown-${props.id}`}
       css={css`
         ${props.customCss && props.customCss}
         display: flex;

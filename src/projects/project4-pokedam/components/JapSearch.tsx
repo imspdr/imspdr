@@ -24,6 +24,7 @@ const GATAKANA = [
 ];
 
 export default function JapSearch(props: {
+  id: string;
   nodes: pokemonSpecies[];
   selected: string;
   onSelect: (v: string) => void;
@@ -36,7 +37,19 @@ export default function JapSearch(props: {
   useEffect(() => {
     setSearchText("");
   }, [open]);
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      const thisElement = document.getElementById(`japsearch-dropdown-${props.id}`);
+      const clickedElement = event.target as HTMLDivElement;
+      if (!thisElement?.contains(clickedElement)) setOpen(false);
+    };
 
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
   const RenderNodes = useCallback(() => {
     return (
       <>
@@ -48,7 +61,7 @@ export default function JapSearch(props: {
             if (node.pokemonName.english !== props.selected) {
               return (
                 <div
-                  key={`${node.pokemonName.english}`}
+                  key={`japsearch-dropdown-${props.id}${node.pokemonName.english}`}
                   css={css`
                     display: flex;
                     flex-direction: row;
@@ -119,6 +132,7 @@ export default function JapSearch(props: {
 
   return (
     <div
+      id={`japsearch-dropdown-${props.id}`}
       css={css`
         display: flex;
         flex-direction: column;
@@ -156,7 +170,7 @@ export default function JapSearch(props: {
             flex-direction: column;
             align-items: flex-start;
             font-size: 15px;
-            z-index: 9998;
+            z-index: 9;
             border: 1px solid;
           `}
         >
@@ -174,6 +188,9 @@ export default function JapSearch(props: {
           >
             <span>{searchText}</span>
             <BackIcon
+              css={css`
+                z-index: 11;
+              `}
               onClick={() => {
                 setSearchText((v) => {
                   return v.slice(0, v.length - 1);
