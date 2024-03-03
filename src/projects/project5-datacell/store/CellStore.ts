@@ -99,6 +99,11 @@ class CellStore {
         ...this.scatterData,
         num1: numData.value,
       };
+    } else {
+      this.scatterData={
+        ...this.scatterData,
+        num1: []
+      }
     }
   }
   set scatterColumn2(given: string) {
@@ -109,6 +114,11 @@ class CellStore {
         ...this.scatterData,
         num2: numData.value,
       };
+    } else {
+      this.scatterData={
+        ...this.scatterData,
+        num2: []
+      }
     }
   }
   set scatterLabelColumn(given: string) {
