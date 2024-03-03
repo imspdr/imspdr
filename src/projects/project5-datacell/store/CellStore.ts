@@ -1,4 +1,5 @@
 import { makeAutoObservable, action } from "mobx";
+import { getHistogram } from "./calculateUtils";
 
 type numericColumn = {
   name: string;
@@ -16,10 +17,21 @@ class CellStore {
   private __numericData: numericColumn[];
   private __categoricalData: categoricalColumn[];
 
+  private __selectedColumn: string;
+  public histogramData: {
+    bins: number[];
+    counts: number[];
+  };
+
   constructor() {
     this.__givenData = [];
     this.__categoricalData = [];
     this.__numericData = [];
+    this.__selectedColumn = "";
+    this.histogramData = {
+      bins: [],
+      counts: [],
+    };
     makeAutoObservable(this);
   }
   get givenData() {
@@ -31,6 +43,9 @@ class CellStore {
   get categoricalData() {
     return this.__categoricalData;
   }
+  get selectedColumn() {
+    return this.__selectedColumn;
+  }
   set givenData(given: string[][]) {
     this.__givenData = given;
   }
@@ -39,6 +54,12 @@ class CellStore {
   }
   set categoricalData(given: categoricalColumn[]) {
     this.__categoricalData = given;
+  }
+  set selectedColumn(given: string) {
+    this.__selectedColumn = given;
+
+    const numData = this.numericData.find((num) => num.name === given);
+    if (numData) this.histogramData = getHistogram(numData.value);
   }
 
   generateData = () => {
@@ -51,15 +72,18 @@ class CellStore {
       let numeric = 0;
       let strType = 0;
       let tempArray: string[] = [];
-      this.givenData.forEach((row: string[]) => {
-        let now = row[index];
-        if (now) {
-          if (numberRegex.test(now)) {
-            numeric += 1;
-          } else {
-            strType += 1;
+      this.givenData.forEach((row: string[], j) => {
+        if (j > 0) {
+          let now = row[index];
+          if (now) {
+            now = now.replaceAll("\n", "").replaceAll("\r", "");
+            if (numberRegex.test(now)) {
+              numeric += 1;
+            } else {
+              strType += 1;
+            }
+            tempArray.push(now);
           }
-          tempArray.push(now);
         }
       });
       if (numeric > strType * 2) {
@@ -83,6 +107,9 @@ class CellStore {
         }
       }
     });
+    if (this.numericData.length > 0) {
+      this.selectedColumn = this.numericData[0]!.name;
+    }
   };
 }
 

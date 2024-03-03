@@ -36,7 +36,7 @@ function SingleBar(props: {
         onMouseOut={() => setHover(false)}
       />
       {hover && (
-        <text x={props.x + 5} y={props.y - 10} font-size={10} fill="black">
+        <text x={props.x + 5} y={props.y - 10} fontSize={10} fill="black">
           {props.num}
         </text>
       )}
@@ -90,7 +90,7 @@ export default function Histogram(props: {
           const x = index * xWidth + LEFTGAP - BINFONTSIZE;
           const y = chartHeight + TOPGAP + BOTTOMGAP / 2;
           return (
-            <text x={x} y={y} font-size={BINFONTSIZE} fill="black">
+            <text x={x} y={y} fontSize={BINFONTSIZE} fill="black">
               {num}
             </text>
           );

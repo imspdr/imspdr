@@ -10,6 +10,7 @@ function CellTemplate() {
       css={css`
         display: flex;
         padding: 10px;
+        gap: 20px;
       `}
     >
       <DataReader width={800} height={600} />
