@@ -68,37 +68,57 @@ function DataReader(props: { width: number; height: number }) {
           ${unselectable}
         `}
       >
-        <label htmlFor="fileinput">
+        <div
+          css={css`
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+          `}
+        >
+          <label htmlFor="fileinput">
+            <div
+              css={css`
+                border: 1px solid;
+                padding: 3px;
+                width: 90px;
+              `}
+            >
+              파일 업로드
+            </div>
+          </label>
+          <input
+            id="fileinput"
+            type="file"
+            css={css`
+              display: none;
+            `}
+            onChange={(e) => {
+              e.preventDefault();
+              let isData = e.target.files?.item(0);
+              if (isData) {
+                isData.text().then((data) => {
+                  const rows = data.split("\n");
+                  const cols = rows.map((row) => row.split(",").map((v) => v.replaceAll('"', "")));
+                  cellStore.givenData = cols;
+                });
+              } else {
+                cellStore.givenData = [["no Data"]];
+              }
+            }}
+          />
+
           <div
             css={css`
               border: 1px solid;
               padding: 3px;
               width: 90px;
             `}
+            onClick={cellStore.loadSample}
           >
-            파일 업로드
+            샘플 데이터
           </div>
-        </label>
-        <input
-          id="fileinput"
-          type="file"
-          css={css`
-            display: none;
-          `}
-          onChange={(e) => {
-            e.preventDefault();
-            let isData = e.target.files?.item(0);
-            if (isData) {
-              isData.text().then((data) => {
-                const rows = data.split("\n");
-                const cols = rows.map((row) => row.split(",").map((v) => v.replaceAll('"', "")));
-                cellStore.givenData = cols;
-              });
-            } else {
-              cellStore.givenData = [["no Data"]];
-            }
-          }}
-        />
+        </div>
+
         <div
           css={css`
             border: 1px solid;

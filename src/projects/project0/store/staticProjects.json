@@ -58,8 +58,8 @@
       "y": 200
     },
     "radius": 100,
-    "title": "데이터 셀 분석",
-    "description": "csv 데이터 셀로 업로드 후 간단한 분석 기능 구현",
+    "title": "데이터 시각화",
+    "description": "csv 데이터 업로드 후 간단한 시각화 구현",
     "route": "cell",
     "tag": ["상태 관리"],
     "icon": "cell"

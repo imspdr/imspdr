@@ -24,7 +24,7 @@ const urlMap = [
   },
   {
     url: "cell",
-    label: "데이터 셀 분석",
+    label: "정형데이터 시각화",
   },
 ];
 

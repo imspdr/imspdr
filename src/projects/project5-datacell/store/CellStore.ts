@@ -1,5 +1,6 @@
 import { makeAutoObservable, action } from "mobx";
 import { getHistogram } from "./calculateUtils";
+import irisSample from "./irisSample.json";
 
 type numericColumn = {
   name: string;
@@ -100,10 +101,10 @@ class CellStore {
         num1: numData.value,
       };
     } else {
-      this.scatterData={
+      this.scatterData = {
         ...this.scatterData,
-        num1: []
-      }
+        num1: [],
+      };
     }
   }
   set scatterColumn2(given: string) {
@@ -115,10 +116,10 @@ class CellStore {
         num2: numData.value,
       };
     } else {
-      this.scatterData={
+      this.scatterData = {
         ...this.scatterData,
-        num2: []
-      }
+        num2: [],
+      };
     }
   }
   set scatterLabelColumn(given: string) {
@@ -137,6 +138,9 @@ class CellStore {
     }
   }
 
+  loadSample = () => {
+    this.givenData = irisSample;
+  };
   generateData = () => {
     if (this.givenData.length < 2) return;
     const cols = this.givenData[0];
