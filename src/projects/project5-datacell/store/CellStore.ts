@@ -165,7 +165,9 @@ class CellStore {
           }
         }
       });
-      if (numeric > strType * 2) {
+      let tempSet = new Set(tempArray);
+      const uniqueValues = Array.from(tempSet).length;
+      if (numeric > strType * 2 && uniqueValues > 5) {
         this.numericData = [
           ...this.numericData,
           {
@@ -174,8 +176,7 @@ class CellStore {
           },
         ];
       } else {
-        let tempSet = new Set(tempArray);
-        if (Array.from(tempSet).length < 20) {
+        if (uniqueValues < 20) {
           this.categoricalData = [
             ...this.categoricalData,
             {

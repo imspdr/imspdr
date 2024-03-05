@@ -5,11 +5,12 @@ function Dot(props: {
   x: number;
   y: number;
   radius: number;
+  label: string;
+  setHover: (x: number, y: number, label: string) => void;
   centerX: number;
   centerY: number;
   color?: string;
 }) {
-  const [hover, setHover] = useState(false);
   const ddiyong = keyframes`
   0% {
     cx: ${props.centerX};
@@ -27,17 +28,12 @@ function Dot(props: {
         cy={props.y}
         r={props.radius}
         fill={props.color}
-        onMouseOver={() => setHover(true)}
-        onMouseOut={() => setHover(false)}
+        onMouseOver={() => props.setHover(props.x, props.y, props.label)}
+        onMouseOut={() => props.setHover(props.x, props.y, "")}
         css={css`
           animation: ${ddiyong} 1s;
         `}
       />
-      {hover && (
-        <text x={props.x} y={props.y - 10} fontSize={10}>{`x: ${props.x.toFixed(
-          2
-        )} y: ${props.y.toFixed(2)}`}</text>
-      )}
     </>
   );
 }
@@ -74,6 +70,9 @@ export default function ScatterPlot(props: {
 
   const uniqueSet = props.label ? Array.from(new Set(props.label)) : ["no label"];
 
+  const [hover, setHover] = useState<undefined | { x: number; y: number; label: string }>(
+    undefined
+  );
   return (
     <div
       css={css`
@@ -128,9 +127,22 @@ export default function ScatterPlot(props: {
                   ? fillIndex[uniqueSet.findIndex((label) => label === props.label![index])]
                   : undefined
               }
+              label={`x: ${num.toFixed(2)} y: ${props.numData2[index]!.toFixed(2)}`}
+              setHover={(x, y, label) =>
+                setHover({
+                  x: x,
+                  y: y,
+                  label: label,
+                })
+              }
             />
           );
         })}
+        {hover && hover.label && (
+          <text x={hover.x} y={hover.y - 10} fontSize={10}>
+            {hover.label}
+          </text>
+        )}
       </svg>
     </div>
   );

@@ -37,6 +37,7 @@ function CellTable(props: { data: string[][] }) {
                     width: ${Math.floor(WIDTH / row.length)}px;
                     min-width: 120px;
                     height: 40px;
+                    overflow: hidden;
                   `}
                 >
                   {col}
