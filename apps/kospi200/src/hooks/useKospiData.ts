@@ -11,9 +11,33 @@ export interface Stock {
   absChangePercent: number;
 }
 
+export interface Analysis {
+  date: string;
+  end: number;
+  start: number;
+  high: number;
+  low: number;
+  amount: number;
+  ma5: number;
+  ma20: number;
+  macd: number;
+  signal: number;
+  rsi: number;
+  middleBand: number;
+  upperBand: number;
+  lowerBand: number;
+  obv: number;
+}
+
+export interface NewsItem {
+  title: string;
+  link: string;
+  description: string;
+}
+
 export interface StockDetail extends Stock {
-  analysis: any[];
-  news: any[];
+  analysis: Analysis[];
+  news: NewsItem[];
 }
 
 /**

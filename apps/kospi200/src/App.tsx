@@ -6,7 +6,7 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import { useDisplayStocks } from './hooks/useDisplayStocks';
 import { useStocks } from './hooks/useKospiData';
-import DetailPage from './pages/DetailPage';
+import { DetailPage } from './pages/DetailPage';
 import ListPage from './pages/ListPage';
 import { LayoutContainer, MainContent } from './styled';
 

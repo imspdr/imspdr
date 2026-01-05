@@ -15,7 +15,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "kospi200": "yarn workspace kospi200 dev",
-    "all": "concurrently \"yarn dev:kospi200\"",
+    "all": "concurrently \"yarn kospi200\"",
     "sb": "yarn workspace @imspdr/ui storybook",
     "prepare": "husky install"
   },

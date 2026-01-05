@@ -19,7 +19,7 @@ export const useDisplayStocks = (stocks: Stock[]) => {
   }, [stocks]);
 
   const buySignalStocks = useMemo(() => {
-    return stocks.filter((s) => s.toBuy.length > 0);
+    return stocks.filter((s) => s.toBuy?.length > 0);
   }, [stocks]);
 
   return {

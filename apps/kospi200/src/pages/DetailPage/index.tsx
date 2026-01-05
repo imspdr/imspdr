@@ -1,33 +1,94 @@
-import React, { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useRecentlyViewed } from '../../hooks/useRecentlyViewed';
-import * as S from './styled';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Button, Typography } from '@imspdr/ui';
+import { StockChart } from '../../components/StockChart';
+import { useStockDetail } from '../../hooks/useKospiData';
+import { ChartSection, Container, Header, NewsSection, StyledCard } from './styled';
 
-const DetailPage = () => {
+export const DetailPage: React.FC = () => {
   const { code } = useParams<{ code: string }>();
-  const navigate = useNavigate();
-  const { addRecentView } = useRecentlyViewed();
+  const { data: stock, isLoading } = useStockDetail(code || null);
+  const [showBollinger, setShowBollinger] = useState(false);
 
-  useEffect(() => {
-    if (code) {
-      addRecentView(code);
-    }
-  }, [code, addRecentView]);
+  if (isLoading) {
+    return <Typography>Loading...</Typography>;
+  }
+
+  if (!stock) {
+    return <Typography>Stock not found</Typography>;
+  }
 
   return (
-    <S.PageContainer>
-      <S.Title variant="title" level={1}>
-        종목 상세 페이지
-      </S.Title>
-      <S.CodeInfo variant="body" level={1}>
-        종목 코드: <strong>{code}</strong>
-      </S.CodeInfo>
-      <S.Description variant="body" level={1}>
-        상세 차트 및 분석 정보가 여기에 표시됩니다.
-      </S.Description>
-      <S.StyledButton onClick={() => navigate('/list')}>목록으로 돌아가기</S.StyledButton>
-    </S.PageContainer>
+    <Container>
+      <Header>
+        <div>
+          <Typography variant="title" level={2}>
+            {stock.name}
+          </Typography>
+          <Typography variant="caption" style={{ color: '#666' }}>
+            {stock.code}
+          </Typography>
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <Typography
+            variant="title"
+            level={3}
+            style={{ color: stock.changePercent > 0 ? '#e23d29' : '#1e75d0' }}
+          >
+            {stock.today?.toLocaleString() ?? 0}
+          </Typography>
+          <Typography
+            variant="body"
+            style={{ color: stock.changePercent > 0 ? '#e23d29' : '#1e75d0' }}
+          >
+            {stock.changePercent > 0 ? '▲' : '▼'} {Math.abs(stock.changePercent).toFixed(2)}%
+          </Typography>
+        </div>
+      </Header>
+
+      <ChartSection>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
+          <Button
+            onClick={() => setShowBollinger(!showBollinger)}
+            variant={showBollinger ? 'box' : 'outlined'}
+          >
+            {showBollinger ? 'Hide Bollinger' : 'Show Bollinger'}
+          </Button>
+        </div>
+        <StyledCard>
+          <StockChart data={stock.analysis} showBollinger={showBollinger} />
+        </StyledCard>
+      </ChartSection>
+
+      <NewsSection>
+        <Typography variant="title" level={3} style={{ marginBottom: '16px' }}>
+          News
+        </Typography>
+        {stock.news && stock.news.length > 0 ? (
+          stock.news.map((item: any, index: number) => (
+            <StyledCard
+              key={index}
+              style={{ marginBottom: '10px', padding: '16px', cursor: 'pointer' }}
+              onClick={() => window.open(item.link, '_blank')}
+            >
+              <Typography
+                variant="body"
+                level={1}
+                style={{ marginBottom: '8px', fontWeight: 'bold' }}
+              >
+                {item.title}
+              </Typography>
+              <Typography variant="body" style={{ fontSize: '12px', color: '#555' }}>
+                {item.description.length > 200
+                  ? item.description.substring(0, 200) + '...'
+                  : item.description}
+              </Typography>
+            </StyledCard>
+          ))
+        ) : (
+          <Typography>No news available.</Typography>
+        )}
+      </NewsSection>
+    </Container>
   );
 };
-
-export default DetailPage;

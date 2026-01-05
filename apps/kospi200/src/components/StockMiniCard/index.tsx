@@ -40,7 +40,7 @@ export const StockMiniCard: React.FC<StockMiniCardProps> = ({
   isFolded,
 }) => {
   const isRising = change > 0;
-  const hasBuySignal = toBuy.length > 0;
+  const hasBuySignal = toBuy?.length > 0;
 
   if (isFolded) {
     return (
@@ -71,7 +71,7 @@ export const StockMiniCard: React.FC<StockMiniCardProps> = ({
           </StockName>
         </NameSection>
         {hasBuySignal &&
-          toBuy.map((signal) => (
+          toBuy?.map((signal) => (
             <SignalTag key={signal}>
               <Typography variant="caption" style={{ fontSize: '10px', fontWeight: 700 }}>
                 {signal}
