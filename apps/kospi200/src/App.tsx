@@ -7,8 +7,6 @@ import Header from './components/Header';
 import { Sidebar } from './components/Sidebar';
 import { useDisplayStocks } from './hooks/useDisplayStocks';
 import { useStocks } from './hooks/useKospiData';
-import { useRecentlyViewed } from './hooks/useRecentlyViewed';
-import { useStarred } from './hooks/useStarred';
 import DetailPage from './pages/DetailPage';
 import ListPage from './pages/ListPage';
 
@@ -33,15 +31,9 @@ const App = () => {
 const AppLayout = () => {
   const navigate = useNavigate();
   const { data: stocks } = useStocks();
-  const { starredCodes, toggleStar, isStarred } = useStarred();
-  const { recentCodes } = useRecentlyViewed();
   const [isFolded, setIsFolded] = React.useState(false);
 
-  const { recentlyViewedStocks, starredStocks, searchOptions } = useDisplayStocks(
-    stocks,
-    recentCodes,
-    starredCodes,
-  );
+  const { searchOptions } = useDisplayStocks(stocks, []);
 
   const handleStockClick = (code: string) => {
     navigate(`/detail/${code}`);
@@ -54,22 +46,13 @@ const AppLayout = () => {
         searchOptions={searchOptions}
         onSearchSelect={(opt) => handleStockClick(opt.value)}
       />
-      <S.MainContent isFolded={isFolded}>
+      <Sidebar isFolded={isFolded} onToggleFold={() => setIsFolded(!isFolded)}>
         <Routes>
           <Route path="/list" element={<ListPage />} />
           <Route path="/detail/:code" element={<DetailPage />} />
           <Route path="/" element={<Navigate to="/list" replace />} />
         </Routes>
-      </S.MainContent>
-      <Sidebar
-        starredStocks={starredStocks}
-        recentlyViewedStocks={recentlyViewedStocks}
-        onStockClick={handleStockClick}
-        onToggleStar={toggleStar}
-        isStarred={isStarred}
-        isFolded={isFolded}
-        onToggleFold={() => setIsFolded(!isFolded)}
-      />
+      </Sidebar>
     </S.LayoutContainer>
   );
 };
