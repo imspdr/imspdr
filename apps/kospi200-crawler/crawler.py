@@ -1,5 +1,6 @@
 from crawl_stock_data import crawl_stock_data
 from crawl_kospi200 import crawl_kospi200
+from crawl_news import crawl_news
 from build_analysis import analysis_df, is_buy_signal
 import os
 import json
@@ -44,8 +45,7 @@ if __name__ == "__main__":
             data = crawl_stock_data(stock["code"], 52)
             analysis = analysis_df(data)
 
-        # news = crawl_news(stock["name"])
-        news = []
+        news = crawl_news(stock["name"])
         to_buy = is_buy_signal(analysis[-1])
 
         last_result = {
@@ -55,12 +55,19 @@ if __name__ == "__main__":
             "news": news,
             "to_buy": to_buy
         }
+        today_price = analysis[-1]["end"]
+        last_price = analysis[-2]["end"]
+        change = today_price - last_price
+        change_percent = (change / last_price) * 100
+        
         codes_with_to_buy.append({
             "code": stock["code"],
             "name": stock["name"].replace("amp;", ""),
-            "to_buy": to_buy,
-            "today": analysis[-1]["end"],
-            "last": analysis[-2]["end"]
+            "toBuy": to_buy,
+            "today": today_price,
+            "last": last_price,
+            "changePercent": change_percent,
+            "absChangePercent": abs(change_percent)
         })
         with open(os.path.join(store_path, filename), "w", encoding="utf-8") as f:
             json.dump(last_result, f, ensure_ascii=False, indent=4)

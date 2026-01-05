@@ -17,7 +17,7 @@ export interface Stock {
   code: string;
   today: number;
   last: number;
-  to_buy?: string[];
+  toBuy?: string[];
 }
 
 interface StockTableProps {
@@ -86,7 +86,7 @@ export const StockTable: React.FC<StockTableProps> = ({
                   </Change>
                 </Td>
                 <Td>
-                  {stock.to_buy?.map((signal, idx) => (
+                  {stock.toBuy?.map((signal, idx) => (
                     <SignalBadge key={idx}>{signal}</SignalBadge>
                   ))}
                 </Td>

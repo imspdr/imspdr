@@ -33,7 +33,7 @@ const AppLayout = () => {
   const { data: stocks } = useStocks();
   const [isFolded, setIsFolded] = React.useState(false);
 
-  const { searchOptions } = useDisplayStocks(stocks, []);
+  const { searchOptions } = useDisplayStocks(stocks ?? []);
 
   const handleStockClick = (code: string) => {
     navigate(`/detail/${code}`);

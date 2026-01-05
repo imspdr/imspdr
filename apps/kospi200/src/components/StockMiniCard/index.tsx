@@ -20,7 +20,7 @@ interface StockMiniCardProps {
   price: number;
   change: number;
   changePercent: number;
-  to_buy?: string[];
+  toBuy?: string[];
   isStarred: boolean;
   onToggleStar: (e: React.MouseEvent) => void;
   onClick: () => void;
@@ -33,14 +33,14 @@ export const StockMiniCard: React.FC<StockMiniCardProps> = ({
   price,
   change,
   changePercent,
-  to_buy = [],
+  toBuy = [],
   isStarred,
   onToggleStar,
   onClick,
   isFolded,
 }) => {
   const isRising = change > 0;
-  const hasBuySignal = to_buy.length > 0;
+  const hasBuySignal = toBuy.length > 0;
 
   if (isFolded) {
     return (
@@ -70,13 +70,14 @@ export const StockMiniCard: React.FC<StockMiniCardProps> = ({
             {name}
           </StockName>
         </NameSection>
-        {hasBuySignal && (
-          <SignalTag>
-            <Typography variant="caption" style={{ fontSize: '10px', fontWeight: 700 }}>
-              매수
-            </Typography>
-          </SignalTag>
-        )}
+        {hasBuySignal &&
+          toBuy.map((signal) => (
+            <SignalTag key={signal}>
+              <Typography variant="caption" style={{ fontSize: '10px', fontWeight: 700 }}>
+                {signal}
+              </Typography>
+            </SignalTag>
+          ))}
       </TopRow>
       <BottomRow>
         <Price variant="body" level={2} style={{ fontWeight: 600 }}>

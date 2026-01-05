@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { HiChevronDoubleLeft, HiChevronDoubleRight, HiClock, HiStar } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import { Typography } from '@imspdr/ui';
-import { useDisplayStocks } from '../../hooks/useDisplayStocks';
 import { useStocks } from '../../hooks/useKospiData';
 import { useRecentlyViewed } from '../../hooks/useRecentlyViewed';
 import { useStarred } from '../../hooks/useStarred';
@@ -27,14 +26,8 @@ interface SidebarProps {
 export default function Sidebar({ isFolded, onToggleFold }: SidebarProps) {
   const navigate = useNavigate();
   const { data: stocks } = useStocks();
-  const { starredCodes, toggleStar, isStarred } = useStarred();
-  const { recentCodes } = useRecentlyViewed();
-
-  const { recentlyViewedStocks, starredStocks } = useDisplayStocks(
-    stocks,
-    recentCodes,
-    starredCodes,
-  );
+  const { toggleStar, isStarred, starredStocks } = useStarred(stocks ?? []);
+  const { recentlyViewedStocks } = useRecentlyViewed(stocks ?? []);
 
   const [activeTab, setActiveTab] = useState<'starred' | 'recent'>('recent');
 
@@ -51,7 +44,7 @@ export default function Sidebar({ isFolded, onToggleFold }: SidebarProps) {
         price={stock.today}
         change={stock.today - stock.last}
         changePercent={((stock.today - stock.last) / stock.last) * 100}
-        to_buy={stock.to_buy}
+        toBuy={stock.toBuy}
         isStarred={isStarred(stock.code)}
         onToggleStar={() => toggleStar(stock.code)}
         onClick={() => handleStockClick(stock.code)}

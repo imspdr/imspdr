@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-export const useStarred = () => {
+export const useStarred = <T extends { code: string }>(stocks?: T[]) => {
   const [starredCodes, setStarredCodes] = useState<string[]>([]);
 
   useEffect(() => {
@@ -29,5 +29,12 @@ export const useStarred = () => {
     [starredCodes],
   );
 
-  return { starredCodes, toggleStar, isStarred };
+  const starredStocks = useMemo(() => {
+    if (!stocks) return [];
+    return starredCodes
+      .map((code) => stocks.find((s) => s.code === code))
+      .filter((s): s is T => s !== undefined);
+  }, [stocks, starredCodes]);
+
+  return { starredCodes, toggleStar, isStarred, starredStocks };
 };

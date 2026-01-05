@@ -13,7 +13,7 @@ const ListPage = () => {
   const { data: stocks, isLoading } = useStocks();
   const { recentCodes } = useRecentlyViewed();
   const { starredCodes, toggleStar, isStarred } = useStarred();
-  const { top10Stocks, buySignalStocks } = useDisplayStocks(stocks, recentCodes, starredCodes);
+  const { top10Stocks, buySignalStocks } = useDisplayStocks(stocks ?? []);
 
   const handleStockSelect = (code: string) => {
     navigate(`/detail/${code}`);

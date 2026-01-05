@@ -4,9 +4,11 @@ import axios from 'axios';
 export interface Stock {
   code: string;
   name: string;
-  to_buy: string[];
+  toBuy: string[];
   today: number;
   last: number;
+  changePercent: number;
+  absChangePercent: number;
 }
 
 export interface StockDetail extends Stock {
