@@ -1,6 +1,18 @@
 import React from 'react';
 import { Typography } from '@imspdr/ui';
-import * as S from './StockMiniCard.styled';
+import {
+  BottomRow,
+  CardContainer,
+  Change,
+  FoldedIcon,
+  NameSection,
+  Price,
+  SignalDot,
+  SignalTag,
+  StarButton,
+  StockName,
+  TopRow,
+} from './styled';
 
 interface StockMiniCardProps {
   name: string;
@@ -32,20 +44,20 @@ export const StockMiniCard: React.FC<StockMiniCardProps> = ({
 
   if (isFolded) {
     return (
-      <S.CardContainer isFolded onClick={onClick} title={name}>
-        <S.FoldedIcon variant="title" level={3}>
+      <CardContainer isFolded onClick={onClick} title={name}>
+        <FoldedIcon variant="title" level={3}>
           {name.substring(0, 1)}
-        </S.FoldedIcon>
-        {hasBuySignal && <S.SignalDot />}
-      </S.CardContainer>
+        </FoldedIcon>
+        {hasBuySignal && <SignalDot />}
+      </CardContainer>
     );
   }
 
   return (
-    <S.CardContainer onClick={onClick}>
-      <S.TopRow>
-        <S.NameSection>
-          <S.StarButton
+    <CardContainer onClick={onClick}>
+      <TopRow>
+        <NameSection>
+          <StarButton
             isStarred={isStarred}
             onClick={(e) => {
               e.stopPropagation();
@@ -53,28 +65,28 @@ export const StockMiniCard: React.FC<StockMiniCardProps> = ({
             }}
           >
             {isStarred ? '★' : '☆'}
-          </S.StarButton>
-          <S.StockName variant="body" level={2}>
+          </StarButton>
+          <StockName variant="body" level={2}>
             {name}
-          </S.StockName>
-        </S.NameSection>
+          </StockName>
+        </NameSection>
         {hasBuySignal && (
-          <S.SignalTag>
+          <SignalTag>
             <Typography variant="caption" style={{ fontSize: '10px', fontWeight: 700 }}>
               매수
             </Typography>
-          </S.SignalTag>
+          </SignalTag>
         )}
-      </S.TopRow>
-      <S.BottomRow>
-        <S.Price variant="body" level={2} style={{ fontWeight: 600 }}>
+      </TopRow>
+      <BottomRow>
+        <Price variant="body" level={2} style={{ fontWeight: 600 }}>
           {price.toLocaleString()}원
-        </S.Price>
-        <S.Change variant="caption" isRising={isRising} style={{ fontWeight: 500 }}>
+        </Price>
+        <Change variant="caption" isRising={isRising} style={{ fontWeight: 500 }}>
           {isRising ? '▲' : '▼'}
           {Math.abs(change).toLocaleString()} ({changePercent.toFixed(1)}%)
-        </S.Change>
-      </S.BottomRow>
-    </S.CardContainer>
+        </Change>
+      </BottomRow>
+    </CardContainer>
   );
 };

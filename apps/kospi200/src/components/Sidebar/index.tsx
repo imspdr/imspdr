@@ -7,7 +7,6 @@ import { useStocks } from '../../hooks/useKospiData';
 import { useRecentlyViewed } from '../../hooks/useRecentlyViewed';
 import { useStarred } from '../../hooks/useStarred';
 import { StockMiniCard } from '../StockMiniCard';
-import { MainContent } from './Layout.styled';
 import {
   EmptyMessage,
   FoldButton,
@@ -21,12 +20,11 @@ import {
 } from './styled';
 
 interface SidebarProps {
-  children?: React.ReactNode;
   isFolded: boolean;
   onToggleFold: () => void;
 }
 
-export default function Sidebar({ children, isFolded, onToggleFold }: SidebarProps) {
+export default function Sidebar({ isFolded, onToggleFold }: SidebarProps) {
   const navigate = useNavigate();
   const { data: stocks } = useStocks();
   const { starredCodes, toggleStar, isStarred } = useStarred();
@@ -67,66 +65,61 @@ export default function Sidebar({ children, isFolded, onToggleFold }: SidebarPro
   const tabIcon = activeTab === 'starred' ? <HiStar /> : <HiClock />;
 
   return (
-    <>
-      <MainContent isFolded={isFolded}>{children}</MainContent>
-      <SidebarContainer isFolded={isFolded}>
-        {!isFolded && (
-          <SidebarMain isFolded={isFolded}>
-            <SidebarContent>
-              <SidebarSection>
-                <SectionTitle>
-                  <Typography
-                    variant="title"
-                    level={3}
-                    style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
-                  >
-                    {tabIcon} {tabLabel}
+    <SidebarContainer isFolded={isFolded}>
+      {!isFolded && (
+        <SidebarMain isFolded={isFolded}>
+          <SidebarContent>
+            <SidebarSection>
+              <SectionTitle>
+                <Typography
+                  variant="title"
+                  level={3}
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                >
+                  {tabIcon} {tabLabel}
+                </Typography>
+              </SectionTitle>
+              {currentStocks.length === 0 ? (
+                <EmptyMessage>
+                  <Typography variant="body" level={2}>
+                    {activeTab === 'starred' ? '관심 종목이 없습니다.' : '최근 본 종목이 없습니다.'}
                   </Typography>
-                </SectionTitle>
-                {currentStocks.length === 0 ? (
-                  <EmptyMessage>
-                    <Typography variant="body" level={2}>
-                      {activeTab === 'starred'
-                        ? '관심 종목이 없습니다.'
-                        : '최근 본 종목이 없습니다.'}
-                    </Typography>
-                  </EmptyMessage>
-                ) : (
-                  renderStockList(currentStocks)
-                )}
-              </SidebarSection>
-            </SidebarContent>
-          </SidebarMain>
-        )}
+                </EmptyMessage>
+              ) : (
+                renderStockList(currentStocks)
+              )}
+            </SidebarSection>
+          </SidebarContent>
+        </SidebarMain>
+      )}
 
-        <TabBar>
-          <FoldButton onClick={onToggleFold}>
-            {isFolded ? <HiChevronDoubleLeft size={24} /> : <HiChevronDoubleRight size={24} />}
-          </FoldButton>
+      <TabBar>
+        <FoldButton onClick={onToggleFold}>
+          {isFolded ? <HiChevronDoubleLeft size={24} /> : <HiChevronDoubleRight size={24} />}
+        </FoldButton>
 
-          <TabButton
-            isActive={activeTab === 'starred'}
-            onClick={() => {
-              setActiveTab('starred');
-              if (isFolded) onToggleFold();
-            }}
-            title="관심 종목"
-          >
-            <HiStar size={24} />
-          </TabButton>
+        <TabButton
+          isActive={activeTab === 'starred'}
+          onClick={() => {
+            setActiveTab('starred');
+            if (isFolded) onToggleFold();
+          }}
+          title="관심 종목"
+        >
+          <HiStar size={24} />
+        </TabButton>
 
-          <TabButton
-            isActive={activeTab === 'recent'}
-            onClick={() => {
-              setActiveTab('recent');
-              if (isFolded) onToggleFold();
-            }}
-            title="최근 본 종목"
-          >
-            <HiClock size={24} />
-          </TabButton>
-        </TabBar>
-      </SidebarContainer>
-    </>
+        <TabButton
+          isActive={activeTab === 'recent'}
+          onClick={() => {
+            setActiveTab('recent');
+            if (isFolded) onToggleFold();
+          }}
+          title="최근 본 종목"
+        >
+          <HiClock size={24} />
+        </TabButton>
+      </TabBar>
+    </SidebarContainer>
   );
 }

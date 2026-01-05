@@ -2,13 +2,13 @@ import React from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { ModalProvider, ThemeProvider, ToastProvider } from '@imspdr/ui';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import * as S from './App.styled';
 import Header from './components/Header';
-import { Sidebar } from './components/Sidebar';
+import Sidebar from './components/Sidebar';
 import { useDisplayStocks } from './hooks/useDisplayStocks';
 import { useStocks } from './hooks/useKospiData';
 import DetailPage from './pages/DetailPage';
 import ListPage from './pages/ListPage';
+import { LayoutContainer, MainContent } from './styled';
 
 const queryClient = new QueryClient();
 
@@ -40,20 +40,21 @@ const AppLayout = () => {
   };
 
   return (
-    <S.LayoutContainer>
+    <LayoutContainer>
       <Header
         onHomeClick={() => navigate('/list')}
         searchOptions={searchOptions}
         onSearchSelect={(opt) => handleStockClick(opt.value)}
       />
-      <Sidebar isFolded={isFolded} onToggleFold={() => setIsFolded(!isFolded)}>
+      <MainContent isFolded={isFolded}>
         <Routes>
           <Route path="/list" element={<ListPage />} />
           <Route path="/detail/:code" element={<DetailPage />} />
           <Route path="/" element={<Navigate to="/list" replace />} />
         </Routes>
-      </Sidebar>
-    </S.LayoutContainer>
+      </MainContent>
+      <Sidebar isFolded={isFolded} onToggleFold={() => setIsFolded(!isFolded)} />
+    </LayoutContainer>
   );
 };
 

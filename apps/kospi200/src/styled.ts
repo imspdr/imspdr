@@ -1,6 +1,14 @@
 import styled from '@emotion/styled';
 
-export const MainContent = styled.main<{ isFolded: boolean }>`
+export const LayoutContainer = styled.div`
+  display: flex;
+`;
+
+interface MainContentProps {
+  isFolded: boolean;
+}
+
+export const MainContent = styled.main<MainContentProps>`
   flex: 1;
   padding-top: 60px;
   margin-right: ${({ isFolded }) => (isFolded ? '60px' : '280px')};

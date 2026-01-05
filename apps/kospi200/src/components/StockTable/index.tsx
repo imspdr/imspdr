@@ -1,5 +1,16 @@
 import React from 'react';
-import * as S from './styled';
+import {
+  Change,
+  EmptyState,
+  SignalBadge,
+  StarButton,
+  StockNameWrapper,
+  Table,
+  TableContainer,
+  Td,
+  Th,
+  Tr,
+} from './styled';
 
 export interface Stock {
   name: string;
@@ -28,21 +39,21 @@ export const StockTable: React.FC<StockTableProps> = ({
 }) => {
   if (!stocks || stocks.length === 0) {
     return (
-      <S.TableContainer maxHeight={maxHeight}>
-        <S.EmptyState>{emptyMessage}</S.EmptyState>
-      </S.TableContainer>
+      <TableContainer maxHeight={maxHeight}>
+        <EmptyState>{emptyMessage}</EmptyState>
+      </TableContainer>
     );
   }
 
   return (
-    <S.TableContainer maxHeight={maxHeight}>
-      <S.Table>
+    <TableContainer maxHeight={maxHeight}>
+      <Table>
         <thead>
           <tr>
-            <S.Th>종목</S.Th>
-            <S.Th>현재가</S.Th>
-            <S.Th>대비</S.Th>
-            <S.Th>신호</S.Th>
+            <Th>종목</Th>
+            <Th>현재가</Th>
+            <Th>대비</Th>
+            <Th>신호</Th>
           </tr>
         </thead>
         <tbody>
@@ -52,10 +63,10 @@ export const StockTable: React.FC<StockTableProps> = ({
             const changePercent = (change / stock.last) * 100;
 
             return (
-              <S.Tr key={stock.code} onClick={() => onStockClick(stock.code)}>
-                <S.Td>
-                  <S.StockNameWrapper>
-                    <S.StarButton
+              <Tr key={stock.code} onClick={() => onStockClick(stock.code)}>
+                <Td>
+                  <StockNameWrapper>
+                    <StarButton
                       isStarred={isStarred(stock.code)}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -63,27 +74,27 @@ export const StockTable: React.FC<StockTableProps> = ({
                       }}
                     >
                       {isStarred(stock.code) ? '★' : '☆'}
-                    </S.StarButton>
+                    </StarButton>
                     {stock.name}
-                  </S.StockNameWrapper>
-                </S.Td>
-                <S.Td>{stock.today.toLocaleString()}원</S.Td>
-                <S.Td>
-                  <S.Change isRising={isRising}>
+                  </StockNameWrapper>
+                </Td>
+                <Td>{stock.today.toLocaleString()}원</Td>
+                <Td>
+                  <Change isRising={isRising}>
                     {isRising ? '▲' : '▼'}
                     {Math.abs(change).toLocaleString()} ({changePercent.toFixed(1)}%)
-                  </S.Change>
-                </S.Td>
-                <S.Td>
+                  </Change>
+                </Td>
+                <Td>
                   {stock.to_buy?.map((signal, idx) => (
-                    <S.SignalBadge key={idx}>{signal}</S.SignalBadge>
+                    <SignalBadge key={idx}>{signal}</SignalBadge>
                   ))}
-                </S.Td>
-              </S.Tr>
+                </Td>
+              </Tr>
             );
           })}
         </tbody>
-      </S.Table>
-    </S.TableContainer>
+      </Table>
+    </TableContainer>
   );
 };
