@@ -1,4 +1,6 @@
+export * from './components/AutoComplete';
 export * from './components/Button';
+
 export * from './components/Stack';
 export * from './components/ThemeToggleButton';
 export * from './components/Modal';

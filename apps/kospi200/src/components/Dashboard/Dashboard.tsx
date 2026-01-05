@@ -1,142 +1,162 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Stack, useTheme, useToast } from '@imspdr/ui';
-import { useStockDetail, useStocks } from '../../hooks/useKospiData';
-import { ButtonGroup, Description, SignalBadge, Table, Td, Th, Title, Top10Label } from './styled';
+import React, { useEffect, useMemo, useState } from 'react';
+import { AutoComplete, Button, Stack, useTheme } from '@imspdr/ui';
+import { useStocks } from '../../hooks/useKospiData';
+import { Description, SignalBadge, Table, Td, Th, Title, Top10Label } from './styled';
 
-const Dashboard = () => {
+interface DashboardProps {
+  onStockSelect: (code: string) => void;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ onStockSelect }) => {
   const { mode } = useTheme();
-  const { showToast } = useToast();
-  const { data: stocks, isLoading, isError, refetch } = useStocks();
-  const [selectedCode, setSelectedCode] = useState<string | null>(null);
-
-  const handleRefresh = () => {
-    refetch().then(() => {
-      showToast('주식 데이터가 성공적으로 갱신되었습니다.');
-    });
-  };
-
-  // Identify top 10 stocks with the biggest change magnitude
-  const processedStocks = stocks
-    ? [...stocks]
-        .map((s) => ({
-          ...s,
-          changePercent: Math.abs((s.today - s.last) / s.last) * 100,
-        }))
-        .sort((a, b) => b.changePercent - a.changePercent)
-    : [];
-
-  const top10Codes = new Set(processedStocks.slice(0, 10).map((s) => s.code));
-
-  // Example of using the detail hook
-  const { data: detail } = useStockDetail(selectedCode);
+  const { data: stocks, isLoading, refetch } = useStocks();
+  const [starredCodes, setStarredCodes] = useState<string[]>(() => {
+    const saved = localStorage.getItem('kospi200_starred');
+    return saved ? JSON.parse(saved) : [];
+  });
 
   useEffect(() => {
-    if (detail) {
-      console.log('Stock Detail updated:', detail);
-    }
-  }, [detail]);
+    localStorage.setItem('kospi200_starred', JSON.stringify(starredCodes));
+  }, [starredCodes]);
 
-  const handleRowClick = (code: string) => {
-    setSelectedCode(code);
+  const toggleStar = (code: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setStarredCodes((prev) =>
+      prev.includes(code) ? prev.filter((c) => c !== code) : [...prev, code],
+    );
   };
 
-  if (isError) {
-    return (
-      <Stack padding="40px" alignItems="center">
-        <Description>Failed to load stock data.</Description>
-        <Button onClick={() => refetch()}>Retry</Button>
-      </Stack>
-    );
+  const processedStocks = useMemo(() => {
+    if (!stocks) return [];
+    return stocks.map((s) => ({
+      ...s,
+      changePercent: ((s.today - s.last) / s.last) * 100,
+      absChangePercent: Math.abs((s.today - s.last) / s.last) * 100,
+    }));
+  }, [stocks]);
+
+  const top10Stocks = useMemo(() => {
+    return [...processedStocks]
+      .sort((a, b) => b.absChangePercent - a.absChangePercent)
+      .slice(0, 10);
+  }, [processedStocks]);
+
+  const starredStocksList = useMemo(() => {
+    return processedStocks.filter((s) => starredCodes.includes(s.code));
+  }, [processedStocks, starredCodes]);
+
+  const searchOptions = useMemo(() => {
+    return processedStocks.map((s) => ({
+      label: s.name,
+      subLabel: s.code,
+      value: s.code,
+    }));
+  }, [processedStocks]);
+
+  if (isLoading) {
+    return <div style={{ padding: '40px', textAlign: 'center' }}>Loading...</div>;
   }
 
+  const renderStockRow = (stock: (typeof processedStocks)[0], isTop10: boolean) => {
+    const isStarred = starredCodes.includes(stock.code);
+    const isUp = stock.today >= stock.last;
+    const color = isUp ? 'var(--imspdr-danger-danger1)' : 'var(--imspdr-primary-primary1)'; // Red for up (KR market), Blue for down
+
+    return (
+      <tr
+        key={stock.code}
+        onClick={() => onStockSelect(stock.code)}
+        style={{ cursor: 'pointer', borderBottom: '1px solid var(--imspdr-background-bg3)' }}
+      >
+        <Td>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button
+              onClick={(e) => toggleStar(stock.code, e)}
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '16px',
+                color: isStarred ? '#FFD700' : 'var(--imspdr-foreground-fg3)',
+              }}
+            >
+              {isStarred ? '★' : '☆'}
+            </button>
+            {isTop10 && <Top10Label>TOP 10</Top10Label>}
+            {stock.name}
+          </div>
+        </Td>
+        <Td>{stock.code}</Td>
+        <Td>{stock.today.toLocaleString()}원</Td>
+        <Td style={{ color }}>
+          {isUp ? '▲' : '▼'} {Math.abs(stock.today - stock.last).toLocaleString()} (
+          {stock.changePercent.toFixed(2)}%)
+        </Td>
+        <Td>
+          {stock.to_buy.length > 0
+            ? stock.to_buy.map((signal) => <SignalBadge key={signal}>{signal}</SignalBadge>)
+            : '-'}
+        </Td>
+      </tr>
+    );
+  };
+
   return (
-    <Stack
-      direction="column"
-      alignItems="stretch"
-      justifyContent="flex-start"
-      padding="40px"
-      gap="20px"
-      margin="20px"
-      width="100%"
-      style={{
-        backgroundColor: 'var(--imspdr-card-card1)',
-        borderRadius: '12px',
-        border: '1px solid var(--imspdr-background-bg3)',
-        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-        maxWidth: '1000px',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-      }}
-    >
-      <Title>KOSPI 200 Analysis</Title>
-      <Description>
-        Top 10 movers emphasized. Current Theme: <strong>{mode}</strong>
-      </Description>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '20px' }}>
+      <Stack direction="column" gap="40px">
+        {/* Search Bar */}
+        <div style={{ width: '100%', maxWidth: '600px', margin: '0 auto' }}>
+          <AutoComplete
+            options={searchOptions}
+            onSelect={(opt) => onStockSelect(opt.value)}
+            placeholder="Search by stock name or code..."
+          />
+        </div>
 
-      {isLoading ? (
-        <Description>Loading stock data...</Description>
-      ) : (
-        <Table>
-          <thead>
-            <tr>
-              <Th>Name</Th>
-              <Th>Code</Th>
-              <Th>Price</Th>
-              <Th>Change</Th>
-              <Th>Signals</Th>
-            </tr>
-          </thead>
-          <tbody>
-            {processedStocks.map((stock) => (
-              <tr
-                key={stock.code}
-                onClick={() => handleRowClick(stock.code)}
-                style={{
-                  cursor: 'pointer',
-                  backgroundColor:
-                    selectedCode === stock.code
-                      ? 'var(--imspdr-background-bg2)'
-                      : top10Codes.has(stock.code)
-                        ? 'rgba(var(--imspdr-primary-primary1-rgb), 0.05)'
-                        : 'transparent',
-                  borderLeft: top10Codes.has(stock.code)
-                    ? '4px solid var(--imspdr-primary-primary1)'
-                    : 'none',
-                }}
-              >
-                <Td>
-                  {top10Codes.has(stock.code) && <Top10Label>TOP 10</Top10Label>}
-                  {stock.name}
-                </Td>
-                <Td>{stock.code}</Td>
-                <Td>{stock.today.toLocaleString()}원</Td>
-                <Td
-                  style={{
-                    color:
-                      stock.today >= stock.last
-                        ? 'var(--imspdr-danger-danger1)'
-                        : 'var(--imspdr-primary-primary1)',
-                  }}
-                >
-                  {stock.today >= stock.last ? '▲' : '▼'}{' '}
-                  {(stock.today - stock.last).toLocaleString()}원 (
-                  {(((stock.today - stock.last) / stock.last) * 100).toFixed(2)}%)
-                </Td>
-                <Td>
-                  {stock.to_buy.length > 0
-                    ? stock.to_buy.map((signal) => <SignalBadge key={signal}>{signal}</SignalBadge>)
-                    : '-'}
-                </Td>
+        {/* Starred Stocks */}
+        <div>
+          <Title>Starred Stocks</Title>
+          {starredStocksList.length === 0 ? (
+            <Description>No starred stocks yet. Star stocks from the Top 10 list!</Description>
+          ) : (
+            <Table>
+              <thead>
+                <tr>
+                  <Th>Name</Th>
+                  <Th>Code</Th>
+                  <Th>Price</Th>
+                  <Th>Change</Th>
+                  <Th>Signals</Th>
+                </tr>
+              </thead>
+              <tbody>{starredStocksList.map((s) => renderStockRow(s, false))}</tbody>
+            </Table>
+          )}
+        </div>
+
+        {/* Top 10 Stocks */}
+        <div>
+          <Title>Top 10 Movers</Title>
+          <Description>Biggest price changes today.</Description>
+          <Table>
+            <thead>
+              <tr>
+                <Th>Name</Th>
+                <Th>Code</Th>
+                <Th>Price</Th>
+                <Th>Change</Th>
+                <Th>Signals</Th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
-      )}
+            </thead>
+            <tbody>{top10Stocks.map((s) => renderStockRow(s, true))}</tbody>
+          </Table>
+        </div>
 
-      <ButtonGroup>
-        <Button onClick={handleRefresh}>데이터 갱신</Button>
-      </ButtonGroup>
-    </Stack>
+        <div style={{ textAlign: 'center' }}>
+          <Button onClick={() => refetch()}>Refresh Data</Button>
+        </div>
+      </Stack>
+    </div>
   );
 };
 
