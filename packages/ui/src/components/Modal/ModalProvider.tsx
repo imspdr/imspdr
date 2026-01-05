@@ -94,7 +94,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       {modalStack.map((modal, index) => (
         <Overlay
           key={modal.id}
-          style={{ zIndex: 1000 + index }}
+          zIndex={1000 + index}
           onClick={(e) => {
             if (e.target === e.currentTarget && modal.options?.closeOnOverlayClick !== false) {
               closeModal(modal.id);

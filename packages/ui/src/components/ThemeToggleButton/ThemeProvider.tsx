@@ -43,6 +43,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       <Global
         styles={css`
           @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap');
+          @import url('https://cdn.jsdelivr.net/gh/sun-typeface/nanum-square-neo@master/nanum-square-neo.css');
 
           :root {
             ${generateVars(tokens)}

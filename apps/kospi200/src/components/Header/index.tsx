@@ -1,12 +1,19 @@
-import React from 'react';
-import { ThemeToggleButton } from '@imspdr/ui';
-import { HeaderContainer, RightSection, TitleButton } from './styled';
+import { AutoComplete, ThemeToggleButton, Typography } from '@imspdr/ui';
+import { HeaderContainer, RightSection, SearchWrapper, TitleButton, TitleSection } from './styled';
 
 interface HeaderProps {
   onHomeClick?: () => void;
+  searchOptions?: any[];
+  onSearchSelect?: (option: any) => void;
+  searchPlaceholder?: string;
 }
 
-const Header = ({ onHomeClick }: HeaderProps) => {
+const Header = ({
+  onHomeClick,
+  searchOptions = [],
+  onSearchSelect,
+  searchPlaceholder = '종목명 또는 코드로 검색',
+}: HeaderProps) => {
   const handleHomeClick = () => {
     if (onHomeClick) {
       onHomeClick();
@@ -17,7 +24,22 @@ const Header = ({ onHomeClick }: HeaderProps) => {
 
   return (
     <HeaderContainer>
-      <TitleButton onClick={handleHomeClick}>kospi200</TitleButton>
+      <TitleSection>
+        <TitleButton onClick={handleHomeClick}>
+          <Typography variant="title" level={2}>
+            kospi200
+          </Typography>
+        </TitleButton>
+        {onSearchSelect && (
+          <SearchWrapper>
+            <AutoComplete
+              options={searchOptions}
+              onSelect={onSearchSelect}
+              placeholder={searchPlaceholder}
+            />
+          </SearchWrapper>
+        )}
+      </TitleSection>
       <RightSection>
         <ThemeToggleButton />
       </RightSection>

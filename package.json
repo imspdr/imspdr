@@ -14,9 +14,8 @@
     "build": "npm run build --workspaces --if-present",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "dev:kospi200": "yarn workspace kospi200 dev",
-    "dev:shell": "yarn workspace shell dev",
-    "dev:all": "concurrently \"yarn dev:kospi200\" \"yarn dev:shell\"",
+    "kospi200": "yarn workspace kospi200 dev",
+    "all": "concurrently \"yarn dev:kospi200\"",
     "sb": "yarn workspace @imspdr/ui storybook",
     "prepare": "husky install"
   },

@@ -37,7 +37,7 @@ module.exports = {
       name: 'kospi200',
       filename: 'remoteEntry.js',
       exposes: {
-        './App': './src/components/Dashboard/Dashboard',
+        './App': './src/pages/ListPage',
       },
       shared: {
         ...deps,
@@ -51,9 +51,7 @@ module.exports = {
       template: './public/index.html',
     }),
     new CopyWebpackPlugin({
-      patterns: [
-        { from: 'public/data', to: 'data', noErrorOnMissing: true },
-      ],
+      patterns: [{ from: 'public/data', to: 'data', noErrorOnMissing: true }],
     }),
   ],
   devServer: {

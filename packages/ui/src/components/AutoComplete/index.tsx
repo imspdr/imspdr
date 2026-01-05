@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { isKoreanMatch } from '@imspdr/utils';
 import { SearchInput } from '../SearchInput';
+import { Typography } from '../Typography';
 import { Container, Dropdown, NoResults, OptionItem, OptionsList } from './styled';
 
 export interface AutoCompleteOption {
@@ -15,6 +16,7 @@ interface AutoCompleteProps {
   placeholder?: string;
   className?: string;
   initialValue?: string;
+  noResultText?: string;
 }
 
 export const AutoComplete: React.FC<AutoCompleteProps> = ({
@@ -23,6 +25,7 @@ export const AutoComplete: React.FC<AutoCompleteProps> = ({
   placeholder = 'Search...',
   className,
   initialValue = '',
+  noResultText = 'No results found',
 }) => {
   const [searchTerm, setSearchTerm] = useState(initialValue);
   const [isOpen, setIsOpen] = useState(false);
@@ -72,17 +75,23 @@ export const AutoComplete: React.FC<AutoCompleteProps> = ({
             <OptionsList>
               {filteredOptions.map((option) => (
                 <OptionItem key={option.value} onClick={() => handleSelect(option)}>
-                  <div style={{ fontWeight: 500 }}>{option.label}</div>
+                  <Typography variant="body" level={2}>
+                    {option.label}
+                  </Typography>
                   {option.subLabel && (
-                    <div style={{ fontSize: '12px', color: 'var(--imspdr-foreground-fg3)' }}>
+                    <Typography variant="caption" level={3}>
                       {option.subLabel}
-                    </div>
+                    </Typography>
                   )}
                 </OptionItem>
               ))}
             </OptionsList>
           ) : (
-            <NoResults>No results found</NoResults>
+            <NoResults>
+              <Typography variant="body" level={2}>
+                {noResultText}
+              </Typography>
+            </NoResults>
           )}
         </Dropdown>
       )}

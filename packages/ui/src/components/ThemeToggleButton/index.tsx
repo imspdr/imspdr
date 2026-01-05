@@ -15,18 +15,10 @@ export const ThemeToggleButton: React.FC = () => {
 
   return (
     <Container onClick={toggleTheme}>
-      <SunIcon
-        isVisible={!isDark}
-        isRaising={!isDark}
-        style={{ animation: isFirstRender ? 'none' : undefined }}
-      >
+      <SunIcon isVisible={!isDark} isRaising={!isDark} disableAnimation={isFirstRender}>
         <HiSun />
       </SunIcon>
-      <MoonIcon
-        isVisible={isDark}
-        isRaising={isDark}
-        style={{ animation: isFirstRender ? 'none' : undefined }}
-      >
+      <MoonIcon isVisible={isDark} isRaising={isDark} disableAnimation={isFirstRender}>
         <HiMoon />
       </MoonIcon>
     </Container>

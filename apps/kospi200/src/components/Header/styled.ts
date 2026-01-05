@@ -19,6 +19,13 @@ export const HeaderContainer = styled.header`
     border-color 0.3s;
 `;
 
+export const TitleSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+`;
+
 export const TitleButton = styled.button`
   background: none;
   border: none;
@@ -28,9 +35,29 @@ export const TitleButton = styled.button`
   cursor: pointer;
   padding: 0;
   font-family: inherit;
+  white-space: nowrap;
 
   &:hover {
     opacity: 0.8;
+  }
+`;
+
+export const SearchWrapper = styled.div`
+  flex: 1;
+  max-width: 400px;
+
+  /* Styling for the nested AutoComplete/SearchInput */
+  & > div {
+    background: var(--imspdr-background-bg2);
+    border: 1px solid var(--imspdr-background-bg3);
+    border-radius: 8px;
+
+    input {
+      background: transparent;
+      &::placeholder {
+        color: var(--imspdr-foreground-fg3);
+      }
+    }
   }
 `;
 
@@ -38,4 +65,5 @@ export const RightSection = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
+  margin-left: 16px;
 `;

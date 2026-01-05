@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const Overlay = styled.div`
+export const Overlay = styled.div<{ zIndex?: number }>`
   position: fixed;
   top: 0;
   left: 0;
@@ -10,7 +10,7 @@ export const Overlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: ${({ zIndex }) => zIndex || 1000};
   backdrop-filter: blur(4px);
 `;
 

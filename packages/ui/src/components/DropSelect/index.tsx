@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { HiChevronDown, HiChevronUp } from 'react-icons/hi';
 import { isKoreanMatch } from '@imspdr/utils';
 import { SearchInput } from '../SearchInput';
+import { Typography } from '../Typography';
 import {
   Container,
   Dropdown,
@@ -93,7 +94,9 @@ export const DropSelect: React.FC<DropSelectProps> = ({
                   isSelected={option.value === selected}
                   onClick={() => handleSelect(option.value)}
                 >
-                  {option.label}
+                  <Typography variant="body" level={2}>
+                    {option.label}
+                  </Typography>
                 </OptionItem>
               ))
             ) : (

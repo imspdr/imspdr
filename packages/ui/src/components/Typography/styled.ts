@@ -9,8 +9,9 @@ interface StyledTextProps {
 }
 
 const fontFamilies = {
-  title: "'Roboto', 'Noto Sans KR', sans-serif",
-  body: "'Noto Sans KR', sans-serif",
+  title:
+    "'NanumSquareNeo', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans KR', sans-serif",
+  body: "'NanumSquareNeo', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans KR', sans-serif",
   caption: "'Inter', sans-serif",
 };
 
@@ -46,7 +47,9 @@ export const StyledText = styled.span<StyledTextProps>`
   margin: 0;
   line-height: 1.5;
 
-  ${({ variant }) => variant === 'caption' && `
+  ${({ variant }) =>
+    variant === 'caption' &&
+    `
     color: var(--imspdr-foreground-fg3);
     letter-spacing: 0.02em;
   `}

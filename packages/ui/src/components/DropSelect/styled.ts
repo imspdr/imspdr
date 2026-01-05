@@ -68,7 +68,6 @@ export const OptionsList = styled.div`
 
 export const OptionItem = styled.div<{ isSelected: boolean }>`
   padding: 10px 16px;
-  font-size: 14px;
   cursor: pointer;
   color: var(--imspdr-foreground-fg1);
   background: ${({ isSelected }) => (isSelected ? 'var(--imspdr-background-bg2)' : 'transparent')};
@@ -78,12 +77,6 @@ export const OptionItem = styled.div<{ isSelected: boolean }>`
   &:hover {
     background: var(--imspdr-background-bg3);
   }
-
-  ${({ isSelected }) =>
-    isSelected &&
-    `
-    font-weight: 600;
-  `}
 `;
 
 export const NoResults = styled.div`

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyledText, TypographyVariant, TypographyLevel } from './styled';
+import { StyledText, TypographyLevel, TypographyVariant } from './styled';
 
 export interface TypographyProps {
   variant?: TypographyVariant;
@@ -7,6 +7,7 @@ export interface TypographyProps {
   children: React.ReactNode;
   as?: React.ElementType;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export const Typography: React.FC<TypographyProps> = ({
@@ -15,6 +16,7 @@ export const Typography: React.FC<TypographyProps> = ({
   children,
   as,
   className,
+  style,
 }) => {
   // Determine default element based on variant/level
   const defaultElement = () => {
@@ -30,12 +32,7 @@ export const Typography: React.FC<TypographyProps> = ({
   const Component = as || defaultElement();
 
   return (
-    <StyledText
-      as={Component}
-      variant={variant}
-      level={level}
-      className={className}
-    >
+    <StyledText as={Component} variant={variant} level={level} className={className} style={style}>
       {children}
     </StyledText>
   );

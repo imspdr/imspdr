@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 
 const raise = keyframes`
   from {
@@ -51,6 +51,7 @@ export const Container = styled.div`
 interface IconProps {
   isVisible: boolean;
   isRaising: boolean;
+  disableAnimation?: boolean;
 }
 
 const IconBase = styled.div<IconProps>`
@@ -60,10 +61,11 @@ const IconBase = styled.div<IconProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: ${props => (props.isVisible ? 1 : 0)};
-  top: ${props => (props.isVisible ? '12px' : '25px')};
-  right: ${props => (props.isVisible ? '12px' : props.isRaising ? '22px' : '2px')};
-  animation: ${props => (props.isRaising ? raise : down)} 0.5s ease-out;
+  opacity: ${(props) => (props.isVisible ? 1 : 0)};
+  top: ${(props) => (props.isVisible ? '12px' : '25px')};
+  right: ${(props) => (props.isVisible ? '12px' : props.isRaising ? '22px' : '2px')};
+  animation: ${(props) => (props.disableAnimation ? 'none' : props.isRaising ? raise : down)} 0.5s
+    ease-out;
   color: var(--imspdr-foreground-fg1);
 
   svg {
