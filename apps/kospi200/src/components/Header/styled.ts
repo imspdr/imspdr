@@ -14,9 +14,6 @@ export const HeaderContainer = styled.header`
   padding: 0 16px;
   z-index: 1000;
   box-sizing: border-box;
-  transition:
-    background-color 0.3s,
-    border-color 0.3s;
 `;
 
 export const TitleSection = styled.div`
