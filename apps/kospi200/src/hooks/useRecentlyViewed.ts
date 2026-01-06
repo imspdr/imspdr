@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const STORAGE_KEY = 'kospi200_recently_viewed';
 const MAX_RECENT = 10;
+const UPDATE_EVENT = 'kospi200_recently_viewed_update';
 
 export const useRecentlyViewed = <T extends { code: string }>(stocks?: T[]) => {
   const [recentCodes, setRecentCodes] = useState<string[]>(() => {
@@ -9,17 +10,36 @@ export const useRecentlyViewed = <T extends { code: string }>(stocks?: T[]) => {
     return saved ? JSON.parse(saved) : [];
   });
 
+  const updateStateFromStorage = useCallback(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      setRecentCodes(JSON.parse(saved));
+    }
+  }, []);
+
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(recentCodes));
-  }, [recentCodes]);
+    window.addEventListener(UPDATE_EVENT, updateStateFromStorage);
+    window.addEventListener('storage', updateStateFromStorage);
+    return () => {
+      window.removeEventListener(UPDATE_EVENT, updateStateFromStorage);
+      window.removeEventListener('storage', updateStateFromStorage);
+    };
+  }, [updateStateFromStorage]);
 
   const addRecentView = useCallback((code: string) => {
-    setRecentCodes((prev) => {
-      // Remove if already exists
-      const filtered = prev.filter((c) => c !== code);
-      // Add to front and limit to MAX_RECENT
-      return [code, ...filtered].slice(0, MAX_RECENT);
-    });
+    const saved = localStorage.getItem(STORAGE_KEY);
+    const current: string[] = saved ? JSON.parse(saved) : [];
+
+    // Remove if already exists
+    const filtered = current.filter((c) => c !== code);
+    // Add to front and limit to MAX_RECENT
+    const newCodes = [code, ...filtered].slice(0, MAX_RECENT);
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(newCodes));
+    setRecentCodes(newCodes);
+
+    // Dispatch event to notify other hook instances
+    window.dispatchEvent(new Event(UPDATE_EVENT));
   }, []);
 
   const recentlyViewedStocks = useMemo(() => {

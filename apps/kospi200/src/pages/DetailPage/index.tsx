@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Typography } from '@imspdr/ui';
 import { StockChart } from '../../components/StockChart';
 import { useStockDetail } from '../../hooks/useKospiData';
+import { useRecentlyViewed } from '../../hooks/useRecentlyViewed';
 import { ChartSection, Container, Header, NewsSection, StyledCard } from './styled';
 
 export const DetailPage: React.FC = () => {
   const { code } = useParams<{ code: string }>();
   const { data: stock, isLoading } = useStockDetail(code || null);
+  const { addRecentView } = useRecentlyViewed([]);
   const [showBollinger, setShowBollinger] = useState(false);
+
+  useEffect(() => {
+    if (code) {
+      addRecentView(code);
+    }
+  }, [code, addRecentView]);
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;

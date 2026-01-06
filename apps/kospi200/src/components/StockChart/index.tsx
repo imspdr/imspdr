@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Area,
   Bar,
+  Brush,
   CartesianGrid,
   ComposedChart,
   Line,
@@ -91,6 +92,10 @@ const CustomTooltip = ({ active, payload }: any) => {
 };
 
 export const StockChart: React.FC<StockChartProps> = ({ data, showBollinger }) => {
+  const [dataRange, setDataRange] = useState<{ startIndex: number; endIndex: number }>({
+    startIndex: 0,
+    endIndex: 0,
+  });
   const chartData = useMemo(() => {
     return data.map((d) => ({
       ...d,
@@ -100,17 +105,38 @@ export const StockChart: React.FC<StockChartProps> = ({ data, showBollinger }) =
     }));
   }, [data]);
 
+  useEffect(() => {
+    if (chartData.length > 0) {
+      // Show last 60 days by default, or all if less than 60
+      const count = Math.min(60, chartData.length);
+      setDataRange({
+        startIndex: chartData.length - count,
+        endIndex: chartData.length - 1,
+      });
+    }
+  }, [chartData.length]);
+
   const { minPrice, maxPrice } = useMemo(() => {
-    const prices = chartData.flatMap((d: any) =>
-      [d.low, d.high, d.upperBand, d.lowerBand].filter((v: number) => v > 0),
+    if (chartData.length === 0) return { minPrice: 0, maxPrice: 100 };
+
+    const visibleData = chartData.slice(dataRange.startIndex, dataRange.endIndex + 1);
+    const prices = visibleData.flatMap((d: any) =>
+      [d.low, d.high, d.upperBand, d.lowerBand].filter((v: number) => v > 0 && !isNaN(v)),
     );
+
     if (prices.length === 0) return { minPrice: 0, maxPrice: 100 };
 
     const min = Math.min(...prices);
     const max = Math.max(...prices);
-    // Add 5% padding
-    return { minPrice: min * 0.95, maxPrice: max * 1.05 };
-  }, [chartData]);
+    // Add 2% padding
+    return { minPrice: Math.floor(min * 0.98), maxPrice: Math.ceil(max * 1.02) };
+  }, [chartData, dataRange]);
+
+  const handleBrushChange = (e: any) => {
+    if (e.startIndex !== undefined && e.endIndex !== undefined) {
+      setDataRange({ startIndex: e.startIndex, endIndex: e.endIndex });
+    }
+  };
 
   return (
     <ChartContainer>
@@ -214,6 +240,14 @@ export const StockChart: React.FC<StockChartProps> = ({ data, showBollinger }) =
               shape={<CandlestickShape />}
               barSize={12}
               isAnimationActive={false}
+            />
+            <Brush
+              dataKey="date"
+              height={30}
+              stroke="#8884d8"
+              startIndex={dataRange.startIndex}
+              endIndex={dataRange.endIndex}
+              onChange={handleBrushChange}
             />
           </ComposedChart>
         </ResponsiveContainer>
