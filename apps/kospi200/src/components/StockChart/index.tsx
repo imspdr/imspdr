@@ -22,7 +22,8 @@ const CandlestickShape = (props: any) => {
   const { x, y, width, payload, yAxis } = props;
   const { start, end, high, low } = payload;
   const isRising = end > start;
-  const color = isRising ? '#e23d29' : '#1e75d0';
+  const isFalling = end < start;
+  const color = isRising ? '#e23d29' : isFalling ? '#1e75d0' : '#999999';
 
   if (!yAxis) return null;
 
@@ -62,7 +63,8 @@ const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload as Analysis;
     const isRising = data.end > data.start;
-    const color = isRising ? '#e23d29' : '#1e75d0';
+    const isFalling = data.end < data.start;
+    const color = isRising ? '#e23d29' : isFalling ? '#1e75d0' : '#999999';
     return (
       <div
         style={{

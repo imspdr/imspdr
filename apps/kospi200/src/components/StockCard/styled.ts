@@ -60,10 +60,10 @@ export const Price = styled.div`
   color: var(--imspdr-foreground-fg1);
 `;
 
-export const Change = styled.div<{ isRising: boolean }>`
+export const Change = styled.div<{ trend: 'up' | 'down' | 'flat' }>`
   font-size: 14px;
   font-weight: 600;
-  color: ${({ isRising }) => (isRising ? '#ef4444' : '#3b82f6')};
+  color: ${({ trend }) => (trend === 'up' ? '#e23d29' : trend === 'down' ? '#1e75d0' : '#999999')};
 `;
 
 export const SignalsSection = styled.div`

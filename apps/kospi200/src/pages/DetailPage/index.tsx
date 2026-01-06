@@ -33,15 +33,30 @@ export const DetailPage: React.FC = () => {
           <Typography
             variant="title"
             level={3}
-            style={{ color: stock.changePercent > 0 ? '#e23d29' : '#1e75d0' }}
+            style={{
+              color:
+                stock.changePercent > 0
+                  ? '#e23d29'
+                  : stock.changePercent < 0
+                    ? '#1e75d0'
+                    : '#999999',
+            }}
           >
-            {stock.today?.toLocaleString() ?? 0}
+            {stock.analysis[stock.analysis.length - 1].end.toLocaleString()}
           </Typography>
           <Typography
             variant="body"
-            style={{ color: stock.changePercent > 0 ? '#e23d29' : '#1e75d0' }}
+            style={{
+              color:
+                stock.changePercent > 0
+                  ? '#e23d29'
+                  : stock.changePercent < 0
+                    ? '#1e75d0'
+                    : '#999999',
+            }}
           >
-            {stock.changePercent > 0 ? '▲' : '▼'} {Math.abs(stock.changePercent).toFixed(2)}%
+            {stock.changePercent > 0 ? '▲' : stock.changePercent < 0 ? '▼' : '-'}{' '}
+            {stock.absChangePercent > 0 && `${stock.absChangePercent.toFixed(2)}%`}
           </Typography>
         </div>
       </Header>

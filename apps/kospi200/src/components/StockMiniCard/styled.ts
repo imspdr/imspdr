@@ -72,8 +72,8 @@ export const Price = styled(Typography)`
   color: var(--imspdr-foreground-fg1);
 `;
 
-export const Change = styled(Typography)<{ isRising: boolean }>`
-  color: ${({ isRising }) => (isRising ? '#ef4444' : '#3b82f6')};
+export const Change = styled(Typography)<{ trend: 'up' | 'down' | 'flat' }>`
+  color: ${({ trend }) => (trend === 'up' ? '#e23d29' : trend === 'down' ? '#1e75d0' : '#999999')};
 `;
 
 export const FoldedIcon = styled(Typography)`

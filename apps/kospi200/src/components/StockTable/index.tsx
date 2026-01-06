@@ -58,8 +58,8 @@ export const StockTable: React.FC<StockTableProps> = ({
         </thead>
         <tbody>
           {stocks.map((stock) => {
-            const isRising = stock.today > stock.last;
             const change = stock.today - stock.last;
+            const trend = change > 0 ? 'up' : change < 0 ? 'down' : 'flat';
             const changePercent = (change / stock.last) * 100;
 
             return (
@@ -80,9 +80,10 @@ export const StockTable: React.FC<StockTableProps> = ({
                 </Td>
                 <Td>{stock.today.toLocaleString()}원</Td>
                 <Td>
-                  <Change isRising={isRising}>
-                    {isRising ? '▲' : '▼'}
-                    {Math.abs(change).toLocaleString()} ({changePercent.toFixed(1)}%)
+                  <Change trend={trend}>
+                    {trend === 'flat'
+                      ? '-'
+                      : `${trend === 'up' ? '▲' : '▼'} ${Math.abs(change).toLocaleString()} (${changePercent.toFixed(1)}%)`}
                   </Change>
                 </Td>
                 <Td>

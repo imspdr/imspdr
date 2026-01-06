@@ -38,7 +38,7 @@ export const StockCard: React.FC<StockCardProps> = ({
   onToggleStar,
   onClick,
 }) => {
-  const isRising = change >= 0;
+  const trend = change > 0 ? 'up' : change < 0 ? 'down' : 'flat';
 
   return (
     <CardContainer onClick={onClick}>
@@ -52,8 +52,10 @@ export const StockCard: React.FC<StockCardProps> = ({
         </NameSection>
         <PriceSection>
           <Price>{price.toLocaleString()}원</Price>
-          <Change isRising={isRising}>
-            {isRising ? '▲' : '▼'} {Math.abs(change).toLocaleString()} ({changePercent.toFixed(2)}%)
+          <Change trend={trend}>
+            {trend === 'flat'
+              ? '-'
+              : `${trend === 'up' ? '▲' : '▼'} ${Math.abs(change).toLocaleString()} (${changePercent.toFixed(2)}%)`}
           </Change>
         </PriceSection>
       </CardHeader>

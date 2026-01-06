@@ -39,7 +39,7 @@ export const StockMiniCard: React.FC<StockMiniCardProps> = ({
   onClick,
   isFolded,
 }) => {
-  const isRising = change > 0;
+  const trend = change > 0 ? 'up' : change < 0 ? 'down' : 'flat';
   const hasBuySignal = toBuy?.length > 0;
 
   if (isFolded) {
@@ -83,9 +83,10 @@ export const StockMiniCard: React.FC<StockMiniCardProps> = ({
         <Price variant="body" level={2} style={{ fontWeight: 600 }}>
           {price.toLocaleString()}원
         </Price>
-        <Change variant="caption" isRising={isRising} style={{ fontWeight: 500 }}>
-          {isRising ? '▲' : '▼'}
-          {Math.abs(change).toLocaleString()} ({changePercent.toFixed(1)}%)
+        <Change variant="caption" trend={trend} style={{ fontWeight: 500 }}>
+          {trend === 'flat'
+            ? '-'
+            : `${trend === 'up' ? '▲' : '▼'} ${Math.abs(change).toLocaleString()} (${changePercent.toFixed(1)}%)`}
         </Change>
       </BottomRow>
     </CardContainer>

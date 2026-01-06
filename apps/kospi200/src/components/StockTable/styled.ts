@@ -61,8 +61,8 @@ export const StarButton = styled.button<{ isStarred: boolean }>`
   }
 `;
 
-export const Change = styled.span<{ isRising: boolean }>`
-  color: ${({ isRising }) => (isRising ? '#ef4444' : '#3b82f6')};
+export const Change = styled.span<{ trend: 'up' | 'down' | 'flat' }>`
+  color: ${({ trend }) => (trend === 'up' ? '#e23d29' : trend === 'down' ? '#1e75d0' : '#999999')};
   font-weight: 600;
 `;
 
