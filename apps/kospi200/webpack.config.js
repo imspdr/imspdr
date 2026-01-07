@@ -49,6 +49,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './public/index.html',
+      favicon: path.resolve(__dirname, '../../imspdr.png'),
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: 'public/data', to: 'data', noErrorOnMissing: true }],

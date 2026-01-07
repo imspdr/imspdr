@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, FC } from 'react';
 import { isKoreanMatch } from '@imspdr/utils';
 import { SearchInput } from '../SearchInput';
 import { Typography } from '../Typography';
@@ -19,7 +19,7 @@ interface AutoCompleteProps {
   noResultText?: string;
 }
 
-export const AutoComplete: React.FC<AutoCompleteProps> = ({
+export const AutoComplete: FC<AutoCompleteProps> = ({
   options,
   onSelect,
   placeholder = 'Search...',

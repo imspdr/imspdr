@@ -1,4 +1,5 @@
-import React from 'react';
+import { FC } from 'react';
+
 import {
   Change,
   EmptyState,
@@ -29,7 +30,7 @@ interface StockTableProps {
   emptyMessage?: string;
 }
 
-export const StockTable: React.FC<StockTableProps> = ({
+export const StockTable: FC<StockTableProps> = ({
   stocks,
   onStockClick,
   onToggleStar,

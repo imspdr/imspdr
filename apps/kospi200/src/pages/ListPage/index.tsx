@@ -1,4 +1,5 @@
-import React from 'react';
+import { FC } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import { Stack, Typography } from '@imspdr/ui';
 import { StockTable } from '../../components/StockTable';
@@ -8,7 +9,7 @@ import { useRecentlyViewed } from '../../hooks/useRecentlyViewed';
 import { useStarred } from '../../hooks/useStarred';
 import * as S from './styled';
 
-const ListPage = () => {
+const ListPage: FC = () => {
   const navigate = useNavigate();
   const { data: stocks, isLoading } = useStocks();
   const { recentCodes } = useRecentlyViewed();

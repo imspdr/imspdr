@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, FC } from 'react';
 import { HiChevronDown, HiChevronUp } from 'react-icons/hi';
 import { isKoreanMatch } from '@imspdr/utils';
 import { SearchInput } from '../SearchInput';
@@ -28,7 +28,7 @@ export interface DropSelectProps {
   noResultsText?: string;
 }
 
-export const DropSelect: React.FC<DropSelectProps> = ({
+export const DropSelect: FC<DropSelectProps> = ({
   options,
   selected,
   onSelect,

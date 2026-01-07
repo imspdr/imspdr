@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 import { HiMoon, HiSun } from 'react-icons/hi2';
 import { useTheme } from './ThemeProvider';
 import { Container, MoonIcon, SunIcon } from './styled';
 
-export const ThemeToggleButton: React.FC = () => {
+export const ThemeToggleButton: FC = () => {
   const { mode, toggleTheme } = useTheme();
   const [isFirstRender, setIsFirstRender] = useState(true);
 

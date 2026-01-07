@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+
 import { HiChevronDoubleLeft, HiChevronDoubleRight, HiClock, HiStar } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import { Typography } from '@imspdr/ui';

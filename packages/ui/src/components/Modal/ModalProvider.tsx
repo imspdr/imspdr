@@ -1,11 +1,4 @@
-import React, {
-  ReactNode,
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { ReactNode, createContext, useCallback, useContext, useEffect, useState, FC } from 'react';
 import {
   CloseButton,
   ModalBody,
@@ -44,7 +37,7 @@ export const useModal = () => {
   return context;
 };
 
-export const ModalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const ModalProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [modalStack, setModalStack] = useState<ModalInstance[]>([]);
 
   const openModal = useCallback((content: ReactNode, options?: ModalOptions) => {

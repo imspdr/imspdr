@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button } from '../Button';
 import { Typography } from '../Typography';
 import { ModalProvider, useModal } from './ModalProvider';

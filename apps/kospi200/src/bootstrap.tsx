@@ -1,4 +1,3 @@
-import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { ThemeProvider } from '@imspdr/ui';
 import App from './App';
@@ -9,6 +8,6 @@ if (container) {
   root.render(
     <ThemeProvider>
       <App />
-    </ThemeProvider>
+    </ThemeProvider>,
   );
 }

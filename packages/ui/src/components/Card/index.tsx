@@ -1,10 +1,10 @@
-import React from 'react';
+import { FC, ReactNode, HTMLAttributes } from 'react';
 import { StyledCard } from './styled';
 
-export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
+export interface CardProps extends HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
 }
 
-export const Card: React.FC<CardProps> = ({ children, ...props }) => {
+export const Card: FC<CardProps> = ({ children, ...props }) => {
   return <StyledCard {...props}>{children}</StyledCard>;
 };

@@ -1,4 +1,5 @@
-import React from 'react';
+import { FC, MouseEvent } from 'react';
+
 import {
   CardContainer,
   CardHeader,
@@ -22,11 +23,11 @@ interface StockCardProps {
   signals: string[];
   isStarred: boolean;
   isTop10: boolean;
-  onToggleStar: (e: React.MouseEvent) => void;
+  onToggleStar: (e: MouseEvent) => void;
   onClick: () => void;
 }
 
-export const StockCard: React.FC<StockCardProps> = ({
+export const StockCard: FC<StockCardProps> = ({
   name,
   code,
   price,

@@ -1,257 +1,209 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import {
-  Area,
-  Bar,
-  Brush,
-  CartesianGrid,
-  ComposedChart,
-  Line,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import React, { useMemo, FC } from 'react';
+import ReactECharts from 'echarts-for-react';
 import { Analysis } from '../../hooks/useKospiData';
 import { ChartContainer } from './styled';
 
 interface StockChartProps {
   data: Analysis[];
-  showBollinger: boolean;
+  showBollinger?: boolean;
 }
 
-const CandlestickShape = (props: any) => {
-  const { x, y, width, payload, yAxis } = props;
-  const { start, end, high, low } = payload;
-  const isRising = end > start;
-  const isFalling = end < start;
-  const color = isRising ? '#e23d29' : isFalling ? '#1e75d0' : '#999999';
-
-  if (!yAxis) return null;
-
-  const yHigh = yAxis.scale(high);
-  const yLow = yAxis.scale(low);
-  const yOpen = yAxis.scale(start);
-  const yClose = yAxis.scale(end);
-
-  const bodyTop = Math.min(yOpen, yClose);
-  const bodyBottom = Math.max(yOpen, yClose);
-  const bodyHeight = Math.max(1, bodyBottom - bodyTop);
-
-  return (
-    <g>
-      <line
-        x1={x + width / 2}
-        y1={yHigh}
-        x2={x + width / 2}
-        y2={bodyTop}
-        stroke={color}
-        strokeWidth={1}
-      />
-      <line
-        x1={x + width / 2}
-        y1={bodyBottom}
-        x2={x + width / 2}
-        y2={yLow}
-        stroke={color}
-        strokeWidth={1}
-      />
-      <rect x={x} y={bodyTop} width={width} height={bodyHeight} fill={color} stroke={color} />
-    </g>
-  );
-};
-
-const CustomTooltip = ({ active, payload }: any) => {
-  if (active && payload && payload.length) {
-    const data = payload[0].payload as Analysis;
-    const isRising = data.end > data.start;
-    const isFalling = data.end < data.start;
-    const color = isRising ? '#e23d29' : isFalling ? '#1e75d0' : '#999999';
-    return (
-      <div
-        style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-          border: '1px solid #ccc',
-          padding: '10px',
-          borderRadius: '4px',
-          fontSize: '12px',
-          color: '#333',
-        }}
-      >
-        <p style={{ fontWeight: 'bold', marginBottom: '5px' }}>{data.date}</p>
-        <p style={{ color }}>Close: {data.end.toLocaleString()}</p>
-        <p>Open: {data.start.toLocaleString()}</p>
-        <p>High: {data.high.toLocaleString()}</p>
-        <p>Low: {data.low.toLocaleString()}</p>
-        <p>Vol: {data.amount.toLocaleString()}</p>
-        <p>MA5: {data.ma5.toLocaleString()}</p>
-        <p>MA20: {data.ma20.toLocaleString()}</p>
-      </div>
-    );
-  }
-  return null;
-};
-
-export const StockChart: React.FC<StockChartProps> = ({ data, showBollinger }) => {
-  const [dataRange, setDataRange] = useState<{ startIndex: number; endIndex: number }>({
-    startIndex: 0,
-    endIndex: 0,
-  });
+export const StockChart: FC<StockChartProps> = ({ data, showBollinger = false }) => {
   const chartData = useMemo(() => {
-    return data.map((d) => ({
-      ...d,
-      upperBand: Number(d.upperBand),
-      lowerBand: Number(d.lowerBand),
-      middleBand: Number(d.middleBand),
-    }));
+    const dates = data.map((item) => item.date);
+    const candleData = data.map((item) => [
+      Number(item.start),
+      Number(item.end),
+      Number(item.low),
+      Number(item.high),
+    ]);
+    const volumes = data.map((item, index) => [
+      index,
+      Number(item.amount),
+      Number(item.end) > Number(item.start) ? 1 : -1,
+    ]);
+
+    const upperBands = data.map((item) => Number(item.upperBand));
+    const lowerBands = data.map((item) => Number(item.lowerBand));
+    const middleBands = data.map((item) => Number(item.middleBand));
+
+    return { dates, candleData, volumes, upperBands, lowerBands, middleBands };
   }, [data]);
 
-  useEffect(() => {
-    if (chartData.length > 0) {
-      // Show last 60 days by default, or all if less than 60
-      const count = Math.min(60, chartData.length);
-      setDataRange({
-        startIndex: chartData.length - count,
-        endIndex: chartData.length - 1,
-      });
+  const option = useMemo(() => {
+    const series: any[] = [
+      {
+        name: 'Price',
+        type: 'candlestick',
+        data: chartData.candleData,
+        itemStyle: {
+          color: '#e23d29', // Up
+          color0: '#1e75d0', // Down
+          borderColor: '#e23d29',
+          borderColor0: '#1e75d0',
+        },
+      },
+      {
+        name: 'Volume',
+        type: 'bar',
+        xAxisIndex: 1,
+        yAxisIndex: 1,
+        data: chartData.volumes,
+        itemStyle: {
+          color: (params: any) => {
+            return params.data[2] > 0 ? '#e23d29' : '#1e75d0';
+          },
+          opacity: 0.7,
+        },
+      },
+    ];
+
+    if (showBollinger) {
+      series.push(
+        {
+          name: 'Upper Band',
+          type: 'line',
+          data: chartData.upperBands,
+          smooth: true,
+          showSymbol: false,
+          lineStyle: { opacity: 0.5, width: 1, type: 'dashed' },
+          itemStyle: { color: '#8884d8' },
+        },
+        {
+          name: 'Lower Band',
+          type: 'line',
+          data: chartData.lowerBands,
+          smooth: true,
+          showSymbol: false,
+          lineStyle: { opacity: 0.5, width: 1, type: 'dashed' },
+          itemStyle: { color: '#8884d8' },
+        },
+        {
+          name: 'Middle Band',
+          type: 'line',
+          data: chartData.middleBands,
+          smooth: true,
+          showSymbol: false,
+          lineStyle: { opacity: 0.3, width: 1 },
+          itemStyle: { color: '#8884d8' },
+        },
+      );
     }
-  }, [chartData.length]);
 
-  const { minPrice, maxPrice } = useMemo(() => {
-    if (chartData.length === 0) return { minPrice: 0, maxPrice: 100 };
+    return {
+      animation: false,
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+        },
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        borderWidth: 1,
+        borderColor: '#ccc',
+        padding: 10,
+        textStyle: {
+          color: '#333',
+        },
+        position: (pos: any, params: any, el: any, elRect: any, size: any) => {
+          const obj: any = { top: 10 };
+          obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
+          return obj;
+        },
+      },
+      axisPointer: {
+        link: [
+          {
+            xAxisIndex: 'all',
+          },
+        ],
+        label: {
+          backgroundColor: '#777',
+        },
+      },
+      grid: [
+        {
+          left: '10%',
+          right: '8%',
+          height: '60%',
+        },
+        {
+          left: '10%',
+          right: '8%',
+          top: '75%',
+          height: '15%',
+        },
+      ],
+      xAxis: [
+        {
+          type: 'category',
+          data: chartData.dates,
+          boundaryGap: true,
+          axisLine: { onZero: false },
+          splitLine: { show: false },
+          min: 'dataMin',
+          max: 'dataMax',
+          axisPointer: {
+            z: 100,
+          },
+        },
+        {
+          type: 'category',
+          gridIndex: 1,
+          data: chartData.dates,
+          boundaryGap: true,
+          axisLine: { onZero: false },
+          axisTick: { show: false },
+          splitLine: { show: false },
+          axisLabel: { show: false },
+          min: 'dataMin',
+          max: 'dataMax',
+        },
+      ],
+      yAxis: [
+        {
+          scale: true,
+          splitArea: {
+            show: true,
+          },
+          axisLabel: {
+            formatter: (value: number) => value.toLocaleString(),
+          },
+        },
+        {
+          scale: true,
+          gridIndex: 1,
+          splitNumber: 2,
+          axisLabel: {
+            formatter: (value: number) =>
+              value >= 1000000 ? `${(value / 1000000).toFixed(1)}M` : value.toLocaleString(),
+          },
+          axisTick: { show: false },
+          splitLine: { show: false },
+        },
+      ],
+      dataZoom: [
+        {
+          type: 'inside',
+          xAxisIndex: [0, 1],
+          start: 70,
+          end: 100,
+        },
+        {
+          show: true,
+          xAxisIndex: [0, 1],
+          type: 'slider',
+          top: '92%',
+          start: 70,
+          end: 100,
+        },
+      ],
+      series: series,
+    };
+  }, [chartData, showBollinger]);
 
-    const visibleData = chartData.slice(dataRange.startIndex, dataRange.endIndex + 1);
-    const prices = visibleData.flatMap((d: any) =>
-      [d.low, d.high, d.upperBand, d.lowerBand].filter((v: number) => v > 0 && !isNaN(v)),
-    );
-
-    if (prices.length === 0) return { minPrice: 0, maxPrice: 100 };
-
-    const min = Math.min(...prices);
-    const max = Math.max(...prices);
-    // Add 2% padding
-    return { minPrice: Math.floor(min * 0.98), maxPrice: Math.ceil(max * 1.02) };
-  }, [chartData, dataRange]);
-
-  const handleBrushChange = (e: any) => {
-    if (e.startIndex !== undefined && e.endIndex !== undefined) {
-      setDataRange({ startIndex: e.startIndex, endIndex: e.endIndex });
-    }
-  };
-
-  return (
-    <ChartContainer>
-      {chartData.length > 0 ? (
-        <ResponsiveContainer>
-          <ComposedChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
-            <XAxis
-              dataKey="date"
-              tickFormatter={(value: string) => value.slice(5)}
-              minTickGap={30}
-              style={{ fontSize: '11px' }}
-            />
-            <YAxis
-              yAxisId="price"
-              domain={[minPrice, maxPrice]}
-              tickFormatter={(value: number) => value.toLocaleString()}
-              width={60}
-              orientation="right"
-              scale="linear"
-              style={{ fontSize: '11px' }}
-              allowDataOverflow
-            />
-            <YAxis
-              yAxisId="volume"
-              orientation="left"
-              tick={false}
-              axisLine={false}
-              height={100}
-              domain={[0, 'dataMax * 4']}
-            />
-
-            <Tooltip content={<CustomTooltip />} />
-
-            {showBollinger && (
-              <defs>
-                <linearGradient id="bollingerFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#8884d8" stopOpacity={0.1} />
-                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0.1} />
-                </linearGradient>
-              </defs>
-            )}
-
-            {showBollinger && (
-              <Area
-                yAxisId="price"
-                dataKey={(data: any) => [data.lowerBand, data.upperBand]}
-                stroke="none"
-                fill="#8884d8"
-                fillOpacity={0.15}
-              />
-            )}
-
-            {showBollinger && (
-              <Line
-                yAxisId="price"
-                type="monotone"
-                dataKey="upperBand"
-                stroke="#ccc"
-                dot={false}
-                strokeWidth={1}
-                strokeDasharray="3 3"
-              />
-            )}
-            {showBollinger && (
-              <Line
-                yAxisId="price"
-                type="monotone"
-                dataKey="lowerBand"
-                stroke="#ccc"
-                dot={false}
-                strokeWidth={1}
-                strokeDasharray="3 3"
-              />
-            )}
-
-            <Line
-              yAxisId="price"
-              type="monotone"
-              dataKey="ma5"
-              stroke="#ff9f43"
-              dot={false}
-              strokeWidth={1.5}
-              isAnimationActive={false}
-            />
-            <Line
-              yAxisId="price"
-              type="monotone"
-              dataKey="ma20"
-              stroke="#feca57"
-              dot={false}
-              strokeWidth={1.5}
-              isAnimationActive={false}
-            />
-
-            <Bar yAxisId="volume" dataKey="amount" fill="#cfcfcf" barSize={20} opacity={0.5} />
-
-            <Bar
-              yAxisId="price"
-              dataKey="end"
-              shape={<CandlestickShape />}
-              barSize={12}
-              isAnimationActive={false}
-            />
-            <Brush
-              dataKey="date"
-              height={30}
-              stroke="#8884d8"
-              startIndex={dataRange.startIndex}
-              endIndex={dataRange.endIndex}
-              onChange={handleBrushChange}
-            />
-          </ComposedChart>
-        </ResponsiveContainer>
-      ) : (
+  if (data.length === 0) {
+    return (
+      <ChartContainer>
         <div
           style={{
             display: 'flex',
@@ -262,7 +214,13 @@ export const StockChart: React.FC<StockChartProps> = ({ data, showBollinger }) =
         >
           No Data Available
         </div>
-      )}
+      </ChartContainer>
+    );
+  }
+
+  return (
+    <ChartContainer>
+      <ReactECharts option={option} style={{ height: '100%', width: '100%' }} />
     </ChartContainer>
   );
 };

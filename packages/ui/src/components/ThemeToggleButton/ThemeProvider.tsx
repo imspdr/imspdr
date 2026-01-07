@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState, FC, ReactNode } from 'react';
 import { Global, css } from '@emotion/react';
 import { ColorTokens, darkPalette, lightPalette } from '../../tokens/colors';
 
@@ -29,7 +29,7 @@ const generateVars = (tokens: any, prefix = ''): string => {
   }, '');
 };
 
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [mode, setMode] = useState<ThemeMode>('light');
 
   const toggleTheme = useCallback(() => {

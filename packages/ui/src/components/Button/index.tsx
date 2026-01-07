@@ -1,12 +1,12 @@
-import React from 'react';
+import { FC, ReactNode, ButtonHTMLAttributes } from 'react';
 import { ButtonVariant, StyledButton } from './styled';
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-export const Button: React.FC<ButtonProps> = ({ variant = 'box', children, ...props }) => {
+export const Button: FC<ButtonProps> = ({ variant = 'box', children, ...props }) => {
   return (
     <StyledButton variant={variant} {...props}>
       {children}

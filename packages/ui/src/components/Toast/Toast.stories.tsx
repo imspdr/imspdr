@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button } from '../Button';
 import { Stack } from '../Stack';
 import { ToastProvider, useToast } from './ToastProvider';

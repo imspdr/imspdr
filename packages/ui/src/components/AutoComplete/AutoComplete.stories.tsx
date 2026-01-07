@@ -1,4 +1,3 @@
-import React from 'react';
 import { AutoComplete, AutoCompleteOption } from './index';
 
 export default {

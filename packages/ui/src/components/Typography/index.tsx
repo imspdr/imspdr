@@ -1,16 +1,16 @@
-import React from 'react';
+import { FC, ReactNode, ElementType, CSSProperties } from 'react';
 import { StyledText, TypographyLevel, TypographyVariant } from './styled';
 
 export interface TypographyProps {
   variant?: TypographyVariant;
   level?: TypographyLevel;
-  children: React.ReactNode;
-  as?: React.ElementType;
+  children: ReactNode;
+  as?: ElementType;
   className?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }
 
-export const Typography: React.FC<TypographyProps> = ({
+export const Typography: FC<TypographyProps> = ({
   variant = 'body',
   level = 1,
   children,

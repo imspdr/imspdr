@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, FC, KeyboardEvent, ChangeEvent, MouseEvent } from 'react';
 import { HiSearch, HiX } from 'react-icons/hi';
 import { useDebounce } from '@imspdr/utils';
 import { ClearButton, IconWrapper, SearchWrapper, StyledInput } from './styled';
@@ -12,7 +12,7 @@ export interface SearchInputProps {
   autoFocus?: boolean;
 }
 
-export const SearchInput: React.FC<SearchInputProps> = ({
+export const SearchInput: FC<SearchInputProps> = ({
   value,
   onChange,
   onEnter,
@@ -33,17 +33,17 @@ export const SearchInput: React.FC<SearchInputProps> = ({
     }
   }, [debouncedValue, onChange, value]);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && onEnter) {
       onEnter();
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
-  const handleClear = (e: React.MouseEvent) => {
+  const handleClear = (e: MouseEvent) => {
     e.stopPropagation();
     setInputValue('');
     onChange('');

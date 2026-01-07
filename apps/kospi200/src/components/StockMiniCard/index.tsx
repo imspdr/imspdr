@@ -1,4 +1,5 @@
-import React from 'react';
+import { FC, MouseEvent } from 'react';
+
 import { Typography } from '@imspdr/ui';
 import {
   BottomRow,
@@ -22,12 +23,12 @@ interface StockMiniCardProps {
   changePercent: number;
   toBuy?: string[];
   isStarred: boolean;
-  onToggleStar: (e: React.MouseEvent) => void;
+  onToggleStar: (e: MouseEvent) => void;
   onClick: () => void;
   isFolded: boolean;
 }
 
-export const StockMiniCard: React.FC<StockMiniCardProps> = ({
+export const StockMiniCard: FC<StockMiniCardProps> = ({
   name,
   code,
   price,
