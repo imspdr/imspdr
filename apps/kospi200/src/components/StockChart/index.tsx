@@ -1,4 +1,4 @@
-import { Button } from '@imspdr/ui';
+import { Button, useTheme } from '@imspdr/ui';
 import ReactECharts from 'echarts-for-react';
 import { useMemo, FC, useState } from 'react';
 import { Analysis } from '../../hooks/useKospiData';
@@ -256,6 +256,8 @@ export const StockChart: FC<StockChartProps> = ({ data }) => {
     return list;
   }, [chartData, activeOverlays]);
 
+  const { mode, tokens } = useTheme();
+
   const option = useMemo(() => {
     const subCharts = [
       { key: 'volume', name: 'Volume' },
@@ -289,15 +291,25 @@ export const StockChart: FC<StockChartProps> = ({ data }) => {
         type: 'category',
         data: chartData.dates,
         boundaryGap: true,
-        axisLine: { onZero: false },
+        axisLine: {
+          onZero: false,
+          lineStyle: { color: tokens.foreground.fg3 },
+        },
         splitLine: { show: false },
         min: 'dataMin',
         max: 'dataMax',
         axisPointer: {
           z: 100,
-          label: { show: activeSubCount === 0 }, // Only show label if it's the bottom chart
+          label: {
+            show: activeSubCount === 0,
+            backgroundColor: tokens.background.bg3,
+            color: tokens.foreground.fg1,
+          }, // Only show label if it's the bottom chart
         },
-        axisLabel: { show: activeSubCount === 0 },
+        axisLabel: {
+          show: activeSubCount === 0,
+          color: tokens.foreground.fg3,
+        },
       },
     ];
 
@@ -306,9 +318,24 @@ export const StockChart: FC<StockChartProps> = ({ data }) => {
         scale: true,
         position: 'right',
         boundaryGap: ['10%', '10%'],
-        splitArea: { show: true },
+        splitArea: {
+          show: true,
+          areaStyle: {
+            color:
+              mode === 'light'
+                ? ['rgba(250,250,250,0.3)', 'rgba(200,200,200,0.1)']
+                : ['rgba(255,255,255,0.02)', 'rgba(255,255,255,0.05)'],
+          },
+        },
         axisLabel: {
           formatter: (value: number) => Math.round(value).toLocaleString(),
+          color: tokens.foreground.fg3,
+        },
+        axisLine: {
+          lineStyle: { color: tokens.foreground.fg3 },
+        },
+        splitLine: {
+          lineStyle: { color: tokens.background.bg3, opacity: 0.5 },
         },
       },
     ];
@@ -330,13 +357,23 @@ export const StockChart: FC<StockChartProps> = ({ data }) => {
         gridIndex: idx + 1,
         data: chartData.dates,
         boundaryGap: true,
-        axisLine: { onZero: false },
+        axisLine: {
+          onZero: false,
+          lineStyle: { color: tokens.foreground.fg3 },
+        },
         axisTick: { show: false },
         splitLine: { show: false },
         axisPointer: {
-          label: { show: isBottom }, // Only show label if it's the bottom chart
+          label: {
+            show: isBottom,
+            backgroundColor: tokens.background.bg3,
+            color: tokens.foreground.fg1,
+          }, // Only show label if it's the bottom chart
         },
-        axisLabel: { show: isBottom },
+        axisLabel: {
+          show: isBottom,
+          color: tokens.foreground.fg3,
+        },
         min: 'dataMin',
         max: 'dataMax',
       });
@@ -348,6 +385,7 @@ export const StockChart: FC<StockChartProps> = ({ data }) => {
           position: 'right',
           splitNumber: 2,
           axisLabel: {
+            color: tokens.foreground.fg3,
             formatter: (value: number) =>
               value >= 1000000
                 ? `${Math.round(value / 1000000)}M`
@@ -355,6 +393,9 @@ export const StockChart: FC<StockChartProps> = ({ data }) => {
           },
           axisTick: { show: false },
           splitLine: { show: false },
+          axisLine: {
+            lineStyle: { color: tokens.foreground.fg3 },
+          },
         });
       } else if (sc.key === 'rsi') {
         yAxes.push({
@@ -366,10 +407,14 @@ export const StockChart: FC<StockChartProps> = ({ data }) => {
           interval: 10,
           axisLabel: {
             fontSize: 10,
+            color: tokens.foreground.fg3,
             formatter: (value: number) => (value === 30 || value === 70 ? value : ''),
           },
           splitLine: { show: false },
           axisTick: { show: false },
+          axisLine: {
+            lineStyle: { color: tokens.foreground.fg3 },
+          },
         });
       } else if (sc.key === 'obv') {
         yAxes.push({
@@ -379,6 +424,7 @@ export const StockChart: FC<StockChartProps> = ({ data }) => {
           splitNumber: 2,
           axisLabel: {
             fontSize: 10,
+            color: tokens.foreground.fg3,
             formatter: (value: number) =>
               value >= 1000000
                 ? `${(value / 1000000).toFixed(1)}M`
@@ -386,6 +432,9 @@ export const StockChart: FC<StockChartProps> = ({ data }) => {
           },
           axisTick: { show: false },
           splitLine: { show: false },
+          axisLine: {
+            lineStyle: { color: tokens.foreground.fg3 },
+          },
         });
       } else {
         // MACD
@@ -394,9 +443,18 @@ export const StockChart: FC<StockChartProps> = ({ data }) => {
           gridIndex: idx + 1,
           position: 'right',
           splitNumber: 2,
-          axisLabel: { fontSize: 10 },
+          axisLabel: {
+            fontSize: 10,
+            color: tokens.foreground.fg3,
+          },
           axisTick: { show: false },
-          splitLine: { show: true, lineStyle: { type: 'dashed', opacity: 0.2 } },
+          splitLine: {
+            show: true,
+            lineStyle: { type: 'dashed', opacity: 0.2, color: tokens.background.bg3 },
+          },
+          axisLine: {
+            lineStyle: { color: tokens.foreground.fg3 },
+          },
         });
       }
 
@@ -410,11 +468,11 @@ export const StockChart: FC<StockChartProps> = ({ data }) => {
       tooltip: {
         trigger: 'axis',
         axisPointer: { type: 'cross' },
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        backgroundColor: mode === 'light' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(30, 41, 59, 0.9)',
         borderWidth: 1,
-        borderColor: '#ccc',
+        borderColor: tokens.background.bg3,
         padding: 10,
-        textStyle: { color: '#333' },
+        textStyle: { color: tokens.foreground.fg1 },
         position: (pos: any, params: any, el: any, elRect: any, size: any) => {
           const tooltipWidth = elRect?.width || 200;
           const xPos = pos[0];
@@ -430,7 +488,7 @@ export const StockChart: FC<StockChartProps> = ({ data }) => {
       },
       axisPointer: {
         link: [{ xAxisIndex: 'all' }],
-        label: { backgroundColor: '#777' },
+        label: { backgroundColor: tokens.background.bg3, color: tokens.foreground.fg1 },
       },
       grid: grids,
       xAxis: xAxes,
@@ -449,11 +507,15 @@ export const StockChart: FC<StockChartProps> = ({ data }) => {
           top: '92%',
           start: 70,
           end: 100,
+          backgroundColor: mode === 'light' ? '#fff' : tokens.background.bg2,
+          borderColor: tokens.background.bg3,
+          textStyle: { color: tokens.foreground.fg3 },
+          handleStyle: { color: tokens.background.bg3 },
         },
       ],
       series,
     };
-  }, [chartData.dates, series, activeOverlays, chartData.signal, chartData.macd]); // Added missing dependencies
+  }, [chartData.dates, series, activeOverlays, chartData.signal, chartData.macd, mode, tokens]);
 
   const toggleOverlay = (key: keyof Overlays) => {
     setActiveOverlays((prev) => ({ ...prev, [key]: !prev[key] }));

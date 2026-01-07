@@ -1,72 +1,60 @@
-import { FC, MouseEvent } from 'react';
-
+import { FC } from 'react';
+import { Typography } from '@imspdr/ui';
 import {
   CardContainer,
-  CardHeader,
-  Change,
-  NameSection,
-  Price,
-  PriceSection,
-  SignalBadge,
-  SignalsSection,
-  StarButton,
-  StockName,
-  Top10Label,
+  RankBadge,
+  PriceInfo,
+  ChangeLabel,
+  SignalTagsContainer,
+  SignalTag,
+  TopSection,
+  TitleWrapper,
 } from './styled';
 
 interface StockCardProps {
   name: string;
   code: string;
-  price: number;
-  change: number;
-  changePercent: number;
-  signals: string[];
-  isStarred: boolean;
-  isTop10: boolean;
-  onToggleStar: (e: MouseEvent) => void;
+  today: number;
+  last: number;
+  rank?: number;
+  signals?: string[];
   onClick: () => void;
 }
 
-export const StockCard: FC<StockCardProps> = ({
-  name,
-  code,
-  price,
-  change,
-  changePercent,
-  signals,
-  isStarred,
-  isTop10,
-  onToggleStar,
-  onClick,
-}) => {
-  const trend = change > 0 ? 'up' : change < 0 ? 'down' : 'flat';
+export const StockCard: FC<StockCardProps> = ({ name, today, last, rank, signals, onClick }) => {
+  const isRising = today > last;
+  const change = today - last;
+  const changePercent = (change / last) * 100;
 
   return (
     <CardContainer onClick={onClick}>
-      <CardHeader>
-        <NameSection>
-          <StarButton isStarred={isStarred} onClick={onToggleStar}>
-            {isStarred ? '★' : '☆'}
-          </StarButton>
-          {isTop10 && <Top10Label>TOP 10</Top10Label>}
-          <StockName>{name}</StockName>
-        </NameSection>
-        <PriceSection>
-          <Price>{price.toLocaleString()}원</Price>
-          <Change trend={trend}>
-            {trend === 'flat'
-              ? '-'
-              : `${trend === 'up' ? '▲' : '▼'} ${Math.abs(change).toLocaleString()} (${changePercent.toFixed(2)}%)`}
-          </Change>
-        </PriceSection>
-      </CardHeader>
-      {signals.length > 0 && (
-        <SignalsSection>
-          {signals.map((signal) => (
-            <SignalBadge key={signal}>{signal}</SignalBadge>
-          ))}
-        </SignalsSection>
-      )}
+      {rank !== undefined && <RankBadge rank={rank}>{rank}</RankBadge>}
+
+      <TopSection>
+        <TitleWrapper>
+          <Typography variant="title" level={3}>
+            {name}
+          </Typography>
+          <PriceInfo>
+            <Typography variant="body" level={1} style={{ fontWeight: 600 }}>
+              {today.toLocaleString()}원
+            </Typography>
+            <ChangeLabel isRising={isRising} variant="caption">
+              {isRising ? '▲' : '▼'} {Math.abs(change).toLocaleString()} (
+              {Math.abs(changePercent).toFixed(1)}
+              %)
+            </ChangeLabel>
+          </PriceInfo>
+        </TitleWrapper>
+
+        {signals && signals.length > 0 && (
+          <SignalTagsContainer>
+            {signals.map((signal, i) => (
+              <SignalTag key={i}>{signal}</SignalTag>
+            ))}
+          </SignalTagsContainer>
+        )}
+      </TopSection>
     </CardContainer>
   );
 };

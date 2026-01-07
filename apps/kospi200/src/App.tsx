@@ -42,7 +42,6 @@ const AppLayout: FC = () => {
   const navigate = useNavigate();
   const { data: stocks } = useStocks();
   const [isFolded, setIsFolded] = useState(false);
-
   const { searchOptions } = useDisplayStocks(stocks ?? []);
 
   const handleStockClick = (code: string) => {

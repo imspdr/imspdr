@@ -46,7 +46,8 @@ export const useRecentlyViewed = <T extends { code: string }>(stocks?: T[]) => {
     if (!stocks) return [];
     return recentCodes
       .map((code) => stocks.find((s) => s.code === code))
-      .filter((s): s is T => s !== undefined);
+      .filter((s): s is T => s !== undefined)
+      .slice(0, 7);
   }, [stocks, recentCodes]);
 
   return {

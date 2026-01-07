@@ -2,19 +2,15 @@ import { FC } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { Stack, Typography } from '@imspdr/ui';
-import { StockTable } from '../../components/StockTable';
+import { StockCard } from '../../components/StockCard';
 import { useDisplayStocks } from '../../hooks/useDisplayStocks';
 import { useStocks } from '../../hooks/useKospiData';
-import { useRecentlyViewed } from '../../hooks/useRecentlyViewed';
-import { useStarred } from '../../hooks/useStarred';
-import * as S from './styled';
+import { LoadingContainer, PageContainer, SectionTitle, TopStocksGrid } from './styled';
 
 const ListPage: FC = () => {
   const navigate = useNavigate();
   const { data: stocks, isLoading } = useStocks();
-  const { recentCodes } = useRecentlyViewed();
-  const { starredCodes, toggleStar, isStarred } = useStarred();
-  const { top10Stocks, buySignalStocks } = useDisplayStocks(stocks ?? []);
+  const { top10Codes, buySignalStocks } = useDisplayStocks(stocks ?? []);
 
   const handleStockSelect = (code: string) => {
     navigate(`/detail/${code}`);
@@ -22,65 +18,71 @@ const ListPage: FC = () => {
 
   if (isLoading) {
     return (
-      <S.LoadingContainer>
+      <LoadingContainer>
         <Typography variant="body" level={1}>
           로딩 중...
         </Typography>
-      </S.LoadingContainer>
+      </LoadingContainer>
     );
   }
 
   return (
-    <S.PageContainer>
+    <PageContainer>
       <Stack direction="column" gap="48px">
         {/* Top 10 Stocks Pretty Grid */}
         <section>
-          <S.SectionTitle variant="title" level={2}>
-            📈 상위 10개 변동 종목
-          </S.SectionTitle>
-          <S.TopStocksGrid>
-            {top10Stocks.map((stock, index) => {
-              const isRising = stock.today > stock.last;
-              const change = stock.today - stock.last;
-              const changePercent = (change / stock.last) * 100;
+          <SectionTitle variant="title" level={2}>
+            상위 10개 변동 종목
+          </SectionTitle>
+          <TopStocksGrid>
+            {top10Codes.map((code, index) => {
+              const stock = stocks?.find((s) => s.code === code);
+              if (!stock) return null;
 
               return (
-                <S.StockCard key={stock.code} onClick={() => handleStockSelect(stock.code)}>
-                  <S.RankBadge rank={index + 1}>{index + 1}</S.RankBadge>
-                  <Typography variant="title" level={3}>
-                    {stock.name}
-                  </Typography>
-                  <S.PriceInfo>
-                    <Typography variant="body" level={1} style={{ fontWeight: 600 }}>
-                      {stock.today.toLocaleString()}원
-                    </Typography>
-                    <S.ChangeLabel isRising={isRising} variant="caption">
-                      {isRising ? '▲' : '▼'} {Math.abs(change).toLocaleString()} (
-                      {Math.abs(changePercent).toFixed(1)}%)
-                    </S.ChangeLabel>
-                  </S.PriceInfo>
-                </S.StockCard>
+                <StockCard
+                  key={stock.code}
+                  name={stock.name}
+                  code={stock.code}
+                  today={stock.today}
+                  last={stock.last}
+                  rank={index + 1}
+                  onClick={() => handleStockSelect(stock.code)}
+                />
               );
             })}
-          </S.TopStocksGrid>
+          </TopStocksGrid>
         </section>
 
-        {/* Buy Signal Stocks Table */}
+        {/* Buy Signal Stocks Cards */}
         <section>
-          <S.SectionTitle variant="title" level={2}>
-            🎯 매수 신호 종목
-          </S.SectionTitle>
-          <StockTable
-            stocks={buySignalStocks}
-            onStockClick={handleStockSelect}
-            onToggleStar={toggleStar}
-            isStarred={isStarred}
-            maxHeight={buySignalStocks.length > 12 ? '600px' : undefined}
-            emptyMessage="현재 매수 신호가 있는 종목이 없습니다."
-          />
+          <SectionTitle variant="title" level={2}>
+            매수 신호 종목
+          </SectionTitle>
+          {buySignalStocks.length === 0 ? (
+            <LoadingContainer>
+              <Typography variant="body" level={2} style={{ color: '#666' }}>
+                현재 매수 신호가 있는 종목이 없습니다.
+              </Typography>
+            </LoadingContainer>
+          ) : (
+            <TopStocksGrid>
+              {buySignalStocks.map((stock) => (
+                <StockCard
+                  key={stock.code}
+                  name={stock.name}
+                  code={stock.code}
+                  today={stock.today}
+                  last={stock.last}
+                  signals={stock.toBuy}
+                  onClick={() => handleStockSelect(stock.code)}
+                />
+              ))}
+            </TopStocksGrid>
+          )}
         </section>
       </Stack>
-    </S.PageContainer>
+    </PageContainer>
   );
 };
 

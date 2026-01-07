@@ -1,4 +1,4 @@
-import React, { useEffect, FC } from 'react';
+import { useEffect, FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { Typography } from '@imspdr/ui';
 import { StockChart } from '../../components/StockChart';
@@ -25,6 +25,14 @@ export const DetailPage: FC = () => {
     return <Typography>Stock not found</Typography>;
   }
 
+  const lastAnalysis = stock.analysis[stock.analysis.length - 1];
+  const prevAnalysis = stock.analysis[stock.analysis.length - 2];
+
+  const todayPrice = stock.today || lastAnalysis.end;
+  const lastPrice = stock.last || prevAnalysis.end;
+  const changePercent = ((todayPrice - lastPrice) / lastPrice) * 100;
+  const absChangePercent = Math.abs(changePercent);
+
   return (
     <Container>
       <Header>
@@ -41,37 +49,25 @@ export const DetailPage: FC = () => {
             variant="title"
             level={3}
             style={{
-              color:
-                stock.changePercent > 0
-                  ? '#e23d29'
-                  : stock.changePercent < 0
-                    ? '#1e75d0'
-                    : '#999999',
+              color: changePercent > 0 ? '#e23d29' : changePercent < 0 ? '#1e75d0' : '#999999',
             }}
           >
-            {stock.analysis[stock.analysis.length - 1].end.toLocaleString()}
+            {todayPrice.toLocaleString()}
           </Typography>
           <Typography
             variant="body"
             style={{
-              color:
-                stock.changePercent > 0
-                  ? '#e23d29'
-                  : stock.changePercent < 0
-                    ? '#1e75d0'
-                    : '#999999',
+              color: changePercent > 0 ? '#e23d29' : changePercent < 0 ? '#1e75d0' : '#999999',
             }}
           >
-            {stock.changePercent > 0 ? '▲' : stock.changePercent < 0 ? '▼' : '-'}{' '}
-            {stock.absChangePercent > 0 && `${stock.absChangePercent.toFixed(2)}%`}
+            {changePercent > 0 ? '▲' : changePercent < 0 ? '▼' : '-'}{' '}
+            {absChangePercent !== 0 && `${absChangePercent.toFixed(2)}%`}
           </Typography>
         </div>
       </Header>
 
       <ChartSection>
-        <StyledCard>
-          <StockChart data={stock.analysis} />
-        </StyledCard>
+        <StockChart data={stock.analysis} />
       </ChartSection>
 
       <NewsSection>

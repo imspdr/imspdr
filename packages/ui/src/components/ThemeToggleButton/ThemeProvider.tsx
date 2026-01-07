@@ -57,6 +57,33 @@ export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
               background-color 0.3s,
               color 0.3s;
           }
+
+          /* Theme-aware scrollbar */
+          * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--imspdr-background-bg3) transparent;
+          }
+
+          *::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+          }
+
+          *::-webkit-scrollbar-track {
+            background: var(--imspdr-background-bg2);
+          }
+
+          *::-webkit-scrollbar-thumb {
+            background-color: var(--imspdr-background-bg3);
+            border-radius: 20px;
+            border: 3px solid transparent;
+            background-clip: content-box;
+            transition: background-color 0.2s;
+          }
+
+          *::-webkit-scrollbar-thumb:hover {
+            background-color: var(--imspdr-foreground-fg3);
+          }
         `}
       />
       {children}

@@ -48,15 +48,22 @@ if __name__ == "__main__":
         news = crawl_news(stock["name"])
         to_buy = is_buy_signal(analysis[-1])
 
+        today_price = analysis[-1]["end"]
+        last_price = analysis[-2]["end"]
+        change = today_price - last_price
+        change_percent = (change / last_price) * 100
+
         last_result = {
             "code": stock["code"],
             "name": stock["name"].replace("amp;", ""),
+            "today": today_price,
+            "last": last_price,
+            "changePercent": change_percent,
+            "absChangePercent": abs(change_percent),
             "analysis": analysis[20:],
             "news": news,
             "to_buy": to_buy
         }
-        today_price = analysis[-1]["end"]
-        last_price = analysis[-2]["end"]
         change = today_price - last_price
         change_percent = (change / last_price) * 100
         

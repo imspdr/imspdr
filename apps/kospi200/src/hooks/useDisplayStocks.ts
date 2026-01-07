@@ -7,7 +7,7 @@ export const useDisplayStocks = (stocks: Stock[]) => {
       .sort((a, b) => b.absChangePercent - a.absChangePercent) // Sort by absolute percentage change (gap)
       .slice(0, 10)
       .map((s) => s.code);
-    return new Set(top10);
+    return top10;
   }, [stocks]);
 
   const searchOptions = useMemo(() => {
@@ -24,7 +24,7 @@ export const useDisplayStocks = (stocks: Stock[]) => {
 
   return {
     top10Codes,
-    top10Stocks: stocks.filter((s) => top10Codes.has(s.code)),
+    top10Stocks: stocks.filter((s) => top10Codes.includes(s.code)),
     buySignalStocks,
     searchOptions,
   };

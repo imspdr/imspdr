@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
+import { SIDEBAR_WIDTH, TAB_BAR_WIDTH } from '../../constants/layout';
 
 export const SidebarContainer = styled.aside<{ isFolded: boolean }>`
-  width: ${({ isFolded }) => (isFolded ? '60px' : '280px')};
+  width: ${({ isFolded }) => (isFolded ? `${TAB_BAR_WIDTH}px` : `${SIDEBAR_WIDTH}px`)};
   height: calc(100vh - 60px);
   position: fixed;
   right: 0;
@@ -32,18 +33,10 @@ export const SidebarContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: var(--imspdr-background-bg3);
-    border-radius: 4px;
-  }
 `;
 
 export const TabBar = styled.div`
-  width: 60px;
+  width: ${TAB_BAR_WIDTH}px;
   height: 100%;
   background: var(--imspdr-background-bg1);
   border-left: 1px solid var(--imspdr-background-bg3);
