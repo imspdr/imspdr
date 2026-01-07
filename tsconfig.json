@@ -12,7 +12,9 @@
     "baseUrl": ".",
     "paths": {
       "@imspdr/ui": ["packages/ui/src"],
-      "@imspdr/ui/*": ["packages/ui/src/*"]
+      "@imspdr/ui/*": ["packages/ui/src/*"],
+      "@imspdr/utils": ["packages/utils/src"],
+      "@imspdr/utils/*": ["packages/utils/src/*"]
     }
   },
   "exclude": ["node_modules"]

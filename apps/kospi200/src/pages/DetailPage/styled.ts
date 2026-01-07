@@ -5,19 +5,21 @@ export const Container = styled.div`
   padding: 24px;
   box-sizing: border-box;
   display: flex;
+  overflow: hidden;
 `;
 
 export const LeftColumn = styled.div`
-  width: 360px;
+  width: 320px;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   height: 100%;
   overflow-y: auto;
-  padding-right: 10px;
+  padding-right: 16px;
   gap: 24px;
+  box-sizing: border-box;
 
-  /* Stylish scrollbar for news */
+  /* Stylish scrollbar */
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -35,42 +37,21 @@ export const RightColumn = styled.div`
   flex-direction: column;
 `;
 
-export const Header = styled.div`
+export const MobileContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--imspdr-background-bg3);
+  gap: 24px;
+  padding: 16px;
+  height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+
+  /* Remove horizontal padding for news items in mobile if needed, 
+     but let's keep it consistent first */
 `;
 
-export const PriceSummary = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-`;
-
-export const NewsSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-`;
-
-export const NewsItem = styled.div`
-  padding: 16px 0;
-  border-bottom: 1px solid var(--imspdr-background-bg3);
-  transition:
-    padding-left 0.2s ease-in-out,
-    transform 0.2s ease-in-out,
-    border-color 0.2s ease-in-out;
-  cursor: pointer;
-
-  &:hover {
-    padding-left: 8px;
-    background: var(--imspdr-mint-mint1_10);
-    border-radius: 8px;
-  }
-
-  &:last-child {
-    border-bottom: none;
-  }
+export const ChartWrapper = styled.div`
+  width: 100%;
+  height: 400px;
+  flex-shrink: 0;
 `;

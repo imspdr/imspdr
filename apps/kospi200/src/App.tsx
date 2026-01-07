@@ -1,7 +1,8 @@
-import { useState, FC } from 'react';
+import { useState, FC, useEffect } from 'react';
 
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { ModalProvider, ThemeProvider, ToastProvider } from '@imspdr/ui';
+import { useDeviceType } from '@imspdr/utils';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
@@ -40,9 +41,15 @@ const App: FC = () => {
 
 const AppLayout: FC = () => {
   const navigate = useNavigate();
+  const { isPc } = useDeviceType();
   const { data: stocks } = useStocks();
-  const [isFolded, setIsFolded] = useState(false);
+  const [isFolded, setIsFolded] = useState(!isPc);
   const { searchOptions } = useDisplayStocks(stocks ?? []);
+
+  // Update isFolded when device type changes
+  useEffect(() => {
+    setIsFolded(!isPc);
+  }, [isPc]);
 
   const handleStockClick = (code: string) => {
     navigate(`/detail/${code}`);

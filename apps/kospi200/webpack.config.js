@@ -16,6 +16,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       '@imspdr/ui': path.resolve(__dirname, '../../packages/ui/src'),
+      '@imspdr/utils': path.resolve(__dirname, '../../packages/utils/src'),
     },
   },
   module: {
@@ -56,7 +57,7 @@ module.exports = {
     }),
   ],
   devServer: {
-    port: 3000,
+    port: 3200,
     hot: true,
     historyApiFallback: true,
     static: {

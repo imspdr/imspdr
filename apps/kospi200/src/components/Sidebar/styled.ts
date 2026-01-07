@@ -15,6 +15,10 @@ export const SidebarContainer = styled.aside<{ isFolded: boolean }>`
   justify-content: flex-end;
   z-index: 900;
   overflow: hidden;
+
+  @media (max-width: 1080px) {
+    box-shadow: ${({ isFolded }) => (isFolded ? 'none' : '-8px 0 24px var(--imspdr-shadow)')};
+  }
 `;
 
 export const SidebarMain = styled.div<{ isFolded: boolean }>`

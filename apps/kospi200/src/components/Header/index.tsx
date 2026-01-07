@@ -1,19 +1,14 @@
 import { AutoComplete, ThemeToggleButton, Typography } from '@imspdr/ui';
 import { HeaderContainer, RightSection, SearchWrapper, TitleButton, TitleSection } from './styled';
+import { useDeviceType } from '@imspdr/utils';
 
 interface HeaderProps {
   onHomeClick?: () => void;
   searchOptions?: any[];
   onSearchSelect?: (option: any) => void;
-  searchPlaceholder?: string;
 }
 
-const Header = ({
-  onHomeClick,
-  searchOptions = [],
-  onSearchSelect,
-  searchPlaceholder = '종목명 또는 코드로 검색',
-}: HeaderProps) => {
+const Header = ({ onHomeClick, searchOptions = [], onSearchSelect }: HeaderProps) => {
   const handleHomeClick = () => {
     if (onHomeClick) {
       onHomeClick();
@@ -21,7 +16,7 @@ const Header = ({
       window.location.href = '/';
     }
   };
-
+  const { isPc } = useDeviceType();
   return (
     <HeaderContainer>
       <TitleSection>
@@ -35,7 +30,7 @@ const Header = ({
             <AutoComplete
               options={searchOptions}
               onSelect={onSearchSelect}
-              placeholder={searchPlaceholder}
+              placeholder={isPc ? '종목명 검색' : '검색'}
             />
           </SearchWrapper>
         )}
