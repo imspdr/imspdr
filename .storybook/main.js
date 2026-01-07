@@ -12,8 +12,4 @@ module.exports = {
   docs: {
     autodocs: 'tag',
   },
-  babel: async (options) => ({
-    ...options,
-    rootMode: 'upward',
-  }),
 };
