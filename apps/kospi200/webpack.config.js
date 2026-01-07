@@ -38,7 +38,7 @@ module.exports = {
       name: 'kospi200',
       filename: 'remoteEntry.js',
       exposes: {
-        './App': './src/pages/ListPage',
+        './App': './src/App',
       },
       shared: {
         react: { singleton: true, requiredVersion: deps.react },
