@@ -485,6 +485,69 @@ export const StockChart: FC<StockChartProps> = ({ data }) => {
 
           return { top: 10, left };
         },
+        formatter: (params: any) => {
+          const candle = params.find((p: any) => p.seriesName === 'Price');
+          let result = '';
+
+          if (candle) {
+            const date = candle.name;
+            const values = candle.data;
+            // Handle data with or without index
+            const hasIndex = values.length > 4;
+            const open = hasIndex ? values[1] : values[0];
+            const close = hasIndex ? values[2] : values[1];
+            const low = hasIndex ? values[3] : values[2];
+            const high = hasIndex ? values[4] : values[3];
+
+            result += `<div style="font-weight: 600; margin-bottom: 4px;">${date}</div>`;
+            result += `
+              <div style="display: flex; justify-content: space-between; gap: 20px;">
+                <span>시가:</span> <b>${Math.round(Number(open)).toLocaleString()}</b>
+              </div>
+              <div style="display: flex; justify-content: space-between; gap: 20px;">
+                <span>종가:</span> <b>${Math.round(Number(close)).toLocaleString()}</b>
+              </div>
+              <div style="display: flex; justify-content: space-between; gap: 20px;">
+                <span>고가:</span> <b>${Math.round(Number(high)).toLocaleString()}</b>
+              </div>
+              <div style="display: flex; justify-content: space-between; gap: 20px;">
+                <span>저가:</span> <b>${Math.round(Number(low)).toLocaleString()}</b>
+              </div>
+              ${params.length > 1 ? '<div style="margin: 4px 0; border-bottom: 1px solid var(--imspdr-background-bg3); opacity: 0.3;"></div>' : ''}
+            `;
+          } else if (params[0]) {
+            result += `<div style="font-weight: 600; margin-bottom: 4px;">${params[0].name}</div>`;
+          }
+
+          params.forEach((p: any) => {
+            if (p.seriesName !== 'Price') {
+              let val = p.value;
+              if (Array.isArray(val)) {
+                val = val[1];
+              }
+
+              if (val === null || val === undefined) return;
+
+              let formattedVal = val;
+              if (typeof val === 'number') {
+                if (p.seriesName === 'Volume') {
+                  formattedVal = Math.round(val).toLocaleString();
+                } else {
+                  formattedVal = val.toLocaleString(undefined, { maximumFractionDigits: 2 });
+                }
+              }
+
+              result += `
+              <div style="display: flex; justify-content: space-between; gap: 20px; align-items: center;">
+                <span style="font-size: 12px;">${p.marker} ${p.seriesName}</span>
+                <b style="font-size: 12px;">${formattedVal}</b>
+              </div>
+              `;
+            }
+          });
+
+          return result;
+        },
       },
       axisPointer: {
         link: [{ xAxisIndex: 'all' }],
