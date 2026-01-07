@@ -71,10 +71,15 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      - name: Prepare deployment artifact
+        run: |
+          mkdir -p _site/kospi200
+          cp -r apps/kospi200/dist/* _site/kospi200/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './apps/kospi200/dist'
+          path: '_site'
 
       - name: Deploy to GitHub Pages
         id: deployment

@@ -33,7 +33,7 @@ const App: FC = () => {
               basename={
                 window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
                   ? '/'
-                  : '/kospi200'
+                  : '/imspdr/kospi200'
               }
             >
               <AppLayout />
