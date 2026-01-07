@@ -7,7 +7,10 @@ export const CardContainer = styled.div<{ isFolded?: boolean }>`
   border-radius: 8px;
   padding: ${({ isFolded }) => (isFolded ? '8px' : '10px 12px')};
   cursor: pointer;
-  transition: all 0.2s;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
   display: flex;
   flex-direction: column;
   gap: 8px;

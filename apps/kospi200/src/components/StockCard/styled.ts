@@ -10,8 +10,12 @@ export const CardContainer = styled.div`
   flex-direction: column;
   gap: 16px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  min-width: 240px;
   overflow: hidden;
 
   &:hover {

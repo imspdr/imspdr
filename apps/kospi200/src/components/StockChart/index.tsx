@@ -272,16 +272,16 @@ export const StockChart: FC<StockChartProps> = ({ data }) => {
     const subChartHeight =
       activeSubCount > 0 ? (activeSubCount === 1 ? 20 : activeSubCount === 2 ? 15 : 10) : 0;
     const priceHeight =
-      75 -
+      85 -
       (activeSubCount > 0
         ? spacing + activeSubCount * subChartHeight + (activeSubCount - 1) * subChartGap
         : 0);
 
     const grids: any[] = [
       {
-        left: '5%',
-        right: '12%',
-        top: '10%',
+        left: '3%',
+        right: '8%',
+        top: '5%',
         height: `${priceHeight}%`,
       },
     ];
@@ -340,12 +340,12 @@ export const StockChart: FC<StockChartProps> = ({ data }) => {
       },
     ];
 
-    let currentTop = 10 + priceHeight + spacing;
+    let currentTop = 5 + priceHeight + spacing;
 
     subCharts.forEach((sc, idx) => {
       grids.push({
-        left: '5%',
-        right: '12%',
+        left: '3%',
+        right: '8%',
         top: `${currentTop}%`,
         height: `${subChartHeight}%`,
       });
