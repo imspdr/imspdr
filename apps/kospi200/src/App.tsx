@@ -29,7 +29,13 @@ const App: FC = () => {
       <ThemeProvider>
         <ToastProvider>
           <ModalProvider>
-            <BrowserRouter>
+            <BrowserRouter
+              basename={
+                window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                  ? '/'
+                  : '/kospi200'
+              }
+            >
               <AppLayout />
             </BrowserRouter>
           </ModalProvider>

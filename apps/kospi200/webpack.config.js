@@ -9,7 +9,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: 'auto',
+    publicPath: process.env.NODE_ENV === 'production' ? '/kospi200/' : 'auto',
     clean: true,
   },
   resolve: {
@@ -41,7 +41,6 @@ module.exports = {
         './App': './src/pages/ListPage',
       },
       shared: {
-        ...deps,
         react: { singleton: true, requiredVersion: deps.react },
         'react-dom': { singleton: true, requiredVersion: deps['react-dom'] },
         '@emotion/react': { singleton: true, requiredVersion: deps['@emotion/react'] },

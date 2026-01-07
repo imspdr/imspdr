@@ -1,0 +1,81 @@
+name: Deploy Kospi200
+
+on:
+  schedule:
+    - cron: '0 9 * * 1-5' # Mon-Fri at 18:00 KST (09:00 UTC)
+  push:
+    branches: ["main"]
+    paths:
+      - "apps/kospi200/**"
+  workflow_dispatch:
+    inputs:
+      run_crawler:
+        description: 'Run Crawler?'
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Python / Crawler Steps
+      # Only run on schedule or if manually requested via workflow_dispatch
+      - name: Set up Python
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.run_crawler == true)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install Python dependencies
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.run_crawler == true)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r apps/kospi200-crawler/requirements.txt
+
+      - name: Run crawler
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.run_crawler == true)
+        run: |
+          cd apps/kospi200-crawler
+          python crawler.py
+
+      # Node / Build Steps
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build frontend
+        run: yarn workspace kospi200 build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './apps/kospi200/dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
