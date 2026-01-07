@@ -27,7 +27,7 @@ const Header = ({
       <TitleSection>
         <TitleButton onClick={handleHomeClick}>
           <Typography variant="title" level={2}>
-            kospi200
+            KOSPI200
           </Typography>
         </TitleButton>
         {onSearchSelect && (

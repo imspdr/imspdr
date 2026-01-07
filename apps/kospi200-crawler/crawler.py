@@ -51,7 +51,7 @@ if __name__ == "__main__":
         last_result = {
             "code": stock["code"],
             "name": stock["name"].replace("amp;", ""),
-            "analysis": analysis,
+            "analysis": analysis[20:],
             "news": news,
             "to_buy": to_buy
         }
@@ -69,6 +69,8 @@ if __name__ == "__main__":
             "changePercent": change_percent,
             "absChangePercent": abs(change_percent)
         })
+
+
         with open(os.path.join(store_path, filename), "w", encoding="utf-8") as f:
             json.dump(last_result, f, ensure_ascii=False, indent=4)
 

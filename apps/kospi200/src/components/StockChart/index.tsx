@@ -1,14 +1,34 @@
-import React, { useMemo, FC } from 'react';
+import { Button } from '@imspdr/ui';
 import ReactECharts from 'echarts-for-react';
+import { useMemo, FC, useState } from 'react';
 import { Analysis } from '../../hooks/useKospiData';
-import { ChartContainer } from './styled';
+import { ChartContainer, OverlayControls } from './styled';
 
 interface StockChartProps {
   data: Analysis[];
-  showBollinger?: boolean;
 }
 
-export const StockChart: FC<StockChartProps> = ({ data, showBollinger = false }) => {
+interface Overlays {
+  bb: boolean;
+  ma5: boolean;
+  ma20: boolean;
+  volume: boolean;
+  rsi: boolean;
+  obv: boolean;
+  macd: boolean;
+}
+
+export const StockChart: FC<StockChartProps> = ({ data }) => {
+  const [activeOverlays, setActiveOverlays] = useState<Overlays>({
+    bb: false,
+    ma5: true,
+    ma20: true,
+    volume: true,
+    rsi: false,
+    obv: false,
+    macd: false,
+  });
+
   const chartData = useMemo(() => {
     const dates = data.map((item) => item.date);
     const candleData = data.map((item) => [
@@ -23,43 +43,147 @@ export const StockChart: FC<StockChartProps> = ({ data, showBollinger = false })
       Number(item.end) > Number(item.start) ? 1 : -1,
     ]);
 
-    const upperBands = data.map((item) => Number(item.upperBand));
-    const lowerBands = data.map((item) => Number(item.lowerBand));
-    const middleBands = data.map((item) => Number(item.middleBand));
-
-    return { dates, candleData, volumes, upperBands, lowerBands, middleBands };
+    return {
+      dates,
+      candleData,
+      volumes,
+      upperBands: data.map((item) => Number(item.upperBand)),
+      lowerBands: data.map((item) => Number(item.lowerBand)),
+      middleBands: data.map((item) => Number(item.middleBand)),
+      ma5: data.map((item) => (item.ma5 ? Number(item.ma5) : null)),
+      ma20: data.map((item) => (item.ma20 ? Number(item.ma20) : null)),
+      rsi: data.map((item) => (item.rsi ? Number(item.rsi) : null)),
+      obv: data.map((item) => (item.obv ? Number(item.obv) : null)),
+      macd: data.map((item) => (item.macd ? Number(item.macd) : null)),
+      signal: data.map((item) => (item.signal ? Number(item.signal) : null)),
+    };
   }, [data]);
 
-  const option = useMemo(() => {
-    const series: any[] = [
+  const series = useMemo(() => {
+    const list: any[] = [
       {
         name: 'Price',
         type: 'candlestick',
         data: chartData.candleData,
         itemStyle: {
-          color: '#e23d29', // Up
-          color0: '#1e75d0', // Down
+          color: '#e23d29',
+          color0: '#1e75d0',
           borderColor: '#e23d29',
           borderColor0: '#1e75d0',
         },
-      },
-      {
-        name: 'Volume',
-        type: 'bar',
-        xAxisIndex: 1,
-        yAxisIndex: 1,
-        data: chartData.volumes,
-        itemStyle: {
-          color: (params: any) => {
-            return params.data[2] > 0 ? '#e23d29' : '#1e75d0';
+        tooltip: {
+          valueFormatter: (value: any) => {
+            if (Array.isArray(value)) {
+              return value.map((v) => Math.round(Number(v)).toLocaleString()).join(', ');
+            }
+            return Math.round(Number(value)).toLocaleString();
           },
-          opacity: 0.7,
         },
       },
     ];
 
-    if (showBollinger) {
-      series.push(
+    let currentGridIndex = 1;
+
+    if (activeOverlays.volume) {
+      list.push({
+        name: 'Volume',
+        type: 'bar',
+        xAxisIndex: currentGridIndex,
+        yAxisIndex: currentGridIndex,
+        data: chartData.volumes,
+        itemStyle: {
+          color: (params: any) => (params.data[2] > 0 ? '#e23d29' : '#1e75d0'),
+          opacity: 0.7,
+        },
+        tooltip: {
+          valueFormatter: (value: any) => {
+            const val = Array.isArray(value) ? value[1] : value;
+            return Math.round(Number(val ?? 0)).toLocaleString();
+          },
+        },
+      });
+      currentGridIndex++;
+    }
+
+    if (activeOverlays.rsi) {
+      list.push({
+        name: 'RSI',
+        type: 'line',
+        xAxisIndex: currentGridIndex,
+        yAxisIndex: currentGridIndex,
+        data: chartData.rsi,
+        smooth: true,
+        showSymbol: false,
+        lineStyle: { width: 1.5 },
+        itemStyle: { color: '#ff7300' },
+        markLine: {
+          symbol: ['none', 'none'],
+          label: { show: false },
+          lineStyle: { color: '#e23d29', type: 'dashed', opacity: 0.4 },
+          data: [{ yAxis: 30 }, { yAxis: 70 }],
+          silent: true,
+        },
+        tooltip: {
+          valueFormatter: (value: number) => value.toFixed(2),
+        },
+      });
+      currentGridIndex++;
+    }
+
+    if (activeOverlays.obv) {
+      list.push({
+        name: 'OBV',
+        type: 'line',
+        xAxisIndex: currentGridIndex,
+        yAxisIndex: currentGridIndex,
+        data: chartData.obv,
+        smooth: true,
+        showSymbol: false,
+        lineStyle: { width: 1.5 },
+        itemStyle: { color: '#8884d8' },
+        tooltip: {
+          valueFormatter: (value: number) => Math.round(value).toLocaleString(),
+        },
+      });
+      currentGridIndex++;
+    }
+
+    if (activeOverlays.macd) {
+      list.push(
+        {
+          name: 'MACD',
+          type: 'line',
+          xAxisIndex: currentGridIndex,
+          yAxisIndex: currentGridIndex,
+          data: chartData.macd,
+          smooth: true,
+          showSymbol: false,
+          lineStyle: { width: 1.5 },
+          itemStyle: { color: '#ff1493' },
+          tooltip: {
+            valueFormatter: (value: number) => value.toFixed(2),
+          },
+        },
+        {
+          name: 'Signal',
+          type: 'line',
+          xAxisIndex: currentGridIndex,
+          yAxisIndex: currentGridIndex,
+          data: chartData.signal,
+          smooth: true,
+          showSymbol: false,
+          lineStyle: { width: 1.5, type: 'dashed' },
+          itemStyle: { color: '#00ced1' },
+          tooltip: {
+            valueFormatter: (value: number) => value.toFixed(2),
+          },
+        },
+      );
+      currentGridIndex++;
+    }
+
+    if (activeOverlays.bb) {
+      list.push(
         {
           name: 'Upper Band',
           type: 'line',
@@ -68,6 +192,9 @@ export const StockChart: FC<StockChartProps> = ({ data, showBollinger = false })
           showSymbol: false,
           lineStyle: { opacity: 0.5, width: 1, type: 'dashed' },
           itemStyle: { color: '#8884d8' },
+          tooltip: {
+            valueFormatter: (value: number) => value.toFixed(2),
+          },
         },
         {
           name: 'Lower Band',
@@ -77,6 +204,9 @@ export const StockChart: FC<StockChartProps> = ({ data, showBollinger = false })
           showSymbol: false,
           lineStyle: { opacity: 0.5, width: 1, type: 'dashed' },
           itemStyle: { color: '#8884d8' },
+          tooltip: {
+            valueFormatter: (value: number) => value.toFixed(2),
+          },
         },
         {
           name: 'Middle Band',
@@ -86,120 +216,248 @@ export const StockChart: FC<StockChartProps> = ({ data, showBollinger = false })
           showSymbol: false,
           lineStyle: { opacity: 0.3, width: 1 },
           itemStyle: { color: '#8884d8' },
+          tooltip: {
+            valueFormatter: (value: number) => value.toFixed(2),
+          },
         },
       );
     }
+
+    if (activeOverlays.ma5) {
+      list.push({
+        name: 'MA5',
+        type: 'line',
+        data: chartData.ma5,
+        smooth: true,
+        showSymbol: false,
+        lineStyle: { opacity: 0.8, width: 1 },
+        itemStyle: { color: '#f0ad4e' },
+        tooltip: {
+          valueFormatter: (value: number) => Math.round(value).toLocaleString(),
+        },
+      });
+    }
+
+    if (activeOverlays.ma20) {
+      list.push({
+        name: 'MA20',
+        type: 'line',
+        data: chartData.ma20,
+        smooth: true,
+        showSymbol: false,
+        lineStyle: { opacity: 0.8, width: 1 },
+        itemStyle: { color: '#5bc0de' },
+        tooltip: {
+          valueFormatter: (value: number) => Math.round(value).toLocaleString(),
+        },
+      });
+    }
+
+    return list;
+  }, [chartData, activeOverlays]);
+
+  const option = useMemo(() => {
+    const subCharts = [
+      { key: 'volume', name: 'Volume' },
+      { key: 'rsi', name: 'RSI' },
+      { key: 'obv', name: 'OBV' },
+      { key: 'macd', name: 'MACD' },
+    ].filter((sc) => activeOverlays[sc.key as keyof Overlays]);
+
+    const activeSubCount = subCharts.length;
+    const spacing = 3; // reduced space between price and first sub-chart
+    const subChartGap = 2; // gap between sub-charts
+    const subChartHeight =
+      activeSubCount > 0 ? (activeSubCount === 1 ? 20 : activeSubCount === 2 ? 15 : 10) : 0;
+    const priceHeight =
+      75 -
+      (activeSubCount > 0
+        ? spacing + activeSubCount * subChartHeight + (activeSubCount - 1) * subChartGap
+        : 0);
+
+    const grids: any[] = [
+      {
+        left: '5%',
+        right: '12%',
+        top: '10%',
+        height: `${priceHeight}%`,
+      },
+    ];
+
+    const xAxes: any[] = [
+      {
+        type: 'category',
+        data: chartData.dates,
+        boundaryGap: true,
+        axisLine: { onZero: false },
+        splitLine: { show: false },
+        min: 'dataMin',
+        max: 'dataMax',
+        axisPointer: {
+          z: 100,
+          label: { show: activeSubCount === 0 }, // Only show label if it's the bottom chart
+        },
+        axisLabel: { show: activeSubCount === 0 },
+      },
+    ];
+
+    const yAxes: any[] = [
+      {
+        scale: true,
+        position: 'right',
+        boundaryGap: ['10%', '10%'],
+        splitArea: { show: true },
+        axisLabel: {
+          formatter: (value: number) => Math.round(value).toLocaleString(),
+        },
+      },
+    ];
+
+    let currentTop = 10 + priceHeight + spacing;
+
+    subCharts.forEach((sc, idx) => {
+      grids.push({
+        left: '5%',
+        right: '12%',
+        top: `${currentTop}%`,
+        height: `${subChartHeight}%`,
+      });
+
+      const isBottom = idx === activeSubCount - 1;
+
+      xAxes.push({
+        type: 'category',
+        gridIndex: idx + 1,
+        data: chartData.dates,
+        boundaryGap: true,
+        axisLine: { onZero: false },
+        axisTick: { show: false },
+        splitLine: { show: false },
+        axisPointer: {
+          label: { show: isBottom }, // Only show label if it's the bottom chart
+        },
+        axisLabel: { show: isBottom },
+        min: 'dataMin',
+        max: 'dataMax',
+      });
+
+      if (sc.key === 'volume') {
+        yAxes.push({
+          scale: true,
+          gridIndex: idx + 1,
+          position: 'right',
+          splitNumber: 2,
+          axisLabel: {
+            formatter: (value: number) =>
+              value >= 1000000
+                ? `${Math.round(value / 1000000)}M`
+                : Math.round(value).toLocaleString(),
+          },
+          axisTick: { show: false },
+          splitLine: { show: false },
+        });
+      } else if (sc.key === 'rsi') {
+        yAxes.push({
+          scale: false,
+          gridIndex: idx + 1,
+          position: 'right',
+          min: 0,
+          max: 100,
+          interval: 10,
+          axisLabel: {
+            fontSize: 10,
+            formatter: (value: number) => (value === 30 || value === 70 ? value : ''),
+          },
+          splitLine: { show: false },
+          axisTick: { show: false },
+        });
+      } else if (sc.key === 'obv') {
+        yAxes.push({
+          scale: true,
+          gridIndex: idx + 1,
+          position: 'right',
+          splitNumber: 2,
+          axisLabel: {
+            fontSize: 10,
+            formatter: (value: number) =>
+              value >= 1000000
+                ? `${(value / 1000000).toFixed(1)}M`
+                : Math.round(value).toLocaleString(),
+          },
+          axisTick: { show: false },
+          splitLine: { show: false },
+        });
+      } else {
+        // MACD
+        yAxes.push({
+          scale: true,
+          gridIndex: idx + 1,
+          position: 'right',
+          splitNumber: 2,
+          axisLabel: { fontSize: 10 },
+          axisTick: { show: false },
+          splitLine: { show: true, lineStyle: { type: 'dashed', opacity: 0.2 } },
+        });
+      }
+
+      currentTop += subChartHeight + subChartGap;
+    });
+
+    const xAxisIndices = Array.from({ length: activeSubCount + 1 }, (_, i) => i);
 
     return {
       animation: false,
       tooltip: {
         trigger: 'axis',
-        axisPointer: {
-          type: 'cross',
-        },
+        axisPointer: { type: 'cross' },
         backgroundColor: 'rgba(255, 255, 255, 0.9)',
         borderWidth: 1,
         borderColor: '#ccc',
         padding: 10,
-        textStyle: {
-          color: '#333',
-        },
+        textStyle: { color: '#333' },
         position: (pos: any, params: any, el: any, elRect: any, size: any) => {
-          const obj: any = { top: 10 };
-          obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
-          return obj;
+          const tooltipWidth = elRect?.width || 200;
+          const xPos = pos[0];
+          const viewWidth = size.viewSize[0];
+
+          let left = xPos + 20;
+          if (left + tooltipWidth > viewWidth) {
+            left = xPos - tooltipWidth - 20;
+          }
+
+          return { top: 10, left };
         },
       },
       axisPointer: {
-        link: [
-          {
-            xAxisIndex: 'all',
-          },
-        ],
-        label: {
-          backgroundColor: '#777',
-        },
+        link: [{ xAxisIndex: 'all' }],
+        label: { backgroundColor: '#777' },
       },
-      grid: [
-        {
-          left: '10%',
-          right: '8%',
-          height: '60%',
-        },
-        {
-          left: '10%',
-          right: '8%',
-          top: '75%',
-          height: '15%',
-        },
-      ],
-      xAxis: [
-        {
-          type: 'category',
-          data: chartData.dates,
-          boundaryGap: true,
-          axisLine: { onZero: false },
-          splitLine: { show: false },
-          min: 'dataMin',
-          max: 'dataMax',
-          axisPointer: {
-            z: 100,
-          },
-        },
-        {
-          type: 'category',
-          gridIndex: 1,
-          data: chartData.dates,
-          boundaryGap: true,
-          axisLine: { onZero: false },
-          axisTick: { show: false },
-          splitLine: { show: false },
-          axisLabel: { show: false },
-          min: 'dataMin',
-          max: 'dataMax',
-        },
-      ],
-      yAxis: [
-        {
-          scale: true,
-          splitArea: {
-            show: true,
-          },
-          axisLabel: {
-            formatter: (value: number) => value.toLocaleString(),
-          },
-        },
-        {
-          scale: true,
-          gridIndex: 1,
-          splitNumber: 2,
-          axisLabel: {
-            formatter: (value: number) =>
-              value >= 1000000 ? `${(value / 1000000).toFixed(1)}M` : value.toLocaleString(),
-          },
-          axisTick: { show: false },
-          splitLine: { show: false },
-        },
-      ],
+      grid: grids,
+      xAxis: xAxes,
+      yAxis: yAxes,
       dataZoom: [
         {
           type: 'inside',
-          xAxisIndex: [0, 1],
+          xAxisIndex: xAxisIndices,
           start: 70,
           end: 100,
         },
         {
           show: true,
-          xAxisIndex: [0, 1],
+          xAxisIndex: xAxisIndices,
           type: 'slider',
           top: '92%',
           start: 70,
           end: 100,
         },
       ],
-      series: series,
+      series,
     };
-  }, [chartData, showBollinger]);
+  }, [chartData.dates, series, activeOverlays, chartData.signal, chartData.macd]); // Added missing dependencies
+
+  const toggleOverlay = (key: keyof Overlays) => {
+    setActiveOverlays((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   if (data.length === 0) {
     return (
@@ -220,7 +478,58 @@ export const StockChart: FC<StockChartProps> = ({ data, showBollinger = false })
 
   return (
     <ChartContainer>
-      <ReactECharts option={option} style={{ height: '100%', width: '100%' }} />
+      <OverlayControls>
+        <Button
+          variant={activeOverlays.volume ? 'box' : 'outlined'}
+          onClick={() => toggleOverlay('volume')}
+          style={{ padding: '4px 8px', fontSize: '11px', height: 'unset', fontWeight: 500 }}
+        >
+          Vol
+        </Button>
+        <Button
+          variant={activeOverlays.rsi ? 'box' : 'outlined'}
+          onClick={() => toggleOverlay('rsi')}
+          style={{ padding: '4px 8px', fontSize: '11px', height: 'unset', fontWeight: 500 }}
+        >
+          RSI
+        </Button>
+        <Button
+          variant={activeOverlays.obv ? 'box' : 'outlined'}
+          onClick={() => toggleOverlay('obv')}
+          style={{ padding: '4px 8px', fontSize: '11px', height: 'unset', fontWeight: 500 }}
+        >
+          OBV
+        </Button>
+        <Button
+          variant={activeOverlays.macd ? 'box' : 'outlined'}
+          onClick={() => toggleOverlay('macd')}
+          style={{ padding: '4px 8px', fontSize: '11px', height: 'unset', fontWeight: 500 }}
+        >
+          MACD
+        </Button>
+        <Button
+          variant={activeOverlays.bb ? 'box' : 'outlined'}
+          onClick={() => toggleOverlay('bb')}
+          style={{ padding: '4px 8px', fontSize: '11px', height: 'unset', fontWeight: 500 }}
+        >
+          BB
+        </Button>
+        <Button
+          variant={activeOverlays.ma5 ? 'box' : 'outlined'}
+          onClick={() => toggleOverlay('ma5')}
+          style={{ padding: '4px 8px', fontSize: '11px', height: 'unset', fontWeight: 500 }}
+        >
+          MA5
+        </Button>
+        <Button
+          variant={activeOverlays.ma20 ? 'box' : 'outlined'}
+          onClick={() => toggleOverlay('ma20')}
+          style={{ padding: '4px 8px', fontSize: '11px', height: 'unset', fontWeight: 500 }}
+        >
+          MA20
+        </Button>
+      </OverlayControls>
+      <ReactECharts option={option} style={{ height: '100%', width: '100%' }} notMerge={true} />
     </ChartContainer>
   );
 };
