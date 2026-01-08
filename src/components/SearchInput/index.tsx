@@ -1,4 +1,4 @@
-import { useEffect, useState, FC, KeyboardEvent, ChangeEvent, MouseEvent } from 'react';
+import { useEffect, useState, FC, KeyboardEvent, ChangeEvent, MouseEvent, useRef } from 'react';
 import { HiSearch, HiX } from 'react-icons/hi';
 import { useDebounce } from '../../hooks/useDebounce';
 import { ClearButton, IconWrapper, SearchWrapper, StyledInput } from './styled';
@@ -22,6 +22,7 @@ export const SearchInput: FC<SearchInputProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState(value);
   const debouncedValue = useDebounce(inputValue, 300);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setInputValue(value);
@@ -46,12 +47,13 @@ export const SearchInput: FC<SearchInputProps> = ({
   const handleClear = (e: MouseEvent) => {
     e.stopPropagation();
     setInputValue('');
-    onChange('');
+    inputRef.current?.focus();
   };
 
   return (
     <SearchWrapper className={className}>
       <StyledInput
+        ref={inputRef}
         autoFocus={autoFocus}
         value={inputValue}
         onChange={handleChange}
@@ -59,7 +61,11 @@ export const SearchInput: FC<SearchInputProps> = ({
         placeholder={placeholder}
       />
       {inputValue && (
-        <ClearButton onClick={handleClear} type="button">
+        <ClearButton
+          onClick={handleClear}
+          onMouseDown={(e) => e.preventDefault()}
+          type="button"
+        >
           <HiX size={14} />
         </ClearButton>
       )}

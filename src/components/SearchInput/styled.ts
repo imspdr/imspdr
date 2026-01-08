@@ -9,7 +9,7 @@ export const SearchWrapper = styled.div`
 
 export const StyledInput = styled.input`
   width: 100%;
-  padding: 8px 36px 8px 12px;
+  padding: 8px 60px 8px 12px;
   background: var(--imspdr-background-bg1);
   border: 1px solid var(--imspdr-background-bg3);
   border-radius: 6px;
@@ -36,6 +36,7 @@ export const IconWrapper = styled.div`
   justify-content: center;
   color: var(--imspdr-foreground-fg3);
   pointer-events: none;
+  z-index: 1;
 `;
 
 export const ClearButton = styled.button`
@@ -43,7 +44,7 @@ export const ClearButton = styled.button`
   right: 32px;
   background: none;
   border: none;
-  padding: 4px;
+  padding: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -51,6 +52,7 @@ export const ClearButton = styled.button`
   color: var(--imspdr-foreground-fg3);
   border-radius: 50%;
   transition: all 0.2s;
+  z-index: 2;
 
   &:hover {
     background: var(--imspdr-background-bg3);

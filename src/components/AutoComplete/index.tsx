@@ -22,10 +22,10 @@ interface AutoCompleteProps {
 export const AutoComplete: FC<AutoCompleteProps> = ({
   options,
   onSelect,
-  placeholder = 'Search...',
+  placeholder = '검색하기',
   className,
   initialValue = '',
-  noResultText = 'No results found',
+  noResultText = '검색 결과가 없습니다.',
 }) => {
   const [searchTerm, setSearchTerm] = useState(initialValue);
   const [isOpen, setIsOpen] = useState(false);
