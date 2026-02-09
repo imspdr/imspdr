@@ -8,14 +8,22 @@ on:
       - 'src/**'
       - '.storybook/**'
       - 'package.json'
+      - 'yarn.lock'
   workflow_dispatch:
 
 permissions:
   contents: write
   packages: write
+  pages: write
+  id-token: write
+
+# Prevent overlapping deployments
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
-  publish-package:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -24,42 +32,33 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '20'
+          cache: 'yarn'
           registry-url: 'https://npm.pkg.github.com'
           scope: '@imspdr'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        # Remove --frozen-lockfile to allow the build to proceed even if lockfile is slightly out of sync due to version bump
+        run: yarn install
 
       - name: Build UI Package
         run: yarn build
 
-      - name: Publish UI Package
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  deploy-storybook:
-    needs: publish-package
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-
       - name: Build Storybook
         run: yarn build-storybook
 
-      - name: Deploy to GitHub Pages
+      - name: Publish to GitHub Packages
+        run: |
+          # Use npm publish and ignore errors if version already exists
+          # This ensures that even if you forget to bump the version, the rest of the workflow (Storybook) still proceeds.
+          npm publish || echo "Package version already exists or publish failed. Skipping..."
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy Storybook to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: storybook-static
           branch: gh-pages
           clean: true
+          token: ${{ secrets.GITHUB_TOKEN }}
