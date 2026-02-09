@@ -1,6 +1,12 @@
 import { Button } from '../Button';
-import { Stack } from '../Stack';
+import styled from '@emotion/styled';
 import { ToastProvider, useToast } from './ToastProvider';
+
+const Stack = styled.div<{ gap?: string }>`
+  display: flex;
+  flex-direction: column;
+  gap: ${props => props.gap || '0px'};
+`;
 
 export default {
   title: 'Components/Toast',
