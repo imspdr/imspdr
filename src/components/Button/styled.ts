@@ -1,42 +1,136 @@
 import styled from '@emotion/styled';
+import { keyframes, css } from '@emotion/react';
+import { getColor } from '../../utils/colors';
 
-export type ButtonVariant = 'box' | 'outlined';
+export type ButtonVariant = 'contained' | 'outlined' | 'ghost' | 'text';
+export type ButtonShape = 'square' | 'rounded' | 'pill';
+export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-interface StyledButtonProps {
-  variant?: ButtonVariant;
+export interface StyledButtonProps {
+  variant: ButtonVariant;
+  shape: ButtonShape;
+  size: ButtonSize;
+  colorToken: string;
+  fullWidth?: boolean;
+  isLoading?: boolean;
 }
 
+const spin = keyframes`
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+`;
+
+const sizeStyles = {
+  xs: css`
+    padding: 4px 8px;
+    font-size: 12px;
+    gap: 4px;
+    height: 24px;
+  `,
+  sm: css`
+    padding: 6px 12px;
+    font-size: 13px;
+    gap: 6px;
+    height: 32px;
+  `,
+  md: css`
+    padding: 8px 16px;
+    font-size: 14px;
+    gap: 8px;
+    height: 40px;
+  `,
+  lg: css`
+    padding: 10px 20px;
+    font-size: 16px;
+    gap: 10px;
+    height: 48px;
+  `,
+  xl: css`
+    padding: 12px 24px;
+    font-size: 18px;
+    gap: 12px;
+    height: 56px;
+  `,
+};
+
+const shapeStyles = {
+  square: css`border-radius: 0;`,
+  rounded: css`border-radius: 8px;`,
+  pill: css`border-radius: 9999px;`,
+};
+
+export const LoadingSpinner = styled.div`
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: ${spin} 0.8s linear infinite;
+`;
+
 export const StyledButton = styled.button<StyledButtonProps>`
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  font-size: 14px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  user-select: none;
+  width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
+  opacity: ${({ isLoading }) => (isLoading ? 0.8 : 1)};
+  pointer-events: ${({ isLoading }) => (isLoading ? 'none' : 'auto')};
 
-  ${({ variant }) =>
-    variant === 'outlined'
-      ? `
-    background: transparent;
-    border: 1px solid var(--imspdr-primary-1);
-    color: var(--imspdr-primary-1);
-    &:hover {
-      background: var(--imspdr-primary-1_10);
+  ${({ size }) => sizeStyles[size]}
+  ${({ shape }) => shapeStyles[shape]}
+
+  ${({ variant, colorToken }) => {
+    const color = getColor(colorToken, 'var(--imspdr-primary-1)');
+
+    switch (variant) {
+      case 'outlined':
+        return css`
+          background: transparent;
+          border-color: ${color};
+          color: ${color};
+          &:hover {
+            background: ${color}15; /* 15 is approx 8% opacity in hex */
+          }
+        `;
+      case 'ghost':
+        return css`
+          background: transparent;
+          border-color: transparent;
+          color: ${color};
+          &:hover {
+            background: ${color}15;
+          }
+        `;
+      case 'text':
+        return css`
+          background: transparent;
+          border-color: transparent;
+          color: ${color};
+          padding-left: 4px;
+          padding-right: 4px;
+          height: auto;
+          &:hover {
+            text-decoration: underline;
+          }
+        `;
+      case 'contained':
+      default:
+        return css`
+          background: ${color};
+          border-color: ${color};
+          color: var(--imspdr-white);
+          &:hover {
+            filter: brightness(0.9);
+          }
+        `;
     }
-  `
-      : `
-    background: var(--imspdr-primary-1);
-    border: 1px solid var(--imspdr-primary-1);
-    color: var(--imspdr-white);
-    &:hover {
-      background: var(--imspdr-primary-2);
-      border-color: var(--imspdr-primary-2);
-    }
-  `}
+  }}
 
   &:active {
     transform: scale(0.98);
@@ -44,16 +138,16 @@ export const StyledButton = styled.button<StyledButtonProps>`
 
   &:disabled {
     cursor: not-allowed;
-    background: var(--imspdr-foreground-3);
-    border-color: var(--imspdr-foreground-3);
-    color: var(--imspdr-background-2);
+    background: var(--imspdr-background-3);
+    border-color: var(--imspdr-background-3);
+    color: var(--imspdr-foreground-3);
     opacity: 0.6;
-
-    ${({ variant }) =>
-      variant === 'outlined' &&
-      `
-      background: transparent;
-      color: var(--imspdr-foreground-3);
-    `}
+    transform: none;
   }
+`;
+
+export const IconWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
