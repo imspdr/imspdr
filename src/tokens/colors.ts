@@ -1,29 +1,38 @@
 export const lightPalette = {
   background: {
-    bg1: '#ffffff',
-    bg2: '#f8fafc',
-    bg3: '#f1f5f9',
-  },
-  card: {
-    card1: '#ffffff',
-    card2: '#fefefe',
-    card3: '#fafafa',
+    1: '#ffffff',
+    2: '#f8fafc',
+    3: '#f1f5f9',
   },
   foreground: {
-    fg1: '#0f172a',
-    fg2: '#334155',
-    fg3: '#64748b',
+    1: '#0f172a', // Slate 900
+    2: '#334155', // Slate 700
+    3: '#64748b', // Slate 500
   },
-  mint: {
-    mint1: '#2dd4bf', // Teal 400
-    mint2: '#5eead4', // Teal 300
-    mint3: '#99f6e4', // Teal 200
-    mint1_10: 'rgba(45, 212, 191, 0.1)', // Teal 400 10% opacity
+  primary: {
+    1: '#14b8a6', // Teal 500
+    2: '#0d9488', // Teal 600
+    3: '#0f766e', // Teal 700
   },
-  red: {
-    red1: '#ef4444', // Red 500
-    red2: '#f87171', // Red 400
-    red3: '#fca5a5', // Red 300
+  danger: {
+    1: '#ef4444', // Red 500
+    2: '#dc2626', // Red 600
+    3: '#b91c1c', // Red 700
+  },
+  warning: {
+    1: '#f59e0b', // Amber 500
+    2: '#d97706', // Amber 600
+    3: '#b45309', // Amber 700
+  },
+  success: {
+    1: '#10b981', // Emerald 500
+    2: '#059669', // Emerald 600
+    3: '#047857', // Emerald 700
+  },
+  info: {
+    1: '#3b82f6', // Blue 500
+    2: '#2563eb', // Blue 600
+    3: '#1d4ed8', // Blue 700
   },
   overlay: 'rgba(0, 0, 0, 0.5)',
   shadow: 'rgba(0, 0, 0, 0.1)',
@@ -32,33 +41,42 @@ export const lightPalette = {
 
 export const darkPalette = {
   background: {
-    bg1: '#0f172a', // Slate 950
-    bg2: '#1e293b', // Slate 900
-    bg3: '#334155', // Slate 800
-  },
-  card: {
-    card1: '#1e293b',
-    card2: '#334155',
-    card3: '#475569',
+    1: '#0f172a', // Slate 950
+    2: '#1e293b', // Slate 900
+    3: '#334155', // Slate 800
   },
   foreground: {
-    fg1: '#f8fafc',
-    fg2: '#e2e8f0',
-    fg3: '#94a3b8',
+    1: '#f8fafc', // Slate 50
+    2: '#e2e8f0', // Slate 200
+    3: '#94a3b8', // Slate 400
   },
-  mint: {
-    mint1: '#2dd4bf', // Mint main
-    mint2: '#14b8a6', // Mint darker
-    mint3: '#0d9488', // Mint darkest
-    mint1_10: 'rgba(45, 212, 191, 0.1)', // Mint main 10% opacity
+  primary: {
+    1: '#2dd4bf', // Teal 400
+    2: '#14b8a6', // Teal 500
+    3: '#0d9488', // Teal 600
   },
-  red: {
-    red1: '#ef4444', // Red 500
-    red2: '#dc2626', // Red 600
-    red3: '#b91c1c', // Red 700
+  danger: {
+    1: '#f87171', // Red 400
+    2: '#ef4444', // Red 500
+    3: '#dc2626', // Red 600
   },
-  overlay: 'rgba(0, 0, 0, 0.5)',
-  shadow: 'rgba(0, 0, 0, 0.1)',
+  warning: {
+    1: '#fbbf24', // Amber 400
+    2: '#f59e0b', // Amber 500
+    3: '#d97706', // Amber 600
+  },
+  success: {
+    1: '#34d399', // Emerald 400
+    2: '#10b981', // Emerald 500
+    3: '#059669', // Emerald 600
+  },
+  info: {
+    1: '#60a5fa', // Blue 400
+    2: '#3b82f6', // Blue 500
+    3: '#2563eb', // Blue 600
+  },
+  overlay: 'rgba(0, 0, 0, 0.65)',
+  shadow: 'rgba(0, 0, 0, 0.3)',
   white: '#ffffff',
 };
 

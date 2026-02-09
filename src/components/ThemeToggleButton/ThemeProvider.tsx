@@ -49,8 +49,8 @@ export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
           }
 
           body {
-            background-color: var(--imspdr-background-bg1);
-            color: var(--imspdr-foreground-fg1);
+            background-color: var(--imspdr-background-1);
+            color: var(--imspdr-foreground-1);
             margin: 0;
             transition:
               background-color 0.3s,
@@ -60,7 +60,7 @@ export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
           /* Theme-aware scrollbar */
           * {
             scrollbar-width: thin;
-            scrollbar-color: var(--imspdr-background-bg3) transparent;
+            scrollbar-color: var(--imspdr-background-3) transparent;
           }
 
           *::-webkit-scrollbar {
@@ -69,11 +69,11 @@ export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
           }
 
           *::-webkit-scrollbar-track {
-            background: var(--imspdr-background-bg2);
+            background: var(--imspdr-background-2);
           }
 
           *::-webkit-scrollbar-thumb {
-            background-color: var(--imspdr-background-bg3);
+            background-color: var(--imspdr-background-3);
             border-radius: 20px;
             border: 3px solid transparent;
             background-clip: content-box;
@@ -81,7 +81,7 @@ export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
           }
 
           *::-webkit-scrollbar-thumb:hover {
-            background-color: var(--imspdr-foreground-fg3);
+            background-color: var(--imspdr-foreground-3);
           }
         `}
       />

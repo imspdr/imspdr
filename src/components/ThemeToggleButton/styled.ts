@@ -44,7 +44,7 @@ export const Container = styled.div`
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: var(--imspdr-background-bg2);
+    background-color: var(--imspdr-background-2);
   }
 `;
 
@@ -66,7 +66,7 @@ const IconBase = styled.div<IconProps>`
   right: ${(props) => (props.isVisible ? '12px' : props.isRaising ? '22px' : '2px')};
   animation: ${(props) => (props.disableAnimation ? 'none' : props.isRaising ? raise : down)} 0.5s
     ease-out;
-  color: var(--imspdr-foreground-fg1);
+  color: var(--imspdr-foreground-1);
 
   svg {
     width: 100%;

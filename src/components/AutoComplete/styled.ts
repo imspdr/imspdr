@@ -10,8 +10,8 @@ export const Dropdown = styled.div`
   top: calc(100% + 4px);
   left: 0;
   right: 0;
-  background: var(--imspdr-background-bg1);
-  border: 1px solid var(--imspdr-background-bg3);
+  background: var(--imspdr-background-1);
+  border: 1px solid var(--imspdr-background-3);
   border-radius: 8px;
   box-shadow: 0 4px 12px var(--imspdr-shadow);
   z-index: 1000;
@@ -28,7 +28,7 @@ export const OptionsList = styled.div`
     width: 6px;
   }
   &::-webkit-scrollbar-thumb {
-    background: var(--imspdr-background-bg3);
+    background: var(--imspdr-background-3);
     border-radius: 3px;
   }
 `;
@@ -37,13 +37,13 @@ export const OptionItem = styled.div<{ isSelected?: boolean }>`
   padding: 10px 16px;
   font-size: 14px;
   cursor: pointer;
-  color: var(--imspdr-foreground-fg1);
-  background: ${({ isSelected }) => (isSelected ? 'var(--imspdr-background-bg2)' : 'transparent')};
+  color: var(--imspdr-foreground-1);
+  background: ${({ isSelected }) => (isSelected ? 'var(--imspdr-background-2)' : 'transparent')};
   border-left: 3px solid
-    ${({ isSelected }) => (isSelected ? 'var(--imspdr-mint-mint1)' : 'transparent')};
+    ${({ isSelected }) => (isSelected ? 'var(--imspdr-primary-1)' : 'transparent')};
 
   &:hover {
-    background: var(--imspdr-background-bg3);
+    background: var(--imspdr-background-3);
   }
 `;
 
@@ -51,5 +51,5 @@ export const NoResults = styled.div`
   padding: 16px;
   text-align: center;
   font-size: 13px;
-  color: var(--imspdr-foreground-fg3);
+  color: var(--imspdr-foreground-3);
 `;

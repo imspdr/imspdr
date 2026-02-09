@@ -22,19 +22,19 @@ export const StyledButton = styled.button<StyledButtonProps>`
     variant === 'outlined'
       ? `
     background: transparent;
-    border: 1px solid var(--imspdr-mint-mint1);
-    color: var(--imspdr-mint-mint1);
+    border: 1px solid var(--imspdr-primary-1);
+    color: var(--imspdr-primary-1);
     &:hover {
-      background: var(--imspdr-mint-mint1_10);
+      background: var(--imspdr-primary-1_10);
     }
   `
       : `
-    background: var(--imspdr-mint-mint1);
-    border: 1px solid var(--imspdr-mint-mint1);
+    background: var(--imspdr-primary-1);
+    border: 1px solid var(--imspdr-primary-1);
     color: var(--imspdr-white);
     &:hover {
-      background: var(--imspdr-mint-mint2);
-      border-color: var(--imspdr-mint-mint2);
+      background: var(--imspdr-primary-2);
+      border-color: var(--imspdr-primary-2);
     }
   `}
 
@@ -44,16 +44,16 @@ export const StyledButton = styled.button<StyledButtonProps>`
 
   &:disabled {
     cursor: not-allowed;
-    background: var(--imspdr-foreground-fg3);
-    border-color: var(--imspdr-foreground-fg3);
-    color: var(--imspdr-background-bg2);
+    background: var(--imspdr-foreground-3);
+    border-color: var(--imspdr-foreground-3);
+    color: var(--imspdr-background-2);
     opacity: 0.6;
 
     ${({ variant }) =>
       variant === 'outlined' &&
       `
       background: transparent;
-      color: var(--imspdr-foreground-fg3);
+      color: var(--imspdr-foreground-3);
     `}
   }
 `;

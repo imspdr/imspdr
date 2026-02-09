@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
 
 export type TypographyVariant = 'title' | 'body' | 'caption';
-export type TypographyLevel = 1 | 2 | 3;
+export type TypographyLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
 interface StyledTextProps {
   variant: TypographyVariant;
   level: TypographyLevel;
+  colorToken?: string; // e.g., 'primary.1', 'content.2', 'danger.1'
 }
 
 const fontFamilies = {
@@ -17,19 +18,28 @@ const fontFamilies = {
 
 const fontSizes = {
   title: {
-    1: '32px',
-    2: '24px',
-    3: '20px',
+    1: '40px',
+    2: '32px',
+    3: '28px',
+    4: '24px',
+    5: '20px',
+    6: '18px',
   },
   body: {
     1: '16px',
     2: '14px',
-    3: '12px',
+    3: '13px',
+    4: '13px',
+    5: '13px',
+    6: '13px',
   },
   caption: {
     1: '12px',
-    2: '12px', // Level not strictly used for caption but kept for type safety
-    3: '12px',
+    2: '11px',
+    3: '11px',
+    4: '11px',
+    5: '11px',
+    6: '11px',
   },
 };
 
@@ -39,18 +49,45 @@ const fontWeights = {
   caption: 400,
 };
 
+const getLineHeight = (variant: TypographyVariant) => {
+  switch (variant) {
+    case 'title': return 1.3;
+    case 'body': return 1.6;
+    case 'caption': return 1.4;
+    default: return 1.5;
+  }
+};
+
+const getColor = (token?: string) => {
+  if (!token) return 'var(--imspdr-foreground-1)';
+
+  // If it's a dotted token like 'primary.1'
+  if (token.includes('.')) {
+    const [category, level] = token.split('.');
+    return `var(--imspdr-${category.toLowerCase()}-${level})`;
+  }
+
+  // If it's something like 'primary1'
+  if (/[a-zA-Z]+\d+/.test(token)) {
+    const category = token.replace(/\d+/, '');
+    const level = token.replace(/[a-zA-Z]+/, '');
+    return `var(--imspdr-${category.toLowerCase()}-${level})`;
+  }
+
+  return `var(--imspdr-${token.toLowerCase()})`;
+};
+
 export const StyledText = styled.span<StyledTextProps>`
   font-family: ${({ variant }) => fontFamilies[variant]};
   font-size: ${({ variant, level }) => fontSizes[variant][level]};
-  font-weight: ${({ variant }) => fontWeights[variant]};
-  color: var(--imspdr-foreground-fg1);
+  font-weight: ${({ variant, level }) => (variant === 'title' && level > 3 ? 600 : fontWeights[variant])};
+  color: ${({ colorToken }) => getColor(colorToken)};
   margin: 0;
-  line-height: 1.5;
+  line-height: ${({ variant }) => getLineHeight(variant)};
 
   ${({ variant }) =>
     variant === 'caption' &&
     `
-    color: var(--imspdr-foreground-fg3);
     letter-spacing: 0.02em;
   `}
 `;

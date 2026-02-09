@@ -50,6 +50,6 @@ export const ToastItem = styled.div<{ isRemoving?: boolean }>`
   white-space: nowrap;
   
   /* Contrast styling */
-  background: var(--imspdr-foreground-fg1);
-  color: var(--imspdr-background-bg1);
+  background: var(--imspdr-foreground-1);
+  color: var(--imspdr-background-1);
 `;

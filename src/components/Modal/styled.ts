@@ -15,8 +15,8 @@ export const Overlay = styled.div<{ zIndex?: number }>`
 `;
 
 export const ModalContent = styled.div`
-  background: var(--imspdr-background-bg1);
-  color: var(--imspdr-foreground-fg1);
+  background: var(--imspdr-background-1);
+  color: var(--imspdr-foreground-1);
   border-radius: 12px;
   box-shadow:
     0 20px 25px -5px var(--imspdr-shadow),
@@ -24,7 +24,7 @@ export const ModalContent = styled.div`
   max-width: 500px;
   width: 90%;
   position: relative;
-  border: 1px solid var(--imspdr-background-bg3);
+  border: 1px solid var(--imspdr-background-3);
   display: flex;
   flex-direction: column;
   max-height: 90vh;
@@ -35,14 +35,14 @@ export const ModalHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  border-bottom: 1px solid var(--imspdr-background-bg3);
+  border-bottom: 1px solid var(--imspdr-background-3);
 `;
 
 export const ModalTitle = styled.h2`
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--imspdr-foreground-fg1);
+  color: var(--imspdr-foreground-1);
 `;
 
 export const ModalBody = styled.div`
@@ -53,11 +53,11 @@ export const ModalBody = styled.div`
 
 export const ModalFooter = styled.div`
   padding: 16px 24px;
-  border-top: 1px solid var(--imspdr-background-bg3);
+  border-top: 1px solid var(--imspdr-background-3);
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  background-color: var(--imspdr-background-bg2);
+  background-color: var(--imspdr-background-2);
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
 `;
@@ -67,7 +67,7 @@ export const CloseButton = styled.button`
   border: none;
   font-size: 24px;
   cursor: pointer;
-  color: var(--imspdr-foreground-fg2);
+  color: var(--imspdr-foreground-2);
   padding: 4px;
   margin-right: -8px;
   display: flex;
@@ -77,7 +77,7 @@ export const CloseButton = styled.button`
   transition: background-color 0.2s;
 
   &:hover {
-    color: var(--imspdr-foreground-fg1);
-    background-color: var(--imspdr-background-bg2);
+    color: var(--imspdr-foreground-1);
+    background-color: var(--imspdr-background-2);
   }
 `;
