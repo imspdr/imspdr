@@ -35,6 +35,19 @@
 -   `overlay`: 반투명 검정 배경 (모달 등에서 사용)
 -   `shadow`: 그림자 효과용 반투명 컬러
 
+### 2.3 CSS Variable Usage (고급 사용자)
+스타일드 컴포넌트나 일반 CSS 내에서 컬러 토큰을 직접 사용해야 할 경우, 다음과 같은 CSS 변수 형식을 사용합니다:
+`var(--imspdr-{category}-{level})`
+
+**Example**:
+```css
+.custom-box {
+  background-color: var(--imspdr-background-2);
+  border: 1px solid var(--imspdr-primary-1);
+  color: var(--imspdr-foreground-1);
+}
+```
+
 ---
 
 ## 3. Component Reference
@@ -46,12 +59,13 @@
     -   `variant`: `'title'` (제목), `'body'` (본문, 기본값), `'caption'` (부가 정보)
     -   `level`: `1` ~ `6` (숫자가 작을수록 크고 중요함. `variant="title"`에서 `1`은 `h1`에 해당)
     -   `color`: 위 **Color Tokens** 중 하나 (기본값: `foreground.1`)
+    -   `bold`: `true`일 경우 굵은 글씨체 적용 (기본값: variant 기준 자동 설정)
     -   `as`: 렌더링할 HTML 태그 강제 지정 (`h1`, `div`, `span` 등)
 
 -   **Example**:
     ```tsx
     <Typography variant="title" level={2} color="primary.1">중요한 소제목</Typography>
-    <Typography variant="body" level={2} color="foreground.2">기본 본문 텍스트</Typography>
+    <Typography variant="body" level={2} bold>강조된 본문 텍스트</Typography>
     <Typography variant="caption" color="danger.1">에러 메시지 캡션</Typography>
     ```
 

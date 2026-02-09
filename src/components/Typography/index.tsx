@@ -10,6 +10,8 @@ export interface TypographyProps {
   color?: string;
   /** The text content or child elements */
   children: ReactNode;
+  /** Whether to apply bold weight */
+  bold?: boolean;
   /** HTML element to render as */
   as?: ElementType;
   /** Custom class name */
@@ -30,6 +32,7 @@ export const Typography: FC<TypographyProps> = ({
   as,
   className,
   style,
+  bold,
 }) => {
   // Determine default element based on variant/level
   const defaultElement = () => {
@@ -55,6 +58,7 @@ export const Typography: FC<TypographyProps> = ({
       colorToken={color}
       className={className}
       style={style}
+      bold={bold}
     >
       {children}
     </StyledText>

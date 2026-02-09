@@ -24,6 +24,17 @@ export const Titles = () => (
   </Stack>
 );
 
+export const BoldOptions = () => (
+  <Stack>
+    <Typography variant="body" level={1}>Normal Body Text</Typography>
+    <Typography variant="body" level={1} bold>Bold Body Text</Typography>
+    <Typography variant="caption" level={1}>Normal Caption Text</Typography>
+    <Typography variant="caption" level={1} bold>Bold Caption Text</Typography>
+    <Typography variant="title" level={4}>Normal Title Text (Level 4)</Typography>
+    <Typography variant="title" level={4} bold>Bold Title Text (Level 4)</Typography>
+  </Stack>
+);
+
 export const BodyAndCaption = () => (
   <Stack>
     <Typography variant="body" level={1}>Body Level 1 (16px) - The quick brown fox jumps over the lazy dog.</Typography>

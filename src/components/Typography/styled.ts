@@ -8,6 +8,7 @@ interface StyledTextProps {
   variant: TypographyVariant;
   level: TypographyLevel;
   colorToken?: string; // e.g., 'primary.1', 'content.2', 'danger.1'
+  bold?: boolean;
 }
 
 const fontFamilies = {
@@ -62,7 +63,8 @@ const getLineHeight = (variant: TypographyVariant) => {
 export const StyledText = styled.span<StyledTextProps>`
   font-family: ${({ variant }) => fontFamilies[variant]};
   font-size: ${({ variant, level }) => fontSizes[variant][level]};
-  font-weight: ${({ variant, level }) => (variant === 'title' && level > 3 ? 600 : fontWeights[variant])};
+  font-weight: ${({ variant, level, bold }) =>
+    bold ? 700 : variant === 'title' && level > 3 ? 600 : fontWeights[variant]};
   color: ${({ colorToken }) => getColor(colorToken)};
   margin: 0;
   line-height: ${({ variant }) => getLineHeight(variant)};
