@@ -13,11 +13,12 @@ export const HeaderContainer = styled.header`
   justify-content: space-between;
   padding: 0 16px;
   z-index: 1000;
+  max-width: 1200px;
   box-sizing: border-box;
 
   @media (max-width: 767px) {
     height: 48px;
-    padding: 0 12px;
+    padding: 0 0 0 6px;
   }
 `;
 
@@ -25,6 +26,14 @@ export const TitleSection = styled.div`
   display: flex;
   align-items: center;
   gap: 24px;
+
+  @media (max-width: 767px) {
+    gap: 12px;
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-size: 1.125rem !important;
+    }
+  }
 `;
 
 // TitleButton removed
@@ -35,6 +44,10 @@ export const MiddleSection = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0 16px;
+
+  @media (max-width: 767px) {
+    padding: 0 4px;
+  }
 `;
 
 export const RightSection = styled.div`
@@ -42,4 +55,9 @@ export const RightSection = styled.div`
   align-items: center;
   gap: 16px;
   margin-left: 16px;
+
+  @media (max-width: 767px) {
+    gap: 8px;
+    margin-left: 4px;
+  }
 `;

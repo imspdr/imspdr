@@ -1,15 +1,14 @@
 import { ReactNode } from 'react';
 import { Header } from '../Header';
-import { LayoutContainer, MainContent, MainContentProps } from './styled';
+import { LayoutContainer, MainContent } from './styled';
 
-interface LayoutProps extends MainContentProps {
+interface LayoutProps {
   children: ReactNode;
   className?: string; // For additional styling if needed
   title: string;
   middleContent?: ReactNode;
   rightContent?: ReactNode;
   onHomeClick?: () => void;
-  sidebar?: ReactNode;
 }
 
 export const Layout = ({
@@ -19,8 +18,6 @@ export const Layout = ({
   middleContent,
   rightContent,
   onHomeClick,
-  sidebar,
-  ...props
 }: LayoutProps) => {
   return (
     <LayoutContainer className={className}>
@@ -30,8 +27,7 @@ export const Layout = ({
         rightContent={rightContent}
         onHomeClick={onHomeClick}
       />
-      <MainContent {...props}>{children}</MainContent>
-      {sidebar}
+      <MainContent>{children}</MainContent>
     </LayoutContainer>
   );
 };
