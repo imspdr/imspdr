@@ -20,8 +20,10 @@ export const SelectButton = styled.div<{ isOpen: boolean }>`
   color: var(--imspdr-foreground-1);
   transition: all 0.2s;
 
-  &:hover {
-    border-color: var(--imspdr-primary-1);
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--imspdr-primary-1);
+    }
   }
 
   ${({ isOpen }) =>
@@ -74,8 +76,10 @@ export const OptionItem = styled.div<{ isSelected: boolean }>`
   border-left: 3px solid
     ${({ isSelected }) => (isSelected ? 'var(--imspdr-primary-1)' : 'transparent')};
 
-  &:hover {
-    background: var(--imspdr-background-3);
+  @media (hover: hover) {
+    &:hover {
+      background: var(--imspdr-background-3);
+    }
   }
 `;
 

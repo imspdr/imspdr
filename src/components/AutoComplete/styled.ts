@@ -42,8 +42,10 @@ export const OptionItem = styled.div<{ isSelected?: boolean }>`
   border-left: 3px solid
     ${({ isSelected }) => (isSelected ? 'var(--imspdr-primary-1)' : 'transparent')};
 
-  &:hover {
-    background: var(--imspdr-background-3);
+  @media (hover: hover) {
+    &:hover {
+      background: var(--imspdr-background-3);
+    }
   }
 `;
 

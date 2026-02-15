@@ -37,8 +37,10 @@ export const TitleButton = styled.button`
   font-family: inherit;
   white-space: nowrap;
 
-  &:hover {
-    opacity: 0.8;
+  @media (hover: hover) {
+    &:hover {
+      opacity: 0.8;
+    }
   }
 `;
 

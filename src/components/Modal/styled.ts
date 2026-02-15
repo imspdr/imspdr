@@ -76,8 +76,10 @@ export const CloseButton = styled.button`
   border-radius: 4px;
   transition: background-color 0.2s;
 
-  &:hover {
-    color: var(--imspdr-foreground-1);
-    background-color: var(--imspdr-background-2);
+  @media (hover: hover) {
+    &:hover {
+      color: var(--imspdr-foreground-1);
+      background-color: var(--imspdr-background-2);
+    }
   }
 `;

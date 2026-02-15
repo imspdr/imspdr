@@ -22,31 +22,31 @@ const spin = keyframes`
 
 const sizeStyles = {
   xs: css`
-    padding: 4px 8px;
+    padding: 4px 6px;
     font-size: 12px;
     gap: 4px;
     height: 24px;
   `,
   sm: css`
-    padding: 6px 12px;
+    padding: 6px 9px;
     font-size: 13px;
     gap: 6px;
     height: 32px;
   `,
   md: css`
-    padding: 8px 16px;
+    padding: 8px 12px;
     font-size: 14px;
     gap: 8px;
     height: 40px;
   `,
   lg: css`
-    padding: 10px 20px;
+    padding: 10px 15px;
     font-size: 16px;
     gap: 10px;
     height: 48px;
   `,
   xl: css`
-    padding: 12px 24px;
+    padding: 12px 18px;
     font-size: 18px;
     gap: 12px;
     height: 56px;
@@ -94,8 +94,10 @@ export const StyledButton = styled.button<StyledButtonProps>`
           background: transparent;
           border-color: ${color};
           color: ${color};
-          &:hover {
-            background: ${color}15; /* 15 is approx 8% opacity in hex */
+          @media (hover: hover) {
+            &:hover {
+              background: ${color}15; /* 15 is approx 8% opacity in hex */
+            }
           }
         `;
       case 'ghost':
@@ -103,8 +105,10 @@ export const StyledButton = styled.button<StyledButtonProps>`
           background: transparent;
           border-color: transparent;
           color: ${color};
-          &:hover {
-            background: ${color}15;
+          @media (hover: hover) {
+            &:hover {
+              background: ${color}15;
+            }
           }
         `;
       case 'text':
@@ -115,8 +119,10 @@ export const StyledButton = styled.button<StyledButtonProps>`
           padding-left: 4px;
           padding-right: 4px;
           height: auto;
-          &:hover {
-            text-decoration: underline;
+          @media (hover: hover) {
+            &:hover {
+              text-decoration: underline;
+            }
           }
         `;
       case 'contained':
@@ -125,8 +131,10 @@ export const StyledButton = styled.button<StyledButtonProps>`
           background: ${color};
           border-color: ${color};
           color: var(--imspdr-white);
-          &:hover {
-            filter: brightness(0.9);
+          @media (hover: hover) {
+            &:hover {
+              filter: brightness(0.9);
+            }
           }
         `;
     }

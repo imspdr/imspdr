@@ -54,8 +54,10 @@ export const ClearButton = styled.button`
   transition: all 0.2s;
   z-index: 2;
 
-  &:hover {
-    background: var(--imspdr-background-3);
-    color: var(--imspdr-foreground-1);
+  @media (hover: hover) {
+    &:hover {
+      background: var(--imspdr-background-3);
+      color: var(--imspdr-foreground-1);
+    }
   }
 `;

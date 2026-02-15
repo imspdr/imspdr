@@ -43,8 +43,10 @@ export const Container = styled.div`
   border-radius: 50%;
   transition: background-color 0.2s;
 
-  &:hover {
-    background-color: var(--imspdr-background-2);
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--imspdr-background-2);
+    }
   }
 `;
 
