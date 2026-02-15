@@ -31,24 +31,7 @@ const down = keyframes`
   }
 `;
 
-export const Container = styled.div`
-  position: relative;
-  height: 48px;
-  width: 48px;
-  z-index: 10;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  transition: background-color 0.2s;
-
-  @media (hover: hover) {
-    &:hover {
-      background-color: var(--imspdr-background-2);
-    }
-  }
-`;
+// Container removed
 
 interface IconProps {
   isVisible: boolean;

@@ -27,22 +27,7 @@ export const TitleSection = styled.div`
   gap: 24px;
 `;
 
-export const TitleButton = styled.button`
-  background: none;
-  border: none;
-  font-size: 1.25rem;
-  color: var(--imspdr-foreground-1);
-  cursor: pointer;
-  padding: 0;
-  font-family: inherit;
-  white-space: nowrap;
-
-  @media (hover: hover) {
-    &:hover {
-      opacity: 0.8;
-    }
-  }
-`;
+// TitleButton removed
 
 export const MiddleSection = styled.div`
   flex: 1;

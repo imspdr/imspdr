@@ -1,7 +1,8 @@
 import { useEffect, useState, FC, KeyboardEvent, ChangeEvent, MouseEvent, useRef } from 'react';
 import { HiSearch, HiX } from 'react-icons/hi';
+import { Button } from '../Button';
 import { useDebounce } from '../../hooks/useDebounce';
-import { ClearButton, IconWrapper, SearchWrapper, StyledInput } from './styled';
+import { IconWrapper, SearchWrapper, StyledInput } from './styled';
 
 export interface SearchInputProps {
   value: string;
@@ -61,13 +62,17 @@ export const SearchInput: FC<SearchInputProps> = ({
         placeholder={placeholder}
       />
       {inputValue && (
-        <ClearButton
+        <Button
+          variant="ghost"
+          size="xs"
+          color="foreground.3"
           onClick={handleClear}
           onMouseDown={(e) => e.preventDefault()}
           type="button"
+          style={{ position: 'absolute', right: '32px', zIndex: 2, borderRadius: '50%', padding: '6px' }}
         >
           <HiX size={14} />
-        </ClearButton>
+        </Button>
       )}
       <IconWrapper>
         <HiSearch size={16} />

@@ -39,25 +39,4 @@ export const IconWrapper = styled.div`
   z-index: 1;
 `;
 
-export const ClearButton = styled.button`
-  position: absolute;
-  right: 32px;
-  background: none;
-  border: none;
-  padding: 6px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--imspdr-foreground-3);
-  border-radius: 50%;
-  transition: all 0.2s;
-  z-index: 2;
-
-  @media (hover: hover) {
-    &:hover {
-      background: var(--imspdr-background-3);
-      color: var(--imspdr-foreground-1);
-    }
-  }
-`;
+// ClearButton removed

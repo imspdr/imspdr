@@ -62,24 +62,5 @@ export const ModalFooter = styled.div`
   border-bottom-right-radius: 12px;
 `;
 
-export const CloseButton = styled.button`
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: var(--imspdr-foreground-2);
-  padding: 4px;
-  margin-right: -8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+// CloseButton removed
 
-  @media (hover: hover) {
-    &:hover {
-      color: var(--imspdr-foreground-1);
-      background-color: var(--imspdr-background-2);
-    }
-  }
-`;

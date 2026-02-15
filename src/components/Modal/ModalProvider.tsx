@@ -1,6 +1,5 @@
 import { ReactNode, createContext, useCallback, useContext, useEffect, useState, FC } from 'react';
 import {
-  CloseButton,
   ModalBody,
   ModalContent,
   ModalFooter,
@@ -8,6 +7,8 @@ import {
   ModalTitle,
   Overlay,
 } from './styled';
+import { Button } from '../Button';
+import { HiX } from 'react-icons/hi';
 
 interface ModalInstance {
   id: string;
@@ -97,7 +98,15 @@ export const ModalProvider: FC<{ children: ReactNode }> = ({ children }) => {
           <ModalContent onClick={(e) => e.stopPropagation()}>
             <ModalHeader>
               <ModalTitle>{modal.options?.title || '알림'}</ModalTitle>
-              <CloseButton onClick={() => closeModal(modal.id)}>&times;</CloseButton>
+              <Button
+                variant="ghost"
+                size="sm"
+                color="foreground.2"
+                onClick={() => closeModal(modal.id)}
+                style={{ marginRight: '-8px' }}
+              >
+                <HiX size={20} />
+              </Button>
             </ModalHeader>
             <ModalBody>{modal.content}</ModalBody>
             {modal.options?.footer && <ModalFooter>{modal.options.footer}</ModalFooter>}
