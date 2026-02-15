@@ -14,7 +14,7 @@ export default {
 
 export const Desktop = () => (
   <Header
-    title="Service Title"
+    title="TESTTITLE"
     middleContent={
       <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
         <Typography variant="body" level={2} style={{ cursor: 'pointer' }}>

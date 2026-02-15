@@ -8,16 +8,27 @@ export const HeaderContainer = styled.header`
   height: 60px;
   background-color: var(--imspdr-background-1);
   border-bottom: 1px solid var(--imspdr-background-3);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+
+  @media (max-width: 767px) {
+    height: 48px;
+  }
+`;
+
+export const HeaderInner = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  z-index: 1000;
-  max-width: 1200px;
   box-sizing: border-box;
 
   @media (max-width: 767px) {
-    height: 48px;
     padding: 0 0 0 6px;
   }
 `;

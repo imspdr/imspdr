@@ -13,9 +13,9 @@ interface StyledTextProps {
 
 const fontFamilies = {
   title:
-    "'Nanum Gothic', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans KR', sans-serif",
-  body: "'Nanum Gothic', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans KR', sans-serif",
-  caption: "'Inter', sans-serif",
+    "'Noto Sans KR', 'Nanum Gothic', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+  body: "'Noto Sans KR', 'Nanum Gothic', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+  caption: "'Inter', sans-serif,'Noto Sans KR'",
 };
 
 const fontSizes = {
