@@ -14,3 +14,5 @@ export * from './tokens/colors';
 export * from './hooks/useDebounce';
 export * from './hooks/useDeviceType';
 export * from './utils/korean';
+export * from './components/Header';
+export * from './components/Layout';
