@@ -1,7 +1,6 @@
 import { useEffect, useState, FC, KeyboardEvent, ChangeEvent, MouseEvent, useRef } from 'react';
 import { HiSearch, HiX } from 'react-icons/hi';
 import { Button } from '../Button';
-import { useDebounce } from '../../hooks/useDebounce';
 import { IconWrapper, SearchWrapper, StyledInput } from './styled';
 
 export interface SearchInputProps {
@@ -22,18 +21,11 @@ export const SearchInput: FC<SearchInputProps> = ({
   autoFocus,
 }) => {
   const [inputValue, setInputValue] = useState(value);
-  const debouncedValue = useDebounce(inputValue, 300);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setInputValue(value);
   }, [value]);
-
-  useEffect(() => {
-    if (debouncedValue !== value) {
-      onChange(debouncedValue);
-    }
-  }, [debouncedValue, onChange, value]);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && onEnter) {
@@ -42,12 +34,15 @@ export const SearchInput: FC<SearchInputProps> = ({
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    const newValue = e.target.value;
+    setInputValue(newValue);
+    onChange(newValue);
   };
 
   const handleClear = (e: MouseEvent) => {
     e.stopPropagation();
     setInputValue('');
+    onChange('');
     inputRef.current?.focus();
   };
 
